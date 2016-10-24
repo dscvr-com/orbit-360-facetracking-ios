@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		E827BA151DB5171C005257CB /* BLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E827BA141DB5171C005257CB /* BLEDiscovery.swift */; };
 		E827BA171DB517DC005257CB /* BLEService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E827BA161DB517DC005257CB /* BLEService.swift */; };
+		E843FE4B1DBDB83F00C0B855 /* MotorControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */; };
+		E843FE4E1DBE32A600C0B855 /* OpenCVBridgingHeader.mm in Sources */ = {isa = PBXBuildFile; fileRef = E843FE4D1DBE32A600C0B855 /* OpenCVBridgingHeader.mm */; };
 		E88EF6CB1DA6DE070009E99D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6CA1DA6DE070009E99D /* AppDelegate.swift */; };
 		E88EF6D01DA6DE070009E99D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E88EF6CE1DA6DE070009E99D /* Main.storyboard */; };
 		E88EF6D21DA6DE070009E99D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E88EF6D11DA6DE070009E99D /* Assets.xcassets */; };
@@ -41,6 +43,9 @@
 /* Begin PBXFileReference section */
 		E827BA141DB5171C005257CB /* BLEDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEDiscovery.swift; sourceTree = "<group>"; };
 		E827BA161DB517DC005257CB /* BLEService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEService.swift; sourceTree = "<group>"; };
+		E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotorControl.swift; sourceTree = "<group>"; };
+		E843FE4C1DBE32A600C0B855 /* Orbit 360 Facetracking-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Orbit 360 Facetracking-Bridging-Header.h"; sourceTree = "<group>"; };
+		E843FE4D1DBE32A600C0B855 /* OpenCVBridgingHeader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVBridgingHeader.mm; sourceTree = "<group>"; };
 		E88EF6C71DA6DE070009E99D /* Orbit 360 Facetracking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Orbit 360 Facetracking.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E88EF6CA1DA6DE070009E99D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E88EF6CF1DA6DE070009E99D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -123,6 +128,7 @@
 				E88EF6D31DA6DE070009E99D /* LaunchScreen.storyboard */,
 				E88EF6D11DA6DE070009E99D /* Assets.xcassets */,
 				E88EF6D61DA6DE070009E99D /* Info.plist */,
+				E8FC40BE1DBD51ED00C9202A /* OpenCV */,
 				E8F545C71DB7F2EF00ED5EFE /* UI */,
 				E827BA131DB516F7005257CB /* BLE */,
 				E8F545CC1DB8CD5400ED5EFE /* MotorControl */,
@@ -177,8 +183,19 @@
 		E8F545CC1DB8CD5400ED5EFE /* MotorControl */ = {
 			isa = PBXGroup;
 			children = (
+				E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */,
 			);
 			name = MotorControl;
+			sourceTree = "<group>";
+		};
+		E8FC40BE1DBD51ED00C9202A /* OpenCV */ = {
+			isa = PBXGroup;
+			children = (
+				E843FE4C1DBE32A600C0B855 /* Orbit 360 Facetracking-Bridging-Header.h */,
+				E843FE4D1DBE32A600C0B855 /* OpenCVBridgingHeader.mm */,
+			);
+			name = OpenCV;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -314,7 +331,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E827BA151DB5171C005257CB /* BLEDiscovery.swift in Sources */,
+				E843FE4B1DBDB83F00C0B855 /* MotorControl.swift in Sources */,
 				E827BA171DB517DC005257CB /* BLEService.swift in Sources */,
+				E843FE4E1DBE32A600C0B855 /* OpenCVBridgingHeader.mm in Sources */,
 				E8F545C61DB7F2DF00ED5EFE /* BLETableViewCell.swift in Sources */,
 				E8F545CB1DB8CC0900ED5EFE /* CameraViewController.swift in Sources */,
 				E8F545C41DB7E42300ED5EFE /* BLETableViewController.swift in Sources */,
@@ -460,6 +479,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -471,6 +491,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Meyer.Orbit-360-Facetracking";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Orbit 360 Facetracking-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -478,6 +500,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -489,6 +512,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Meyer.Orbit-360-Facetracking";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Orbit 360 Facetracking-Bridging-Header.h";
 			};
 			name = Release;
 		};

@@ -32,7 +32,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     lazy var cameraSession: AVCaptureSession = {
         let s = AVCaptureSession()
-        s.sessionPreset = AVCaptureSessionPreset1280x720
+        s.sessionPreset = AVCaptureSessionPreset640x480
         return s
     }()
     
@@ -45,9 +45,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }()
 
     func setupCameraSession() {
-        let captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
-        
-        
+        //let captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
         
         let avaiableCameras = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
         var captureDevice2 = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
@@ -59,11 +57,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
         }
         
-        
-        
-        
         do {
-            let deviceInput = try AVCaptureDeviceInput(device: captureDevice)
+            let deviceInput = try AVCaptureDeviceInput(device: captureDevice2)
             
             cameraSession.beginConfiguration()
             
@@ -72,7 +67,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
             
             let dataOutput = AVCaptureVideoDataOutput()
-            dataOutput.videoSettings = [(kCVPixelBufferPixelFormatTypeKey as NSString) : NSNumber(unsignedInt: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)]
+            dataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey: NSNumber(unsignedInt: kCVPixelFormatType_32BGRA)]
             dataOutput.alwaysDiscardsLateVideoFrames = true
             
             if (cameraSession.canAddOutput(dataOutput) == true) {
@@ -92,6 +87,13 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // Here you collect each frame and process it
+        let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
+        let bufferData = CVPixelBufferGetBaseAddress(pixelBuffer!)
+        let bufferWidth = UInt32(CVPixelBufferGetWidth(pixelBuffer!))
+        let bufferHeight = UInt32(CVPixelBufferGetHeight(pixelBuffer!))
+        
+
+        
     }
     
     func captureOutput(captureOutput: AVCaptureOutput!, didDropSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
