@@ -5,7 +5,7 @@
 #import <Foundation/Foundation.h>
 #include <CoreGraphics/CGGeometry.h>
 
-@interface Alignment : NSObject
+@interface FaceDetection : NSObject
 -(id)init;
--(CGRect)detectFaces;
+-(CGRect)detectFaces:(void*)buffer: (UInt32) width: (UInt32) height;
 @end

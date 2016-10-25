@@ -11,7 +11,9 @@ import UIKit
 import AVFoundation
 
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
-
+    
+    private var fd = FaceDetection()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCameraSession()
@@ -45,7 +47,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }()
 
     func setupCameraSession() {
-        //let captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
+        let captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
         
         let avaiableCameras = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
         var captureDevice2 = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
@@ -58,7 +60,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         
         do {
-            let deviceInput = try AVCaptureDeviceInput(device: captureDevice2)
+            let deviceInput = try AVCaptureDeviceInput(device: captureDevice)
             
             cameraSession.beginConfiguration()
             
@@ -87,12 +89,14 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // Here you collect each frame and process it
-        let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
-        let bufferData = CVPixelBufferGetBaseAddress(pixelBuffer!)
-        let bufferWidth = UInt32(CVPixelBufferGetWidth(pixelBuffer!))
-        let bufferHeight = UInt32(CVPixelBufferGetHeight(pixelBuffer!))
+        if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+        CVPixelBufferLockBaseAddress(pixelBuffer, kCVPixelBufferLock_ReadOnly)
+        let bufferData = CVPixelBufferGetBaseAddress(pixelBuffer)
+        let bufferWidth = UInt32(CVPixelBufferGetWidth(pixelBuffer))
+        let bufferHeight = UInt32(CVPixelBufferGetHeight(pixelBuffer))
+        print(fd.detectFaces(bufferData, bufferWidth, bufferHeight))
+        }
         
-
         
     }
     

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E81027EA1DBFA8FD00B4B63D /* haarcascade_frontalface_alt.xml in Resources */ = {isa = PBXBuildFile; fileRef = E81027E91DBFA8FD00B4B63D /* haarcascade_frontalface_alt.xml */; };
 		E827BA151DB5171C005257CB /* BLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E827BA141DB5171C005257CB /* BLEDiscovery.swift */; };
 		E827BA171DB517DC005257CB /* BLEService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E827BA161DB517DC005257CB /* BLEService.swift */; };
 		E843FE4B1DBDB83F00C0B855 /* MotorControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E81027E91DBFA8FD00B4B63D /* haarcascade_frontalface_alt.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = haarcascade_frontalface_alt.xml; sourceTree = "<group>"; };
 		E827BA141DB5171C005257CB /* BLEDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEDiscovery.swift; sourceTree = "<group>"; };
 		E827BA161DB517DC005257CB /* BLEService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEService.swift; sourceTree = "<group>"; };
 		E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotorControl.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 		E88EF6BE1DA6DE070009E99D = {
 			isa = PBXGroup;
 			children = (
+				E81027E91DBFA8FD00B4B63D /* haarcascade_frontalface_alt.xml */,
 				E88EF6C91DA6DE070009E99D /* Orbit 360 Facetracking */,
 				E88EF6DE1DA6DE080009E99D /* Orbit 360 FacetrackingTests */,
 				E88EF6E91DA6DE080009E99D /* Orbit 360 FacetrackingUITests */,
@@ -303,6 +306,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E81027EA1DBFA8FD00B4B63D /* haarcascade_frontalface_alt.xml in Resources */,
 				E88EF6D51DA6DE070009E99D /* LaunchScreen.storyboard in Resources */,
 				E88EF6D21DA6DE070009E99D /* Assets.xcassets in Resources */,
 				E88EF6D01DA6DE070009E99D /* Main.storyboard in Resources */,
