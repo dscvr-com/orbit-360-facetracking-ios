@@ -32,6 +32,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         // Dispose of any resources that can be recreated.
     }
     
+    
     lazy var cameraSession: AVCaptureSession = {
         let s = AVCaptureSession()
         s.sessionPreset = AVCaptureSessionPreset640x480
@@ -60,7 +61,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         
         do {
-            let deviceInput = try AVCaptureDeviceInput(device: captureDevice)
+            let deviceInput = try AVCaptureDeviceInput(device: captureDevice2)
             
             cameraSession.beginConfiguration()
             

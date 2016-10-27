@@ -24,6 +24,7 @@ CascadeClassifier face_cascade;
 
 -(id)init {
     self = [super init];
+    face_cascade.load(face_cascade_name);
     return self;
 };
 
@@ -40,8 +41,10 @@ CascadeClassifier face_cascade;
     
     equalizeHist(frame_gray, frame_gray);
     
+    transpose(frame_gray, frame_gray);
+    flip(frame_gray, frame_gray,1); //transpose+flip(1)=CW
+    
     //-- Detect faces
-    face_cascade.load(face_cascade_name); //init?
     face_cascade.detectMultiScale( frame_gray, faces, 1.1, 2, 0|CASCADE_SCALE_IMAGE, cv::Size(30, 30) );
     
     // return first rect in "faces"

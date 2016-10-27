@@ -32,7 +32,6 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="cellLabel" destination="RZW-8y-21X" id="CqQ-i7-WBo"/>
-                                    <segue destination="BYZ-38-t0r" kind="presentation" id="LaO-N5-TbP"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

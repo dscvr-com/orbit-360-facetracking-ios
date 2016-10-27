@@ -10,7 +10,7 @@ import Foundation
 import CoreBluetooth
 
 class BTDiscovery: NSObject, CBCentralManagerDelegate {
-    
+
     private var centralManager: CBCentralManager!
     private var onDeviceFound: (CBPeripheral, NSString) -> Void
     private var onDeviceConnected: (BTService) -> Void
@@ -79,7 +79,7 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
         
         let bleService = BTService(initWithPeripheral: peripheral)
         self.onDeviceConnected(bleService)
-    
+        print(peripheral)
         // Stop scanning for new devices
         central.stopScan()
     }

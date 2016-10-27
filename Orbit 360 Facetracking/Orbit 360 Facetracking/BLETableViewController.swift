@@ -12,8 +12,10 @@ import CoreBluetooth
 class BLETableViewController: UITableViewController {
 
     private var bt: BTDiscovery!
-    var btDevices = [String]()
-
+    var btDevicesName = [String]()
+    var btDevices = [CBPeripheral]()
+    var btService : BTService?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,14 +39,16 @@ class BLETableViewController: UITableViewController {
     func onDeviceFound(device: CBPeripheral, name: NSString) {
         dispatch_async(dispatch_get_main_queue(), {
             print(name);
-            self.btDevices = self.btDevices + [String(name)]
+            self.btDevicesName = self.btDevicesName + [String(name)]
             self.tableView.reloadData()
         });
         // Show in list.
+        self.btDevices = self.btDevices + [device]
     }
     
     func onDeviceConnected(device: BTService) {
         // Switch to video
+        btService = device
     }
 
     
@@ -55,7 +59,7 @@ class BLETableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return btDevices.count
+        return btDevicesName.count
     }
 
     
@@ -64,10 +68,15 @@ class BLETableViewController: UITableViewController {
         cell.textLabel?.text = "Test"
         let row = indexPath.row
         cell.cellLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        cell.cellLabel.text = btDevices[row]
+        cell.cellLabel.text = btDevicesName[row]
         return cell
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        print(btDevices[indexPath.row])
+        bt.connectPeripheral(btDevices[indexPath.row])
+        print(btDevices[indexPath.row])
+    }
 
     /*
     // Override to support conditional editing of the table view.
