@@ -9,5 +9,11 @@
 import Foundation
 
 class MotorControl: NSObject {
+    var Service : BTService
+    
+    init(s: BTService) {
+        Service = s
+        super.init()
+    }
     
 }

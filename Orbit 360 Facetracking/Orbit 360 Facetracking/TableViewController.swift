@@ -49,8 +49,16 @@ class BLETableViewController: UITableViewController {
     func onDeviceConnected(device: BTService) {
         // Switch to video
         btService = device
+        self.performSegueWithIdentifier("cameraSegue", sender: btService!)
     }
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if (segue.identifier == "cameraSegue") {
+            let secondViewController = segue.destinationViewController as! CameraViewController
+            
+            secondViewController.service = btService
+        }
+    }
     
     // MARK: - Table view data source
 

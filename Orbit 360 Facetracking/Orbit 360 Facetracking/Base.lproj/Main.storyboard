@@ -41,6 +41,9 @@
                         </connections>
                     </tableView>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="cameraSegue" id="v0i-XS-W7L"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PQm-US-kd0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
