@@ -10,14 +10,18 @@ import Foundation
 import CoreBluetooth
 
 // Services & Characteristics UUIDs
+// TODO EJ - pass from outside via constructor 
 let BLEServiceUUID = CBUUID(string: "1000")
 let BLECharacteristicUUID = CBUUID(string: "1001")
 
 class BTService: NSObject, CBPeripheralDelegate {
     var peripheral: CBPeripheral?
     var characteristic: CBCharacteristic?
+    var onServiceConnected: (CBService) -> Void
     
-    init(initWithPeripheral peripheral: CBPeripheral) {
+    init(initWithPeripheral peripheral: CBPeripheral, onServiceConnected: (CBService) -> Void) {
+        self.onServiceConnected = onServiceConnected
+        
         super.init()
         
         self.peripheral = peripheral
@@ -77,18 +81,8 @@ class BTService: NSObject, CBPeripheralDelegate {
             if characteristic.UUID == BLECharacteristicUUID {
                 self.characteristic = (characteristic as CBCharacteristic)
                 peripheral.setNotifyValue(true, forCharacteristic: characteristic as CBCharacteristic)
-            }
-        }
-    }
-    
-    func sendCommand(service: CBService) {
-        let command : [UInt8] = [0xFE, 0x07, 0x01, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0xFF, 0x00, 0x03]
-        let Data = NSMutableData(bytes: command, length: command.count)
-        for characteristic in service.characteristics! {
-            let thisCharacteristic = characteristic as CBCharacteristic
-            // check for data characteristic
-            if thisCharacteristic.UUID == BLECharacteristicUUID {
-                self.peripheral!.writeValue(Data, forCharacteristic: thisCharacteristic, type: CBCharacteristicWriteType.WithoutResponse)
+                
+                onServiceConnected(service)
             }
         }
     }

@@ -15,6 +15,7 @@ class BLETableViewController: UITableViewController {
     var btDevicesName = [String]()
     var btDevices = [CBPeripheral]()
     var btService : BTService?
+    var btMotorControl : MotorControl?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,17 +47,22 @@ class BLETableViewController: UITableViewController {
         self.btDevices = self.btDevices + [device]
     }
     
-    func onDeviceConnected(device: BTService) {
+    func onDeviceConnected(device: CBPeripheral) {
         // Switch to video
-        btService = device
-        self.performSegueWithIdentifier("cameraSegue", sender: btService!)
+        btService = BTService(initWithPeripheral: device, onServiceConnected: onServiceConnected)
+        btService?.startDiscoveringServices()
+    }
+    
+    func onServiceConnected(service: CBService) {
+        btMotorControl = MotorControl(s: service, p: btService!.peripheral!)
+        self.performSegueWithIdentifier("cameraSegue", sender: self)
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if (segue.identifier == "cameraSegue") {
             let secondViewController = segue.destinationViewController as! CameraViewController
             
-            secondViewController.service = btService
+            secondViewController.service = btMotorControl
         }
     }
     

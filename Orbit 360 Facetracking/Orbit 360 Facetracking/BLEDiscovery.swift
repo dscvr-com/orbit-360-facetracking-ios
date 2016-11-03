@@ -13,9 +13,9 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
 
     private var centralManager: CBCentralManager!
     private var onDeviceFound: (CBPeripheral, NSString) -> Void
-    private var onDeviceConnected: (BTService) -> Void
+    private var onDeviceConnected: (CBPeripheral) -> Void
     
-    init(onDeviceFound: (CBPeripheral, NSString) -> Void, onDeviceConnected: (BTService) -> Void) {
+    init(onDeviceFound: (CBPeripheral, NSString) -> Void, onDeviceConnected: (CBPeripheral) -> Void) {
         self.onDeviceFound = onDeviceFound
         self.onDeviceConnected = onDeviceConnected
         
@@ -77,8 +77,8 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
     
     func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
         
-        let bleService = BTService(initWithPeripheral: peripheral)
-        self.onDeviceConnected(bleService)
+        //let bleService = BTService(initWithPeripheral: peripheral)
+        self.onDeviceConnected(peripheral)
         print(peripheral)
         // Stop scanning for new devices
         central.stopScan()

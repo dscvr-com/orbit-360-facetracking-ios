@@ -11,10 +11,9 @@ import UIKit
 import AVFoundation
 
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
-    
     private var fd = FaceDetection()
-    var service: BTService?
-    
+    var service: MotorControl!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCameraSession()
@@ -91,14 +90,19 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // Here you collect each frame and process it
         if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
-        CVPixelBufferLockBaseAddress(pixelBuffer, kCVPixelBufferLock_ReadOnly)
-        let bufferData = CVPixelBufferGetBaseAddress(pixelBuffer)
-        let bufferWidth = UInt32(CVPixelBufferGetWidth(pixelBuffer))
-        let bufferHeight = UInt32(CVPixelBufferGetHeight(pixelBuffer))
-        print(fd.detectFaces(bufferData, bufferWidth, bufferHeight))
+            CVPixelBufferLockBaseAddress(pixelBuffer, kCVPixelBufferLock_ReadOnly)
+            let bufferData = CVPixelBufferGetBaseAddress(pixelBuffer)
+            let bufferWidth = UInt32(CVPixelBufferGetWidth(pixelBuffer))
+            let bufferHeight = UInt32(CVPixelBufferGetHeight(pixelBuffer))
+            let face = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
+            print(face)
+            self.service.sendStop()
+            if (face.midX < CGFloat(bufferWidth) / CGFloat(2)) {
+                self.service.moveX(-10)
+            } else {
+                self.service.moveX(10)
+            }
         }
-        
-        
     }
     
     func captureOutput(captureOutput: AVCaptureOutput!, didDropSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
