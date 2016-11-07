@@ -47,8 +47,8 @@ class MotorControl: NSObject {
     func moveX(steps: Int32) {
         var command = toByteArray(steps)
         command = command.reverse()
-        command.append(0x00)
-        command.append(0xFF)
+        command.append(0x03)
+        command.append(0xE8)
         command.append(0x00)
         sendCommand(0x01, data: command)
     }

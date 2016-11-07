@@ -21,9 +21,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
         view.layer.addSublayer(previewLayer)
-        
         cameraSession.startRunning()
     }
     
@@ -34,7 +32,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     lazy var cameraSession: AVCaptureSession = {
         let s = AVCaptureSession()
-        s.sessionPreset = AVCaptureSessionPreset640x480
+        s.sessionPreset = AVCaptureSessionPresetHigh
         return s
     }()
     
@@ -47,23 +45,20 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }()
 
     func setupCameraSession() {
-        let captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
-        
         let avaiableCameras = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
-        var captureDevice2 = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
+        var captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
+        
         for element in avaiableCameras{
             let element = element as! AVCaptureDevice
             if element.position == AVCaptureDevicePosition.Front {
-                captureDevice2 = element
+                captureDevice = element
                 break
             }
         }
         
         do {
-            let deviceInput = try AVCaptureDeviceInput(device: captureDevice2)
-            
+            let deviceInput = try AVCaptureDeviceInput(device: captureDevice)
             cameraSession.beginConfiguration()
-            
             if (cameraSession.canAddInput(deviceInput) == true) {
                 cameraSession.addInput(deviceInput)
             }
@@ -71,13 +66,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let dataOutput = AVCaptureVideoDataOutput()
             dataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey: NSNumber(unsignedInt: kCVPixelFormatType_32BGRA)]
             dataOutput.alwaysDiscardsLateVideoFrames = true
-            
             if (cameraSession.canAddOutput(dataOutput) == true) {
                 cameraSession.addOutput(dataOutput)
             }
             
             cameraSession.commitConfiguration()
-            
             let queue = dispatch_queue_create("videoQueue", DISPATCH_QUEUE_SERIAL)
             dataOutput.setSampleBufferDelegate(self, queue: queue)
             
@@ -95,12 +88,18 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let bufferWidth = UInt32(CVPixelBufferGetWidth(pixelBuffer))
             let bufferHeight = UInt32(CVPixelBufferGetHeight(pixelBuffer))
             let face = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
+            if(face.midX == 0 && face.midY == 0) {
+                return
+            }
             print(face)
-            self.service.sendStop()
-            if (face.midX < CGFloat(bufferWidth) / CGFloat(2)) {
-                self.service.moveX(-10)
+            let diff = face.midX - CGFloat(bufferHeight) / CGFloat(2)
+            //self.service.sendStop()
+            if (abs(diff) > 50) {
+            if (diff < 0) {
+                self.service.moveX(-100)
             } else {
-                self.service.moveX(10)
+                self.service.moveX(100)
+            }
             }
         }
     }

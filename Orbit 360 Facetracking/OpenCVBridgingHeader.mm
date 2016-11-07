@@ -11,6 +11,7 @@
 #include "opencv2/objdetect.hpp"
 #include "opencv2/imgproc.hpp"
 #include "Orbit 360 Facetracking-Bridging-Header.h"
+//#include <iostream>
 
 using namespace std;
 using namespace cv;
@@ -46,7 +47,7 @@ CascadeClassifier face_cascade;
     
     //-- Detect faces
     face_cascade.detectMultiScale( frame_gray, faces, 1.1, 2, 0|CASCADE_SCALE_IMAGE, cv::Size(30, 30) );
-    
+    //cout << faces[0].width << " " << faces[0].height <<endl;
     // return first rect in "faces"
     
     CGRect rectangle = CGRectMake(0,0,0,0);
