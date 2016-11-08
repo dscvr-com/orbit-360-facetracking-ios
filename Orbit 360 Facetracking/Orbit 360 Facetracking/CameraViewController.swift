@@ -25,7 +25,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         super.viewDidAppear(animated)
         view.layer.addSublayer(previewLayer)
         cameraSession.startRunning()
-        let play = UIBarButtonItem(title: "Play/Pause", style: .Plain, target: self, action:nil)
+        let play = UIBarButtonItem(title: "Play/Pause", style: .Plain, target: self, action:nil) //action: "function to call"
         toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
         toolbar.barStyle = .Black
         //toolbar.sizeToFit()
@@ -109,19 +109,19 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     if (lastMovement == -1) {
                         return
                     }
-                    //self.service.sendStop()
+                    self.service.sendStop()
                     self.service.moveX(-1000)
                     lastMovement = -1
                 } else {
                     if (lastMovement == 1) {
                         return
                     }
-                    //self.service.sendStop()
+                    self.service.sendStop()
                     self.service.moveX(1000)
                     lastMovement = 1
                 }
             } else {
-                //self.service.sendStop()
+                self.service.sendStop()
                 lastMovement = 0
             }
         }

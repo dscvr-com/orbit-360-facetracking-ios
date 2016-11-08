@@ -27,7 +27,6 @@ class BLETableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         bt = BTDiscovery(onDeviceFound: onDeviceFound, onDeviceConnected: onDeviceConnected)
-        
         tableView.estimatedRowHeight = 50
         
     }
@@ -36,6 +35,15 @@ class BLETableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+    /* Swift 3 Syntax for hiding the status bar
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    */
 
     func onDeviceFound(device: CBPeripheral, name: NSString) {
         dispatch_async(dispatch_get_main_queue(), {
