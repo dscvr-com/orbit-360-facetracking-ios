@@ -53,6 +53,30 @@ class MotorControl: NSObject {
         sendCommand(0x01, data: command)
     }
     
+    func moveY(steps: Int32) {
+        var command = toByteArray(steps)
+        command = command.reverse()
+        command.append(0x03)
+        command.append(0xE8)
+        command.append(0x00)
+        sendCommand(0x02, data: command)
+    }
+    
+    func moveXandY(stepsX: Int32, stepsY: Int32) {
+        var command = toByteArray(stepsX)
+        command = command.reverse()
+        command.append(0x03)
+        command.append(0xE8)
+        command.append(0x00)
+        var commandYpart = toByteArray(stepsY)
+        commandYpart = commandYpart.reverse()
+        commandYpart.append(0x03)
+        commandYpart.append(0xE8)
+        commandYpart.append(0x00)
+        command.appendContentsOf(commandYpart)
+        sendCommand(0x03, data: command)
+    }
+    
     func sendStop() {
         sendCommand(0x04, data: [])
     }
@@ -62,6 +86,12 @@ class MotorControl: NSObject {
             Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>($0), count: sizeof(T)))
         }
     }
-
-
+    
+    /* for Swift 3.0.1
+    func toByteArray<T>(_ value: T) -> [UInt8] {
+    var value = value
+    return withUnsafeBytes(of: &value) { Array($0) }
+    }
+    */
+    
 }

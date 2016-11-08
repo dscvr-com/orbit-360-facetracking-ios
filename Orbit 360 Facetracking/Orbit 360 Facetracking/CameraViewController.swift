@@ -13,7 +13,9 @@ import AVFoundation
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     private var fd = FaceDetection()
     var service: MotorControl!
-
+    let toolbar = UIToolbar()
+    var lastMovement = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCameraSession()
@@ -23,6 +25,13 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         super.viewDidAppear(animated)
         view.layer.addSublayer(previewLayer)
         cameraSession.startRunning()
+        let play = UIBarButtonItem(title: "Play/Pause", style: .Plain, target: self, action:nil)
+        toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
+        toolbar.barStyle = .Black
+        //toolbar.sizeToFit()
+        toolbar.items = [play]
+        //toolbar.setItems(toolbarButtons, animated: true)
+        self.view.addSubview(toolbar)
     }
     
     override func didReceiveMemoryWarning() {
@@ -92,14 +101,28 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 return
             }
             print(face)
+            
+            
             let diff = face.midX - CGFloat(bufferHeight) / CGFloat(2)
-            //self.service.sendStop()
-            if (abs(diff) > 50) {
-            if (diff < 0) {
-                self.service.moveX(-100)
+            if (abs(diff) > 100) {
+                if (diff < 0) {
+                    if (lastMovement == -1) {
+                        return
+                    }
+                    //self.service.sendStop()
+                    self.service.moveX(-1000)
+                    lastMovement = -1
+                } else {
+                    if (lastMovement == 1) {
+                        return
+                    }
+                    //self.service.sendStop()
+                    self.service.moveX(1000)
+                    lastMovement = 1
+                }
             } else {
-                self.service.moveX(100)
-            }
+                //self.service.sendStop()
+                lastMovement = 0
             }
         }
     }
