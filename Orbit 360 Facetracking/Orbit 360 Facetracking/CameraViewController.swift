@@ -179,27 +179,29 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
             print(face)
             
-//            let diff = face.midX - CGFloat(bufferHeight) / CGFloat(2)
-//            if (abs(diff) > 100) {
-//                if (diff < 0) {
-//                    if (lastMovement == -1) {
-//                        return
-//                    }
-//                    self.service.sendStop()
-//                    self.service.moveX(-1000)
-//                    lastMovement = -1
-//                } else {
-//                    if (lastMovement == 1) {
-//                        return
-//                    }
-//                    self.service.sendStop()
-//                    self.service.moveX(1000)
-//                    lastMovement = 1
-//                }
-//            } else {
-//                self.service.sendStop()
-//                lastMovement = 0
-//            }
+            let diff = face.midX - CGFloat(bufferHeight) / CGFloat(2)
+            if (abs(diff) > 100) {
+                if (diff < 0) {
+                    if (lastMovement == -1) {
+                        return
+                    }
+                    self.service.moveX(-1000)
+                    lastMovement = -1
+                } else {
+                    if (lastMovement == 1) {
+                        return
+                    }
+                    self.service.moveX(1000)
+                    lastMovement = 1
+                }
+            } else {
+                if (lastMovement == 0) {
+                    return
+                } else {
+                    self.service.sendStop()
+                    lastMovement = 0
+                }
+            }
         }
     }
 
