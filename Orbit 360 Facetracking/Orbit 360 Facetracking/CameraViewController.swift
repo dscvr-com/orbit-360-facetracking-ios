@@ -10,11 +10,28 @@ import Foundation
 import UIKit
 import AVFoundation
 
-class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
     private var fd = FaceDetection()
     var service: MotorControl!
     let toolbar = UIToolbar()
     var lastMovement = 0
+    var isRecording = false
+    var outputSize: CGSize!
+
+    var videoWriter: AVAssetWriter! = nil
+    var videoWriterInput: AVAssetWriterInput! = nil
+    var pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor! = nil
+    var videoOutputURL: NSURL! = nil
+    var frameNumber:Int64 = 0
+
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+    /* Swift 3 Syntax for hiding the status bar
+     override var prefersStatusBarHidden: Bool {
+     return true
+     }
+     */
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +42,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         super.viewDidAppear(animated)
         view.layer.addSublayer(previewLayer)
         cameraSession.startRunning()
-        let play = UIBarButtonItem(title: "Play/Pause", style: .Plain, target: self, action:nil) //action: "function to call"
+        let play = UIBarButtonItem(title: "Play/Pause", style: .Plain, target: self, action: #selector(CameraViewController.startStopRecording)) //action: "function to call"
         toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
         toolbar.barStyle = .Black
         //toolbar.sizeToFit()
@@ -49,7 +66,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let preview =  AVCaptureVideoPreviewLayer(session: self.cameraSession)
         preview.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
         preview.position = CGPoint(x: CGRectGetMidX(self.view.bounds), y: CGRectGetMidY(self.view.bounds))
-        preview.videoGravity = AVLayerVideoGravityResize
+        preview.videoGravity = AVLayerVideoGravityResizeAspectFill
         return preview
     }()
 
@@ -64,21 +81,32 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 break
             }
         }
-        
+        let formats = captureDevice.formats as! [AVCaptureDeviceFormat]
+        var best = formats[0]
+        for element in formats{
+            if element.videoFieldOfView >= best.videoFieldOfView && element.highResolutionStillImageDimensions.height >= best.highResolutionStillImageDimensions.height{
+                best = element
+            }
+        }
+        outputSize = CGSizeMake(CGFloat(best.highResolutionStillImageDimensions.width), CGFloat(best.highResolutionStillImageDimensions.height))
+        try! captureDevice.lockForConfiguration()
+        captureDevice.activeFormat = best
+        captureDevice.unlockForConfiguration()
+        print(captureDevice.activeFormat)
+
         do {
             let deviceInput = try AVCaptureDeviceInput(device: captureDevice)
             cameraSession.beginConfiguration()
             if (cameraSession.canAddInput(deviceInput) == true) {
                 cameraSession.addInput(deviceInput)
             }
-            
             let dataOutput = AVCaptureVideoDataOutput()
             dataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey: NSNumber(unsignedInt: kCVPixelFormatType_32BGRA)]
             dataOutput.alwaysDiscardsLateVideoFrames = true
             if (cameraSession.canAddOutput(dataOutput) == true) {
                 cameraSession.addOutput(dataOutput)
             }
-            
+
             cameraSession.commitConfiguration()
             let queue = dispatch_queue_create("videoQueue", DISPATCH_QUEUE_SERIAL)
             dataOutput.setSampleBufferDelegate(self, queue: queue)
@@ -88,9 +116,58 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             NSLog("\(error), \(error.localizedDescription)")
         }
     }
-    
+
+    func startStopRecording() {
+        if (isRecording == false) {
+            frameNumber = 0
+            let fileManager = NSFileManager.defaultManager()
+            let urls = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+            guard let documentDirectory: NSURL = urls.first else {
+                fatalError("documentDir Error")
+            }
+            videoOutputURL = documentDirectory.URLByAppendingPathComponent("OutputVideo.mp4")
+            if NSFileManager.defaultManager().fileExistsAtPath(videoOutputURL.path!) {
+                do {
+                    try NSFileManager.defaultManager().removeItemAtPath(videoOutputURL.path!)
+                } catch {
+                    fatalError("Unable to delete file: \(error) : \(#function).")
+                }
+            }
+            videoWriter = try? AVAssetWriter(URL: videoOutputURL, fileType: AVFileTypeMPEG4)
+            let outputSettings = [AVVideoCodecKey : AVVideoCodecH264, AVVideoWidthKey : NSNumber(float: Float(outputSize.width)), AVVideoHeightKey : NSNumber(float: Float(outputSize.height))]
+            guard videoWriter.canApplyOutputSettings(outputSettings, forMediaType: AVMediaTypeVideo) else {
+                fatalError("Negative : Can't apply the Output settings...")
+            }
+            videoWriterInput = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: outputSettings)
+            videoWriterInput.transform = CGAffineTransformMakeRotation(CGFloat(M_PI * 90 / 180.0))
+            let sourcePixelBufferAttributesDictionary = [kCVPixelBufferPixelFormatTypeKey as String : NSNumber(unsignedInt: kCVPixelFormatType_32ARGB), kCVPixelBufferWidthKey as String: NSNumber(float: Float(outputSize.width)), kCVPixelBufferHeightKey as String: NSNumber(float: Float(outputSize.height))]
+            pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: videoWriterInput, sourcePixelBufferAttributes: sourcePixelBufferAttributesDictionary)
+            if videoWriter.canAddInput(videoWriterInput) {
+                videoWriter.addInput(videoWriterInput)
+            }
+            videoWriterInput.expectsMediaDataInRealTime = true
+            videoWriter.startWriting()
+            videoWriter.startSessionAtSourceTime(kCMTimeZero)
+            isRecording = true
+        } else {
+            videoWriter.finishWritingWithCompletionHandler({})
+            UISaveVideoAtPathToSavedPhotosAlbum(videoOutputURL.path!, nil, nil, nil)
+            isRecording = false
+        }
+    }
+
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // Here you collect each frame and process it
+        if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+            if (isRecording == true) {
+                if(videoWriterInput.readyForMoreMediaData) {
+                    pixelBufferAdaptor.appendPixelBuffer(imageBuffer, withPresentationTime: CMTimeMake(frameNumber, 25))
+                }
+                frameNumber++
+            }
+        }
+
+
         if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
             CVPixelBufferLockBaseAddress(pixelBuffer, kCVPixelBufferLock_ReadOnly)
             let bufferData = CVPixelBufferGetBaseAddress(pixelBuffer)
@@ -102,34 +179,34 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
             print(face)
             
-            
-            let diff = face.midX - CGFloat(bufferHeight) / CGFloat(2)
-            if (abs(diff) > 100) {
-                if (diff < 0) {
-                    if (lastMovement == -1) {
-                        return
-                    }
-                    self.service.sendStop()
-                    self.service.moveX(-1000)
-                    lastMovement = -1
-                } else {
-                    if (lastMovement == 1) {
-                        return
-                    }
-                    self.service.sendStop()
-                    self.service.moveX(1000)
-                    lastMovement = 1
-                }
-            } else {
-                self.service.sendStop()
-                lastMovement = 0
-            }
+//            let diff = face.midX - CGFloat(bufferHeight) / CGFloat(2)
+//            if (abs(diff) > 100) {
+//                if (diff < 0) {
+//                    if (lastMovement == -1) {
+//                        return
+//                    }
+//                    self.service.sendStop()
+//                    self.service.moveX(-1000)
+//                    lastMovement = -1
+//                } else {
+//                    if (lastMovement == 1) {
+//                        return
+//                    }
+//                    self.service.sendStop()
+//                    self.service.moveX(1000)
+//                    lastMovement = 1
+//                }
+//            } else {
+//                self.service.sendStop()
+//                lastMovement = 0
+//            }
         }
     }
-    
+
     func captureOutput(captureOutput: AVCaptureOutput!, didDropSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // Here you can count how many frames are dopped
     }
     
 }
+
 

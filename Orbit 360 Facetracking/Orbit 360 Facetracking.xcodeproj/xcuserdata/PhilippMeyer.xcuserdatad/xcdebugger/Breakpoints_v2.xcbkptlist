@@ -280,11 +280,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Orbit 360 Facetracking/CameraViewController.swift"
-            timestampString = "500233812.714644"
+            timestampString = "500843465.017834"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "captureOutput(_:didOutputSampleBuffer:fromConnection:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -296,11 +296,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Orbit 360 Facetracking/CameraViewController.swift"
-            timestampString = "500318859.800678"
+            timestampString = "500843465.017834"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
             landmarkName = "captureOutput(_:didOutputSampleBuffer:fromConnection:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -582,7 +582,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Orbit 360 Facetracking/CameraViewController.swift"
-            timestampString = "499901700.056895"
+            timestampString = "500843465.017834"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "14"
@@ -597,12 +597,12 @@
                   symbolName = "Orbit_360_Facetracking.CameraViewController.(fd in _5EF8E89590E7DFA3AB9E0094041B2D10).getter : Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.FaceDetection&gt;"
                   moduleName = "Orbit 360 Facetracking"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/PhilippMeyer/Desktop/Orbit%20360%20Facetracking/Orbit%20360%20Facetracking/Orbit%20360%20Facetracking/CameraViewController.swift"
-                  timestampString = "499893516.562062"
+                  urlString = "file:///Users/PhilippMeyer/Desktop/Orbit360Facetracking-swift%202/Orbit%20360%20Facetracking/Orbit%20360%20Facetracking/CameraViewController.swift"
+                  timestampString = "500838102.155657"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "15"
-                  endingLineNumber = "15"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
                   offsetFromSymbolStart = "48">
                </Location>
                <Location
@@ -612,12 +612,12 @@
                   symbolName = "Orbit_360_Facetracking.CameraViewController.(fd in _5EF8E89590E7DFA3AB9E0094041B2D10).setter : Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.FaceDetection&gt;"
                   moduleName = "Orbit 360 Facetracking"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/PhilippMeyer/Desktop/Orbit%20360%20Facetracking/Orbit%20360%20Facetracking/Orbit%20360%20Facetracking/CameraViewController.swift"
-                  timestampString = "499893516.562232"
+                  urlString = "file:///Users/PhilippMeyer/Desktop/Orbit360Facetracking-swift%202/Orbit%20360%20Facetracking/Orbit%20360%20Facetracking/CameraViewController.swift"
+                  timestampString = "500838102.155825"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "15"
-                  endingLineNumber = "15"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
                   offsetFromSymbolStart = "76">
                </Location>
                <Location
@@ -627,13 +627,13 @@
                   symbolName = "Orbit_360_Facetracking.CameraViewController.init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.NSBundle&gt;) -&gt; Orbit_360_Facetracking.CameraViewController"
                   moduleName = "Orbit 360 Facetracking"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/PhilippMeyer/Desktop/Orbit%20360%20Facetracking/Orbit%20360%20Facetracking/Orbit%20360%20Facetracking/CameraViewController.swift"
-                  timestampString = "499893516.56239"
+                  urlString = "file:///Users/PhilippMeyer/Desktop/Orbit360Facetracking-swift%202/Orbit%20360%20Facetracking/Orbit%20360%20Facetracking/CameraViewController.swift"
+                  timestampString = "500838102.155943"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "15"
-                  endingLineNumber = "15"
-                  offsetFromSymbolStart = "60">
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "64">
                </Location>
                <Location
                   shouldBeEnabled = "No"
@@ -642,12 +642,12 @@
                   symbolName = "Orbit_360_Facetracking.CameraViewController.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;Orbit_360_Facetracking.CameraViewController&gt;"
                   moduleName = "Orbit 360 Facetracking"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/PhilippMeyer/Desktop/Orbit%20360%20Facetracking/Orbit%20360%20Facetracking/Orbit%20360%20Facetracking/CameraViewController.swift"
-                  timestampString = "499893516.562545"
+                  urlString = "file:///Users/PhilippMeyer/Desktop/Orbit360Facetracking-swift%202/Orbit%20360%20Facetracking/Orbit%20360%20Facetracking/CameraViewController.swift"
+                  timestampString = "500838102.156062"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "15"
-                  endingLineNumber = "15"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
                   offsetFromSymbolStart = "20">
                </Location>
             </Locations>
@@ -660,11 +660,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Orbit 360 Facetracking/CameraViewController.swift"
-            timestampString = "500233812.714644"
+            timestampString = "500843465.017834"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
             landmarkName = "viewDidAppear(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -820,11 +820,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Orbit 360 Facetracking/CameraViewController.swift"
-            timestampString = "500233812.714644"
+            timestampString = "500843465.017834"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
             landmarkName = "captureOutput(_:didOutputSampleBuffer:fromConnection:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -836,11 +836,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Orbit 360 Facetracking/CameraViewController.swift"
-            timestampString = "500233812.714644"
+            timestampString = "500843465.017834"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
             landmarkName = "captureOutput(_:didOutputSampleBuffer:fromConnection:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -848,95 +848,175 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Orbit 360 Facetracking/CameraViewController.swift"
-            timestampString = "500233812.714644"
+            timestampString = "500843465.017834"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
-            landmarkName = "captureOutput(_:didOutputSampleBuffer:fromConnection:)"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "setupCameraSession()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Orbit 360 Facetracking/CameraViewController.swift"
-            timestampString = "500318859.800678"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
-            landmarkName = "captureOutput(_:didOutputSampleBuffer:fromConnection:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Orbit 360 Facetracking/CameraViewController.swift"
-            timestampString = "500318859.800678"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
-            landmarkName = "captureOutput(_:didOutputSampleBuffer:fromConnection:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Orbit 360 Facetracking/CameraViewController.swift"
-            timestampString = "500318859.800678"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
-            landmarkName = "captureOutput(_:didOutputSampleBuffer:fromConnection:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Orbit 360 Facetracking/CameraViewController.swift"
-            timestampString = "500318859.800678"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
-            landmarkName = "captureOutput(_:didOutputSampleBuffer:fromConnection:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Orbit 360 Facetracking/CameraViewController.swift"
-            timestampString = "500318859.800678"
+            timestampString = "500843465.017834"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "119"
             endingLineNumber = "119"
+            landmarkName = "CameraViewController"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Orbit 360 Facetracking/CameraViewController.swift"
+            timestampString = "500843465.017834"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
+            landmarkName = "startStopRecording()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Orbit 360 Facetracking/CameraViewController.swift"
+            timestampString = "500843465.017834"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "13"
+            endingLineNumber = "13"
+            landmarkName = "CameraViewController"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Orbit 360 Facetracking/CameraViewController.swift"
+            timestampString = "500843465.017834"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
+            landmarkName = "captureOutput(_:didOutputSampleBuffer:fromConnection:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Orbit 360 Facetracking/CameraViewController.swift"
+            timestampString = "500843465.017834"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
+            landmarkName = "CameraViewController"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Orbit 360 Facetracking/CameraViewController.swift"
+            timestampString = "500843465.017834"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "startStopRecording()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Orbit 360 Facetracking/CameraViewController.swift"
+            timestampString = "500843465.017834"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
+            landmarkName = "startStopRecording()"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Orbit_360_Facetracking.CameraViewController.startStopRecording () -&gt; ()"
+                  moduleName = "Orbit 360 Facetracking"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/PhilippMeyer/Desktop/Orbit360Facetracking-swift%202/Orbit%20360%20Facetracking/Orbit%20360%20Facetracking/CameraViewController.swift"
+                  timestampString = "500839319.544378"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "156"
+                  endingLineNumber = "156"
+                  offsetFromSymbolStart = "6068">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Orbit_360_Facetracking.CameraViewController.(startStopRecording () -&gt; ()).(closure #1)"
+                  moduleName = "Orbit 360 Facetracking"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/PhilippMeyer/Desktop/Orbit360Facetracking-swift%202/Orbit%20360%20Facetracking/Orbit%20360%20Facetracking/CameraViewController.swift"
+                  timestampString = "500839319.544554"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "156"
+                  endingLineNumber = "156"
+                  offsetFromSymbolStart = "0">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Orbit 360 Facetracking/CameraViewController.swift"
+            timestampString = "500843465.017834"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
             landmarkName = "captureOutput(_:didOutputSampleBuffer:fromConnection:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -948,11 +1028,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Orbit 360 Facetracking/CameraViewController.swift"
-            timestampString = "500318859.800678"
+            timestampString = "500843465.017834"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
             landmarkName = "captureOutput(_:didOutputSampleBuffer:fromConnection:)"
             landmarkType = "5">
          </BreakpointContent>
