@@ -15,14 +15,14 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var service: MotorControl!
     let toolbar = UIToolbar()
     var lastMovement = 0
-    var isRecording = false
     var outputSize: CGSize!
+    let steps: Int32 = 500
 
     var videoWriter: AVAssetWriter! = nil
     var videoWriterInput: AVAssetWriterInput! = nil
-    var pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor! = nil
     var videoOutputURL: NSURL! = nil
-    var frameNumber:Int64 = 0
+    var isRecording = false
+    var timeStamp: CMTime! = nil
 
     override func prefersStatusBarHidden() -> Bool {
         return true
@@ -42,11 +42,13 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         super.viewDidAppear(animated)
         view.layer.addSublayer(previewLayer)
         cameraSession.startRunning()
-        let play = UIBarButtonItem(title: "Play/Pause", style: .Plain, target: self, action: #selector(CameraViewController.startStopRecording)) //action: "function to call"
+
+        let playPause = UIBarButtonItem(title: "Play/Pause", style: .Plain, target: self, action: #selector(CameraViewController.startStopRecording))
+        let videoFoto = UIBarButtonItem(title: "Video/Foto", style: .Plain, target: self, action: #selector(CameraViewController.videoFoto))
         toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
         toolbar.barStyle = .Black
         //toolbar.sizeToFit()
-        toolbar.items = [play]
+        toolbar.items = [videoFoto, playPause]
         //toolbar.setItems(toolbarButtons, animated: true)
         self.view.addSubview(toolbar)
     }
@@ -73,7 +75,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func setupCameraSession() {
         let avaiableCameras = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
         var captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
-        
+       // let audioDevice = AVCaptureDevice.defaultDeviceWithMediaType(<#T##mediaType: String!##String!#>)
         for element in avaiableCameras{
             let element = element as! AVCaptureDevice
             if element.position == AVCaptureDevicePosition.Front {
@@ -119,7 +121,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     func startStopRecording() {
         if (isRecording == false) {
-            frameNumber = 0
             let fileManager = NSFileManager.defaultManager()
             let urls = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
             guard let documentDirectory: NSURL = urls.first else {
@@ -140,14 +141,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
             videoWriterInput = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: outputSettings)
             videoWriterInput.transform = CGAffineTransformMakeRotation(CGFloat(M_PI * 90 / 180.0))
-            let sourcePixelBufferAttributesDictionary = [kCVPixelBufferPixelFormatTypeKey as String : NSNumber(unsignedInt: kCVPixelFormatType_32ARGB), kCVPixelBufferWidthKey as String: NSNumber(float: Float(outputSize.width)), kCVPixelBufferHeightKey as String: NSNumber(float: Float(outputSize.height))]
-            pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: videoWriterInput, sourcePixelBufferAttributes: sourcePixelBufferAttributesDictionary)
             if videoWriter.canAddInput(videoWriterInput) {
                 videoWriter.addInput(videoWriterInput)
             }
             videoWriterInput.expectsMediaDataInRealTime = true
             videoWriter.startWriting()
-            videoWriter.startSessionAtSourceTime(kCMTimeZero)
+            videoWriter.startSessionAtSourceTime(timeStamp)
             isRecording = true
         } else {
             videoWriter.finishWritingWithCompletionHandler({})
@@ -156,14 +155,16 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
 
+    func videoFoto() {
+
+    }
+
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // Here you collect each frame and process it
-        if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
-            if (isRecording == true) {
-                if(videoWriterInput.readyForMoreMediaData) {
-                    pixelBufferAdaptor.appendPixelBuffer(imageBuffer, withPresentationTime: CMTimeMake(frameNumber, 25))
-                }
-                frameNumber++
+        timeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+        if (isRecording == true) {
+            if(videoWriterInput.readyForMoreMediaData) {
+                videoWriterInput.appendSampleBuffer(sampleBuffer)
             }
         }
 
@@ -175,33 +176,106 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let bufferHeight = UInt32(CVPixelBufferGetHeight(pixelBuffer))
             let face = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
             if(face.midX == 0 && face.midY == 0) {
+                //self.service.sendStop()
+                print("stop")
                 return
             }
             print(face)
             
-            let diff = face.midX - CGFloat(bufferHeight) / CGFloat(2)
-            if (abs(diff) > 100) {
-                if (diff < 0) {
-                    if (lastMovement == -1) {
-                        return
-                    }
-                    self.service.moveX(-1000)
-                    lastMovement = -1
-                } else {
-                    if (lastMovement == 1) {
-                        return
-                    }
-                    self.service.moveX(1000)
-                    lastMovement = 1
-                }
-            } else {
-                if (lastMovement == 0) {
-                    return
-                } else {
-                    self.service.sendStop()
-                    lastMovement = 0
-                }
-            }
+            let diffX = face.midX - CGFloat(bufferHeight) / CGFloat(2)
+            let diffY = face.midY - CGFloat(bufferWidth) / CGFloat(2)
+
+//            switch (diffX, diffY) {
+//            case (-100...100, -100...100):
+//                if lastMovement == 0 {
+//                    return
+//                }
+//                self.service.sendStop()
+//                lastMovement = 0
+//                break
+//            case (CGFloat(Int.min) ... -101, -100...100):
+//                if lastMovement == 1 {
+//                    return
+//                }
+//                self.service.moveX(-steps)
+//                lastMovement = 1
+//                break
+//            case (101 ... CGFloat(Int.max), -100...100):
+//                if lastMovement == 2 {
+//                    return
+//                }
+//                self.service.moveX(steps)
+//                lastMovement = 2
+//                break
+//            case (-100...100, CGFloat(Int.min) ... -101):
+//                if lastMovement == 3 {
+//                    return
+//                }
+//                self.service.moveY(-steps)
+//                lastMovement = 3
+//                break
+//            case (-100...100, 101 ... CGFloat(Int.max)):
+//                if lastMovement == 4 {
+//                    return
+//                }
+//                self.service.moveY(steps)
+//                lastMovement = 4
+//                break
+//            case (CGFloat(Int.min) ... -101, CGFloat(Int.min) ... -101):
+//                if lastMovement == 5 {
+//                    return
+//                }
+//                self.service.moveXandY(-steps, stepsY: -steps)
+//                lastMovement = 5
+//                break
+//            case (CGFloat(Int.min) ... -101, 101 ... CGFloat(Int.max)):
+//                if lastMovement == 6 {
+//                    return
+//                }
+//                self.service.moveXandY(-steps, stepsY: steps)
+//                lastMovement = 6
+//                break
+//            case (101 ... CGFloat(Int.max), CGFloat(Int.min) ... -101):
+//                if lastMovement == 7 {
+//                    return
+//                }
+//                self.service.moveXandY(steps, stepsY: -steps)
+//                lastMovement = 7
+//                break
+//            case (101 ... CGFloat(Int.max), 101 ... CGFloat(Int.max)):
+//                if lastMovement == 8 {
+//                    return
+//                }
+//                self.service.moveXandY(steps, stepsY: steps)
+//                lastMovement = 8
+//                break
+//            default:
+//                self.service.sendStop()
+//                break
+//            }
+
+//            if (abs(diffX) > 100) {
+//                if (diffX < 0) {
+//                    if (lastMovement == -1) {
+//                        return
+//                    }
+//                    self.service.moveX(-1000)
+//                    lastMovement = -1
+//                } else {
+//                    if (lastMovement == 1) {
+//                        return
+//                    }
+//                    self.service.moveX(1000)
+//                    lastMovement = 1
+//                }
+//            } else {
+//                if (lastMovement == 0) {
+//                    return
+//                } else {
+//                    self.service.sendStop()
+//                    lastMovement = 0
+//                }
+//            }
         }
     }
 
@@ -210,5 +284,3 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
 }
-
-
