@@ -10,9 +10,10 @@ import Foundation
 import UIKit
 import AVFoundation
 
-class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
-    private var fd = FaceDetection()
+class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate{
+    var fd = FaceDetection()
     var service: MotorControl!
+
     let toolbar = UIToolbar()
     var lastMovement = 0
     var outputSize: CGSize!
@@ -47,9 +48,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let videoFoto = UIBarButtonItem(title: "Video/Foto", style: .Plain, target: self, action: #selector(CameraViewController.videoFoto))
         toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
         toolbar.barStyle = .Black
-        //toolbar.sizeToFit()
+//        toolbar.sizeToFit()
         toolbar.items = [videoFoto, playPause]
-        //toolbar.setItems(toolbarButtons, animated: true)
+//        toolbar.setItems(toolbarButtons, animated: true)
         self.view.addSubview(toolbar)
     }
     
@@ -75,7 +76,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func setupCameraSession() {
         let avaiableCameras = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
         var captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
-       // let audioDevice = AVCaptureDevice.defaultDeviceWithMediaType(<#T##mediaType: String!##String!#>)
+        let audioDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
+
         for element in avaiableCameras{
             let element = element as! AVCaptureDevice
             if element.position == AVCaptureDevicePosition.Front {
@@ -83,6 +85,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 break
             }
         }
+
         let formats = captureDevice.formats as! [AVCaptureDeviceFormat]
         var best = formats[0]
         for element in formats{
@@ -91,6 +94,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
         }
         outputSize = CGSizeMake(CGFloat(best.highResolutionStillImageDimensions.width), CGFloat(best.highResolutionStillImageDimensions.height))
+
         try! captureDevice.lockForConfiguration()
         captureDevice.activeFormat = best
         captureDevice.unlockForConfiguration()
@@ -98,20 +102,29 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         do {
             let deviceInput = try AVCaptureDeviceInput(device: captureDevice)
+            let audioInput = try AVCaptureDeviceInput(device: audioDevice)
             cameraSession.beginConfiguration()
             if (cameraSession.canAddInput(deviceInput) == true) {
                 cameraSession.addInput(deviceInput)
             }
+            if (cameraSession.canAddInput(audioInput) == true) {
+                cameraSession.addInput(audioInput)
+            }
             let dataOutput = AVCaptureVideoDataOutput()
             dataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey: NSNumber(unsignedInt: kCVPixelFormatType_32BGRA)]
             dataOutput.alwaysDiscardsLateVideoFrames = true
+          //  let audioOutput = AVCaptureAudioDataOutput()
+
             if (cameraSession.canAddOutput(dataOutput) == true) {
                 cameraSession.addOutput(dataOutput)
             }
-
+//            if (cameraSession.canAddOutput(audioOutput) == true) {
+//                cameraSession.addOutput(audioOutput)
+//            }
             cameraSession.commitConfiguration()
             let queue = dispatch_queue_create("videoQueue", DISPATCH_QUEUE_SERIAL)
             dataOutput.setSampleBufferDelegate(self, queue: queue)
+          //  audioOutput.setSampleBufferDelegate(self, queue: queue)
             
         }
         catch let error as NSError {
@@ -158,7 +171,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func videoFoto() {
 
     }
-
+var i = 1
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // Here you collect each frame and process it
         timeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
@@ -181,10 +194,15 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 return
             }
             print(face)
+            if i == 1 {
+                //self.service.moveXandY(3000, stepsY: -1000)
+                //self.service.moveX(10000)
+                self.service.moveY(-1000)
+                i++}
             
-            let diffX = face.midX - CGFloat(bufferHeight) / CGFloat(2)
-            let diffY = face.midY - CGFloat(bufferWidth) / CGFloat(2)
-
+//            let diffX = face.midX - CGFloat(bufferHeight) / CGFloat(2)
+//            let diffY = face.midY - CGFloat(bufferWidth) / CGFloat(2)
+//
 //            switch (diffX, diffY) {
 //            case (-100...100, -100...100):
 //                if lastMovement == 0 {
@@ -253,7 +271,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //                self.service.sendStop()
 //                break
 //            }
-
+//
 //            if (abs(diffX) > 100) {
 //                if (diffX < 0) {
 //                    if (lastMovement == -1) {
