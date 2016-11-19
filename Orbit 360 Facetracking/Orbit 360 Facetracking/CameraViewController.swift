@@ -15,24 +15,24 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var service: MotorControl!
 
     let toolbar = UIToolbar()
+
     var lastMovement = 0
-    var outputSize: CGSize!
     let steps: Int32 = 500
 
-    var videoWriter: AVAssetWriter! = nil
-    var videoWriterInput: AVAssetWriterInput! = nil
-    var videoOutputURL: NSURL! = nil
+    var outputSize: CGSize!
     var isRecording = false
-    var timeStamp: CMTime! = nil
+    var timeStamp: CMTime!
+    var videoOutputURL: NSURL!
+    var videoWriter: AVAssetWriter!
+    var videoWriterInput: AVAssetWriterInput!
+    var dataOutput = AVCaptureVideoDataOutput()
+    var audioWriterInput: AVAssetWriterInput!
+    var audioOutput = AVCaptureAudioDataOutput()
+
 
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
-    /* Swift 3 Syntax for hiding the status bar
-     override var prefersStatusBarHidden: Bool {
-     return true
-     }
-     */
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,9 +48,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let videoFoto = UIBarButtonItem(title: "Video/Foto", style: .Plain, target: self, action: #selector(CameraViewController.videoFoto))
         toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
         toolbar.barStyle = .Black
-//        toolbar.sizeToFit()
         toolbar.items = [videoFoto, playPause]
-//        toolbar.setItems(toolbarButtons, animated: true)
+        toolbar.setItems(toolbar.items, animated: true)
         self.view.addSubview(toolbar)
     }
     
@@ -110,21 +109,19 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             if (cameraSession.canAddInput(audioInput) == true) {
                 cameraSession.addInput(audioInput)
             }
-            let dataOutput = AVCaptureVideoDataOutput()
             dataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey: NSNumber(unsignedInt: kCVPixelFormatType_32BGRA)]
             dataOutput.alwaysDiscardsLateVideoFrames = true
-          //  let audioOutput = AVCaptureAudioDataOutput()
 
             if (cameraSession.canAddOutput(dataOutput) == true) {
                 cameraSession.addOutput(dataOutput)
             }
-//            if (cameraSession.canAddOutput(audioOutput) == true) {
-//                cameraSession.addOutput(audioOutput)
-//            }
+            if (cameraSession.canAddOutput(audioOutput) == true) {
+                cameraSession.addOutput(audioOutput)
+            }
             cameraSession.commitConfiguration()
             let queue = dispatch_queue_create("videoQueue", DISPATCH_QUEUE_SERIAL)
             dataOutput.setSampleBufferDelegate(self, queue: queue)
-          //  audioOutput.setSampleBufferDelegate(self, queue: queue)
+            audioOutput.setSampleBufferDelegate(self, queue: queue)
             
         }
         catch let error as NSError {
@@ -148,7 +145,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 }
             }
             videoWriter = try? AVAssetWriter(URL: videoOutputURL, fileType: AVFileTypeMPEG4)
-            let outputSettings = [AVVideoCodecKey : AVVideoCodecH264, AVVideoWidthKey : NSNumber(float: Float(outputSize.width)), AVVideoHeightKey : NSNumber(float: Float(outputSize.height))]
+            let outputSettings = [AVVideoCodecKey : AVVideoCodecH264,
+                                  AVVideoWidthKey : NSNumber(float: Float(outputSize.width)),
+                                  AVVideoHeightKey : NSNumber(float: Float(outputSize.height))]
             guard videoWriter.canApplyOutputSettings(outputSettings, forMediaType: AVMediaTypeVideo) else {
                 fatalError("Negative : Can't apply the Output settings...")
             }
@@ -158,6 +157,20 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 videoWriter.addInput(videoWriterInput)
             }
             videoWriterInput.expectsMediaDataInRealTime = true
+            var acl = AudioChannelLayout()
+            acl.mChannelLayoutTag = kAudioChannelLayoutTag_Mono
+            let audioOutputSettings = [
+                AVFormatIDKey : Int(kAudioFormatMPEG4AAC),
+                AVNumberOfChannelsKey : Int(1),
+                AVSampleRateKey : Int(44100.0),
+                AVEncoderBitRateKey : Int(64000),
+                //AVChannelLayoutKey : NSData(bytes: &acl, length: sizeof(acl))
+            ]
+            audioWriterInput = AVAssetWriterInput(mediaType: AVMediaTypeAudio, outputSettings: audioOutputSettings)
+            audioWriterInput.expectsMediaDataInRealTime = true
+            if videoWriter.canAddInput(audioWriterInput) {
+                videoWriter.addInput(audioWriterInput)
+            }
             videoWriter.startWriting()
             videoWriter.startSessionAtSourceTime(timeStamp)
             isRecording = true
@@ -171,15 +184,28 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func videoFoto() {
 
     }
-var i = 1
+
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // Here you collect each frame and process it
         timeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
-        if (isRecording == true) {
-            if(videoWriterInput.readyForMoreMediaData) {
-                videoWriterInput.appendSampleBuffer(sampleBuffer)
+
+        if captureOutput == audioOutput {
+            if (isRecording == true) {
+                if(audioWriterInput.readyForMoreMediaData) {
+                    audioWriterInput.appendSampleBuffer(sampleBuffer)
+                }
+            }
+            return
+        }
+
+        if captureOutput == dataOutput {
+            if (isRecording == true) {
+                if(videoWriterInput.readyForMoreMediaData) {
+                    videoWriterInput.appendSampleBuffer(sampleBuffer)
+                }
             }
         }
+
 
 
         if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
@@ -194,11 +220,6 @@ var i = 1
                 return
             }
             print(face)
-            if i == 1 {
-                //self.service.moveXandY(3000, stepsY: -1000)
-                //self.service.moveX(10000)
-                self.service.moveY(-1000)
-                i++}
             
 //            let diffX = face.midX - CGFloat(bufferHeight) / CGFloat(2)
 //            let diffY = face.midY - CGFloat(bufferWidth) / CGFloat(2)

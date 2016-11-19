@@ -86,12 +86,4 @@ class MotorControl: NSObject {
             Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>($0), count: sizeof(T)))
         }
     }
-    
-    /* for Swift 3.0.1
-    func toByteArray<T>(_ value: T) -> [UInt8] {
-    var value = value
-    return withUnsafeBytes(of: &value) { Array($0) }
-    }
-    */
-    
 }
