@@ -38,7 +38,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         super.viewDidLoad()
         setupCameraSession()
     }
-    
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         view.layer.addSublayer(previewLayer)
@@ -131,6 +131,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     func startStopRecording() {
         if (isRecording == false) {
+            /* 
+             Get path to the Outputfile in the DocumentDirectory of the App and delete previously created files.
+             */
             let fileManager = NSFileManager.defaultManager()
             let urls = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
             guard let documentDirectory: NSURL = urls.first else {
@@ -144,6 +147,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     fatalError("Unable to delete file: \(error) : \(#function).")
                 }
             }
+
+            /* 
+             Initiate new AVAssetWriter to record Video + Audio.
+             */
             videoWriter = try? AVAssetWriter(URL: videoOutputURL, fileType: AVFileTypeMPEG4)
             let outputSettings = [AVVideoCodecKey : AVVideoCodecH264,
                                   AVVideoWidthKey : NSNumber(float: Float(outputSize.width)),
@@ -164,7 +171,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 AVNumberOfChannelsKey : Int(1),
                 AVSampleRateKey : Int(44100.0),
                 AVEncoderBitRateKey : Int(64000),
-                //AVChannelLayoutKey : NSData(bytes: &acl, length: sizeof(acl))
             ]
             audioWriterInput = AVAssetWriterInput(mediaType: AVMediaTypeAudio, outputSettings: audioOutputSettings)
             audioWriterInput.expectsMediaDataInRealTime = true
@@ -175,6 +181,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             videoWriter.startSessionAtSourceTime(timeStamp)
             isRecording = true
         } else {
+            /*
+             Finished video recording and export to photo roll.
+             */
             videoWriter.finishWritingWithCompletionHandler({})
             UISaveVideoAtPathToSavedPhotosAlbum(videoOutputURL.path!, nil, nil, nil)
             isRecording = false
@@ -291,29 +300,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            default:
 //                self.service.sendStop()
 //                break
-//            }
-//
-//            if (abs(diffX) > 100) {
-//                if (diffX < 0) {
-//                    if (lastMovement == -1) {
-//                        return
-//                    }
-//                    self.service.moveX(-1000)
-//                    lastMovement = -1
-//                } else {
-//                    if (lastMovement == 1) {
-//                        return
-//                    }
-//                    self.service.moveX(1000)
-//                    lastMovement = 1
-//                }
-//            } else {
-//                if (lastMovement == 0) {
-//                    return
-//                } else {
-//                    self.service.sendStop()
-//                    lastMovement = 0
-//                }
 //            }
         }
     }
