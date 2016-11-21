@@ -29,14 +29,30 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var audioWriterInput: AVAssetWriterInput!
     var audioOutput = AVCaptureAudioDataOutput()
 
+    let focalLengthOld = 2.139
+    let focalLengthNew = 3.50021
+    var pixelFocalLength: Double!
+    var angleXold = 0
+    var angleYold = 0
 
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
         setupCameraSession()
+        switch UIDevice.currentDevice().deviceType {
+        case .iPhone2G, .iPhone3G, .iPhone3GS, .iPhone4, .iPhone4S, .iPhone5, .iPhone5S:
+            pixelFocalLength = Double(outputSize.width) * focalLengthOld
+            break
+        case .iPhoneSE, .iPhone6, .iPhone6Plus, .iPhone6S, .iPhone6SPlus, .iPhone7, .iPhone7Plus:
+            pixelFocalLength = Double(outputSize.width) * focalLengthNew
+            break
+        default:
+            pixelFocalLength = Double(outputSize.width) * focalLengthNew
+            break
+        }
+        super.viewDidLoad()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -225,14 +241,30 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let face = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
             if(face.midX == 0 && face.midY == 0) {
                 //self.service.sendStop()
-                print("stop")
+                //print("stop")
                 return
             }
             print(face)
             
-//            let diffX = face.midX - CGFloat(bufferHeight) / CGFloat(2)
-//            let diffY = face.midY - CGFloat(bufferWidth) / CGFloat(2)
-//
+            let diffX = Double(face.midX) - Double(bufferHeight) / 2
+            let diffY = Double(face.midY) - Double(bufferWidth) / 2
+            print("Faceoffset: ", diffX, diffY)
+
+            let angleX = atan2(diffX, pixelFocalLength)
+            let angleY = atan2(diffY, pixelFocalLength)
+            print("AngleX + AngleY: ", angleX, angleY)
+
+            let stepsX = 5111 * angleX/M_2_PI
+            let stepsY = 15000 * angleX/M_2_PI
+            print("StepsX + StepsY: ", stepsX, stepsY)
+
+            if abs(diffX)<100 && abs(diffY)<100 {
+                return
+            }
+
+            service.moveX(Int32(stepsX))
+
+//            service.moveXandY(Int32(stepsX), stepsY: Int32(stepsY))
 //            switch (diffX, diffY) {
 //            case (-100...100, -100...100):
 //                if lastMovement == 0 {
