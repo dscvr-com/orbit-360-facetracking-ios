@@ -276,13 +276,16 @@
 					E88EF6C61DA6DE070009E99D = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 2BLCUDDDEY;
+						LastSwiftMigration = 0810;
 					};
 					E88EF6DA1DA6DE080009E99D = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0810;
 						TestTargetID = E88EF6C61DA6DE070009E99D;
 					};
 					E88EF6E51DA6DE080009E99D = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0810;
 						TestTargetID = E88EF6C61DA6DE070009E99D;
 					};
 				};
@@ -506,6 +509,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Orbit 360 Facetracking-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -526,6 +530,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Orbit 360 Facetracking-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -537,6 +542,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Meyer.Orbit-360-FacetrackingTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Orbit 360 Facetracking.app/Orbit 360 Facetracking";
 			};
 			name = Debug;
@@ -549,6 +555,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Meyer.Orbit-360-FacetrackingTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Orbit 360 Facetracking.app/Orbit 360 Facetracking";
 			};
 			name = Release;
@@ -560,6 +567,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Meyer.Orbit-360-FacetrackingUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_TARGET_NAME = "Orbit 360 Facetracking";
 			};
 			name = Debug;
@@ -571,6 +579,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Meyer.Orbit-360-FacetrackingUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_TARGET_NAME = "Orbit 360 Facetracking";
 			};
 			name = Release;

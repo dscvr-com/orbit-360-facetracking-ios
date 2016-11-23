@@ -32,8 +32,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let focalLengthOld = 2.139
     let focalLengthNew = 3.50021
     var pixelFocalLength: Double!
-    var angleXold = 0
-    var angleYold = 0
+    var angleXold = 0.0
+    var angleYold = 0.0
 
     override func prefersStatusBarHidden() -> Bool {
         return true
@@ -43,13 +43,13 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setupCameraSession()
         switch UIDevice.currentDevice().deviceType {
         case .iPhone2G, .iPhone3G, .iPhone3GS, .iPhone4, .iPhone4S, .iPhone5, .iPhone5S:
-            pixelFocalLength = Double(outputSize.width) * focalLengthOld
+            pixelFocalLength = Double(outputSize.height) * focalLengthOld
             break
         case .iPhoneSE, .iPhone6, .iPhone6Plus, .iPhone6S, .iPhone6SPlus, .iPhone7, .iPhone7Plus:
-            pixelFocalLength = Double(outputSize.width) * focalLengthNew
+            pixelFocalLength = Double(outputSize.height) * focalLengthNew
             break
         default:
-            pixelFocalLength = Double(outputSize.width) * focalLengthNew
+            pixelFocalLength = Double(outputSize.height) * focalLengthNew
             break
         }
         super.viewDidLoad()
@@ -209,7 +209,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func videoFoto() {
 
     }
-
+var x = 0
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // Here you collect each frame and process it
         timeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
@@ -234,7 +234,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
 
         if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
-            CVPixelBufferLockBaseAddress(pixelBuffer, kCVPixelBufferLock_ReadOnly)
+            CVPixelBufferLockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
             let bufferData = CVPixelBufferGetBaseAddress(pixelBuffer)
             let bufferWidth = UInt32(CVPixelBufferGetWidth(pixelBuffer))
             let bufferHeight = UInt32(CVPixelBufferGetHeight(pixelBuffer))
@@ -244,95 +244,43 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 //print("stop")
                 return
             }
-            print(face)
-            
+//            print(face)
+
             let diffX = Double(face.midX) - Double(bufferHeight) / 2
             let diffY = Double(face.midY) - Double(bufferWidth) / 2
-            print("Faceoffset: ", diffX, diffY)
-
+//            print("Faceoffset: ", diffX, diffY)
+//            let angleX = M_PI/2
             let angleX = atan2(diffX, pixelFocalLength)
             let angleY = atan2(diffY, pixelFocalLength)
-            print("AngleX + AngleY: ", angleX, angleY)
+            print("AngleX + AngleY: ", angleX*180/M_PI, angleY*180/M_PI)
 
-            let stepsX = 5111 * angleX/M_2_PI
-            let stepsY = 15000 * angleX/M_2_PI
-            print("StepsX + StepsY: ", stepsX, stepsY)
+            let stepsX = 5111 * angleX/(M_PI*2)
+            let stepsY = 15000 * angleY/(M_PI*2)
+//            print("StepsX + StepsY: ", stepsX, stepsY)
 
-            if abs(diffX)<100 && abs(diffY)<100 {
+            if abs(diffX)<100 /*&& abs(diffY)<100*/ {
                 return
             }
 
-            service.moveX(Int32(stepsX))
+            let 𝛦 = 0.01
+            if abs(angleX-angleXold)<𝛦 /*&& abs(angleY-angleYold)<𝛦*/ {
+                return
+            }
+            self.service.moveX(Int32(stepsX), speed: 1000)
 
-//            service.moveXandY(Int32(stepsX), stepsY: Int32(stepsY))
-//            switch (diffX, diffY) {
-//            case (-100...100, -100...100):
-//                if lastMovement == 0 {
-//                    return
-//                }
-//                self.service.sendStop()
-//                lastMovement = 0
-//                break
-//            case (CGFloat(Int.min) ... -101, -100...100):
-//                if lastMovement == 1 {
-//                    return
-//                }
-//                self.service.moveX(-steps)
-//                lastMovement = 1
-//                break
-//            case (101 ... CGFloat(Int.max), -100...100):
-//                if lastMovement == 2 {
-//                    return
-//                }
-//                self.service.moveX(steps)
-//                lastMovement = 2
-//                break
-//            case (-100...100, CGFloat(Int.min) ... -101):
-//                if lastMovement == 3 {
-//                    return
-//                }
-//                self.service.moveY(-steps)
-//                lastMovement = 3
-//                break
-//            case (-100...100, 101 ... CGFloat(Int.max)):
-//                if lastMovement == 4 {
-//                    return
-//                }
-//                self.service.moveY(steps)
-//                lastMovement = 4
-//                break
-//            case (CGFloat(Int.min) ... -101, CGFloat(Int.min) ... -101):
-//                if lastMovement == 5 {
-//                    return
-//                }
-//                self.service.moveXandY(-steps, stepsY: -steps)
-//                lastMovement = 5
-//                break
-//            case (CGFloat(Int.min) ... -101, 101 ... CGFloat(Int.max)):
-//                if lastMovement == 6 {
-//                    return
-//                }
-//                self.service.moveXandY(-steps, stepsY: steps)
-//                lastMovement = 6
-//                break
-//            case (101 ... CGFloat(Int.max), CGFloat(Int.min) ... -101):
-//                if lastMovement == 7 {
-//                    return
-//                }
-//                self.service.moveXandY(steps, stepsY: -steps)
-//                lastMovement = 7
-//                break
-//            case (101 ... CGFloat(Int.max), 101 ... CGFloat(Int.max)):
-//                if lastMovement == 8 {
-//                    return
-//                }
-//                self.service.moveXandY(steps, stepsY: steps)
-//                lastMovement = 8
-//                break
-//            default:
-//                self.service.sendStop()
-//                break
+            if x == 0 {
+                x += 1
+            }
+//            self.service.moveY(Int32(stepsY))
+//            if diffX>diffY {
+//                service.moveX(Int32(stepsX))
+//            } else {
+//                service.moveY(Int32(stepsY))
 //            }
+
+            angleXold = angleX
+            angleYold = angleY
+
         }
     }
 
