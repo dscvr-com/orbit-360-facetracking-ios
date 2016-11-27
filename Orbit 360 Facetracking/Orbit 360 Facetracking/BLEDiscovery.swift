@@ -41,22 +41,22 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
     
     func centralManagerDidUpdateState(central: CBCentralManager) {
         switch (central.state) {
-        case CBCentralManagerState.PoweredOff:
+        case .PoweredOff:
             break;
-        case CBCentralManagerState.Unauthorized:
+        case .Unauthorized:
             // Indicate to user that the iOS device does not support BLE.
             break
             
-        case CBCentralManagerState.Unknown:
+        case .Unknown:
             // Wait for another event
             break
             
-        case CBCentralManagerState.PoweredOn:
+        case .PoweredOn:
             self.startScanning()
             
-        case CBCentralManagerState.Resetting:
+        case .Resetting:
             break;
-        case CBCentralManagerState.Unsupported:
+        case .Unsupported:
             break;
         }
     }

@@ -18,6 +18,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     var lastMovement = 0
     let steps: Int32 = 500
+    var faceLostCounter = 0
+    var firstRun = true
 
     var outputSize: CGSize!
     var isRecording = false
@@ -32,8 +34,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let focalLengthOld = 2.139
     let focalLengthNew = 3.50021
     var pixelFocalLength: Double!
-    var angleXold = 0.0
-    var angleYold = 0.0
 
     override func prefersStatusBarHidden() -> Bool {
         return true
@@ -41,17 +41,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     override func viewDidLoad() {
         setupCameraSession()
-        switch UIDevice.currentDevice().deviceType {
-        case .iPhone2G, .iPhone3G, .iPhone3GS, .iPhone4, .iPhone4S, .iPhone5, .iPhone5S:
-            pixelFocalLength = Double(outputSize.height) * focalLengthOld
-            break
-        case .iPhoneSE, .iPhone6, .iPhone6Plus, .iPhone6S, .iPhone6SPlus, .iPhone7, .iPhone7Plus:
-            pixelFocalLength = Double(outputSize.height) * focalLengthNew
-            break
-        default:
-            pixelFocalLength = Double(outputSize.height) * focalLengthNew
-            break
-        }
         super.viewDidLoad()
     }
 
@@ -67,6 +56,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         toolbar.items = [videoFoto, playPause]
         toolbar.setItems(toolbar.items, animated: true)
         self.view.addSubview(toolbar)
+        let timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(CameraViewController.timerUpdate), userInfo: nil, repeats: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -88,6 +78,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         return preview
     }()
 
+    /* Sets up in and outputs for the camerasession */
     func setupCameraSession() {
         let avaiableCameras = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
         var captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
@@ -108,7 +99,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 best = element
             }
         }
-        outputSize = CGSizeMake(CGFloat(best.highResolutionStillImageDimensions.width), CGFloat(best.highResolutionStillImageDimensions.height))
 
         try! captureDevice.lockForConfiguration()
         captureDevice.activeFormat = best
@@ -147,7 +137,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     func startStopRecording() {
         if (isRecording == false) {
-            /* 
+            /*
              Get path to the Outputfile in the DocumentDirectory of the App and delete previously created files.
              */
             let fileManager = NSFileManager.defaultManager()
@@ -200,16 +190,20 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             /*
              Finished video recording and export to photo roll.
              */
+            isRecording = false
             videoWriter.finishWritingWithCompletionHandler({})
             UISaveVideoAtPathToSavedPhotosAlbum(videoOutputURL.path!, nil, nil, nil)
-            isRecording = false
         }
     }
 
     func videoFoto() {
 
     }
-var x = 0
+
+    func timerUpdate() {
+        x = 0
+    }
+var x = -1
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // Here you collect each frame and process it
         timeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
@@ -232,55 +226,71 @@ var x = 0
         }
 
 
-
         if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
             CVPixelBufferLockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
             let bufferData = CVPixelBufferGetBaseAddress(pixelBuffer)
             let bufferWidth = UInt32(CVPixelBufferGetWidth(pixelBuffer))
             let bufferHeight = UInt32(CVPixelBufferGetHeight(pixelBuffer))
+
+            if firstRun {
+                outputSize = CGSizeMake(CGFloat(bufferWidth), CGFloat(bufferHeight))
+                switch UIDevice.currentDevice().deviceType {
+                case .iPhone2G, .iPhone3G, .iPhone3GS, .iPhone4, .iPhone4S, .iPhone5, .iPhone5S:
+                    pixelFocalLength = Double(outputSize.height) * focalLengthOld
+                    break
+                case .iPhoneSE, .iPhone6, .iPhone6Plus, .iPhone6S, .iPhone6SPlus, .iPhone7, .iPhone7Plus:
+                    pixelFocalLength = Double(outputSize.height) * focalLengthNew
+                    break
+                default:
+                    pixelFocalLength = Double(outputSize.height) * focalLengthNew
+                    break
+                }
+                firstRun = false
+            }
+
             let face = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
             if(face.midX == 0 && face.midY == 0) {
-                //self.service.sendStop()
-                //print("stop")
+                faceLostCounter += 1
+                print("stop")
+                if faceLostCounter > 2 {
+                    self.service.sendStop()
+                }
                 return
             }
-//            print(face)
+            print(face)
+            faceLostCounter = 0
 
             let diffX = Double(face.midX) - Double(bufferHeight) / 2
             let diffY = Double(face.midY) - Double(bufferWidth) / 2
-//            print("Faceoffset: ", diffX, diffY)
-//            let angleX = M_PI/2
+            print("Faceoffset: ", diffX, diffY)
+
             let angleX = atan2(diffX, pixelFocalLength)
             let angleY = atan2(diffY, pixelFocalLength)
-            print("AngleX + AngleY: ", angleX*180/M_PI, angleY*180/M_PI)
+            print("AngleX + AngleY: ", angleX, angleY)
 
             let stepsX = 5111 * angleX/(M_PI*2)
             let stepsY = 15000 * angleY/(M_PI*2)
-//            print("StepsX + StepsY: ", stepsX, stepsY)
+            print("StepsX + StepsY: ", stepsX, stepsY)
+            print()
 
-            if abs(diffX)<100 /*&& abs(diffY)<100*/ {
+            if abs(diffX)<130 {
+                self.service.sendStop()
+                x = 0
                 return
             }
-
-            let 𝛦 = 0.01
-            if abs(angleX-angleXold)<𝛦 /*&& abs(angleY-angleYold)<𝛦*/ {
-                return
-            }
-            self.service.moveX(Int32(stepsX), speed: 1000)
+//            if abs(diffY)<100 {
+  //              self.service.sendStop()
+    //            x = 0
+      //          return
+        //    }
 
             if x == 0 {
+                self.service.moveX(Int32(stepsX*20))
+                x += 1
+            } else  if x == 2{
+                self.service.moveY(Int32(stepsY))
                 x += 1
             }
-//            self.service.moveY(Int32(stepsY))
-//            if diffX>diffY {
-//                service.moveX(Int32(stepsX))
-//            } else {
-//                service.moveY(Int32(stepsY))
-//            }
-
-            angleXold = angleX
-            angleYold = angleY
-
         }
     }
 
