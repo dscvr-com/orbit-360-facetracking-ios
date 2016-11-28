@@ -59,6 +59,7 @@ public:
      * @param core The processing function to call for each element. 
      */
     AsyncStream(function<OutType(InType)> core) : core(core), running(false), isInitialized(false), workerReady(true) { }
+    AsyncStream(function<OutType(InType)> core, OutType init) : AsyncStream(core) { outData = init; }
    
     void Push(InType in) {
         if(!isInitialized) {

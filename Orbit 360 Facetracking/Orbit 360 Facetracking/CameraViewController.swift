@@ -16,6 +16,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var commandIsAllowed = true
 
     let toolbar = UIToolbar()
+    var isRecording = false
+    var isInPhotoMode = false
+    var timer = NSTimer()
 
     var lastMovement = 0
     let steps: Int32 = 500
@@ -23,7 +26,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var firstRun = true
 
     var outputSize: CGSize!
-    var isRecording = false
     var timeStamp: CMTime!
     var videoOutputURL: NSURL!
     var videoWriter: AVAssetWriter!
@@ -57,7 +59,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         toolbar.items = [videoFoto, playPause]
         toolbar.setItems(toolbar.items, animated: true)
         self.view.addSubview(toolbar)
-        let timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(CameraViewController.timerUpdate), userInfo: nil, repeats: true)
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(CameraViewController.timerUpdate), userInfo: nil, repeats: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -198,7 +200,13 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     func videoFoto() {
+        if isInPhotoMode {
 
+            isInPhotoMode = false
+        } else {
+
+            isInPhotoMode = true
+        }
     }
 
     func timerUpdate() {
@@ -250,19 +258,17 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
 
             let faces = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
-            let face = faces[0] as! CGRect
-
-
-
-
-            if(face.midX == 0 && face.midY == 0) {
+            CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
+            if(faces.count == 0) {
                 faceLostCounter += 1
                 print("stop")
                 if faceLostCounter > 2 {
-                    self.service.sendStop()
+//                    self.service.sendStop()
                 }
                 return
             }
+            let face = faces[0].CGRectValue()
+
             print(face)
             faceLostCounter = 0
 
@@ -278,21 +284,21 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let stepsY = 15000 * angleY/(M_PI*2)
             print("StepsX + StepsY: ", stepsX, stepsY)
 
-            if abs(diffX)<130 {
-                self.service.sendStop()
-                commandIsAllowed = true
-                return
-            }
+//            if abs(diffX)<130 {
+//                self.service.sendStop()
+//                commandIsAllowed = true
+//                return
+//            }
 //            if abs(diffY)<100 {
 //                self.service.sendStop()
 //                x = 0
 //                return
 //            }
 
-            if commandIsAllowed {
-                self.service.moveX(Int32(stepsX*20))
-                commandIsAllowed = false
-            }
+//            if commandIsAllowed {
+//                self.service.moveX(Int32(stepsX*20))
+//                commandIsAllowed = false
+//            }
         }
     }
 

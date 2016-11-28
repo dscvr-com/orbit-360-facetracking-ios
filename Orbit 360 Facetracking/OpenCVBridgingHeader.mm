@@ -50,7 +50,7 @@ NSMutableArray* Detect(Mat input) {
 };
 
 auto fun = std::function<NSMutableArray*(Mat)>(&Detect);
-AsyncStream<Mat, NSMutableArray*> worker(fun);
+AsyncStream<Mat, NSMutableArray*> worker(fun, [NSMutableArray new]);
 
 @implementation FaceDetection
 
