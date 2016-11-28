@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#include <string>
+#include <CoreGraphics/CGGeometry.h>
+#import <UIKit/UIKit.h>
 #include "opencv2/objdetect.hpp"
 #include "opencv2/imgproc.hpp"
 #include "Orbit 360 Facetracking-Bridging-Header.h"
@@ -22,7 +23,7 @@ NSString* filePath = [[NSBundle mainBundle] pathForResource:@"haarcascade_fronta
 const char *face_cascade_name = [filePath UTF8String];
 CascadeClassifier face_cascade;
 
-CGRect Detect(Mat input) {
+NSMutableArray* Detect(Mat input) {
     // detect faces, return rects
     std::vector<cv::Rect> faces;
 
@@ -38,16 +39,18 @@ CGRect Detect(Mat input) {
 
     face_cascade.detectMultiScale( input, faces, 1.1, 2, 0|CASCADE_SCALE_IMAGE, cv::Size(30, 30) );
 
-    CGRect rectangle = CGRectMake(0,0,0,0);
+    NSMutableArray* array = [NSMutableArray new];
     if(faces.size() > 0) {
-        rectangle = CGRectMake(faces[0].x * scale, faces[0].y * scale, faces[0].width * scale, faces[0].height * scale);
-    }
-    return rectangle;
+        for (int i = 0; i < faces.size(); i++) {
 
+            [array addObject:[NSValue valueWithCGRect:CGRectMake(faces[i].x * scale, faces[i].y * scale, faces[i].width * scale, faces[i].height * scale)]];
+        }
+    }
+    return array;
 };
 
-auto fun = std::function<CGRect(Mat)>(&Detect);
-AsyncStream<Mat, CGRect> worker(fun);
+auto fun = std::function<NSMutableArray*(Mat)>(&Detect);
+AsyncStream<Mat, NSMutableArray*> worker(fun);
 
 @implementation FaceDetection
 
@@ -58,7 +61,7 @@ AsyncStream<Mat, CGRect> worker(fun);
 };
 
 
--(CGRect)detectFaces:(void*)buffer: (UInt32) width: (UInt32) height {
+-(NSMutableArray*)detectFaces:(void*)buffer: (UInt32) width: (UInt32) height {
 
     Mat frame_gray(height, width, CV_8UC1);
     cv::cvtColor(

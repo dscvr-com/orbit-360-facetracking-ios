@@ -13,6 +13,7 @@ import AVFoundation
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate{
     var fd = FaceDetection()
     var service: MotorControl!
+    var commandIsAllowed = true
 
     let toolbar = UIToolbar()
 
@@ -201,9 +202,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     func timerUpdate() {
-        x = 0
+        commandIsAllowed = true
     }
-var x = -1
+
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // Here you collect each frame and process it
         timeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
@@ -248,7 +249,12 @@ var x = -1
                 firstRun = false
             }
 
-            let face = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
+            let faces = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
+            let face = faces[0] as! CGRect
+
+
+
+
             if(face.midX == 0 && face.midY == 0) {
                 faceLostCounter += 1
                 print("stop")
@@ -271,25 +277,21 @@ var x = -1
             let stepsX = 5111 * angleX/(M_PI*2)
             let stepsY = 15000 * angleY/(M_PI*2)
             print("StepsX + StepsY: ", stepsX, stepsY)
-            print()
 
             if abs(diffX)<130 {
                 self.service.sendStop()
-                x = 0
+                commandIsAllowed = true
                 return
             }
 //            if abs(diffY)<100 {
-  //              self.service.sendStop()
-    //            x = 0
-      //          return
-        //    }
+//                self.service.sendStop()
+//                x = 0
+//                return
+//            }
 
-            if x == 0 {
+            if commandIsAllowed {
                 self.service.moveX(Int32(stepsX*20))
-                x += 1
-            } else  if x == 2{
-                self.service.moveY(Int32(stepsY))
-                x += 1
+                commandIsAllowed = false
             }
         }
     }

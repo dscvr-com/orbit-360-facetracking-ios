@@ -7,5 +7,5 @@
 
 @interface FaceDetection : NSObject
 -(id)init;
--(CGRect)detectFaces:(void*)buffer: (UInt32) width: (UInt32) height;
+-(NSMutableArray*)detectFaces:(void*)buffer: (UInt32) width: (UInt32) height;
 @end
