@@ -20,6 +20,7 @@
 		E88EF6E01DA6DE080009E99D /* Orbit_360_FacetrackingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6DF1DA6DE080009E99D /* Orbit_360_FacetrackingTests.swift */; };
 		E88EF6EB1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6EA1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift */; };
 		E8D887D21DF5C57700A13F66 /* FaceDetection.mm in Sources */ = {isa = PBXBuildFile; fileRef = E8D887D11DF5C57700A13F66 /* FaceDetection.mm */; };
+		E8D887D51DF5CC0D00A13F66 /* Tracker.mm in Sources */ = {isa = PBXBuildFile; fileRef = E8D887D41DF5CC0D00A13F66 /* Tracker.mm */; };
 		E8F545C41DB7E42300ED5EFE /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F545C31DB7E42300ED5EFE /* TableViewController.swift */; };
 		E8F545C61DB7F2DF00ED5EFE /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F545C51DB7F2DF00ED5EFE /* TableViewCell.swift */; };
 		E8F545C91DB8380700ED5EFE /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8F545C81DB8380700ED5EFE /* opencv2.framework */; };
@@ -65,6 +66,8 @@
 		E88EF6EC1DA6DE080009E99D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8D887D01DF5C39500A13F66 /* FaceDetection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FaceDetection.h; sourceTree = "<group>"; };
 		E8D887D11DF5C57700A13F66 /* FaceDetection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FaceDetection.mm; sourceTree = "<group>"; };
+		E8D887D31DF5CAF400A13F66 /* Tracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tracker.h; sourceTree = "<group>"; };
+		E8D887D41DF5CC0D00A13F66 /* Tracker.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Tracker.mm; sourceTree = "<group>"; };
 		E8F545C31DB7E42300ED5EFE /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		E8F545C51DB7F2DF00ED5EFE /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		E8F545C81DB8380700ED5EFE /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
@@ -204,6 +207,8 @@
 				E843FE4C1DBE32A600C0B855 /* Orbit 360 Facetracking-Bridging-Header.h */,
 				E8D887D01DF5C39500A13F66 /* FaceDetection.h */,
 				E8D887D11DF5C57700A13F66 /* FaceDetection.mm */,
+				E8D887D31DF5CAF400A13F66 /* Tracker.h */,
+				E8D887D41DF5CC0D00A13F66 /* Tracker.mm */,
 			);
 			name = OpenCV;
 			path = ..;
@@ -350,6 +355,7 @@
 			files = (
 				E8D887D21DF5C57700A13F66 /* FaceDetection.mm in Sources */,
 				E827BA151DB5171C005257CB /* BLEDiscovery.swift in Sources */,
+				E8D887D51DF5CC0D00A13F66 /* Tracker.mm in Sources */,
 				E843FE4B1DBDB83F00C0B855 /* MotorControl.swift in Sources */,
 				E81EC93C1DE348F0005330F0 /* IPhoneModel.swift in Sources */,
 				E827BA171DB517DC005257CB /* BLEService.swift in Sources */,

@@ -39,6 +39,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let focalLengthOld = 2.139
     let focalLengthNew = /*3.50021*/ 1.537
     var pixelFocalLength: Double!
+    var filter: Tracker?
 
     override func prefersStatusBarHidden() -> Bool {
         return true
@@ -261,39 +262,45 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     pixelFocalLength = Double(outputSize.height) * focalLengthNew
                     break
                 }
-                firstRun = false
             }
 
             let faces = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
             counter++
             CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
             if(faces.count == 0) {
-                print("stop")
+//                print("stop")
                 return
             }
 
             let face = faces[0].CGRectValue()
-
-
-            print(face)
-            let stopWidthX: Double = 0
-            let stopWidthY: Double = 100
+//            print(face)
 
             let diffX = Double(face.midX) - Double(bufferHeight) / 2
             let diffY = Double(face.midY) - Double(bufferWidth) / 2
-            print("Faceoffset: ", diffX, diffY)
+//            print("Faceoffset: ", diffX, diffY)
 
-            let vectorPercentageX1 = (abs(diffX) - stopWidthX)
-            let vectorPercentageX2 = ((Double(bufferHeight) / 2 - (Double(face.width) / 2)) - stopWidthX)
+            if firstRun {
+                filter = Tracker(Float(diffX), Float(diffY))
+                firstRun = false
+                return
+            }
+            let result = filter!.update(Float(diffX), Float(diffY))
+//            print("Kalmanresult: ", result.x, result.y)
+
+            let vectorPercentageX1 = Double(abs(result.x))
+            let vectorPercentageX2 = Double(bufferHeight) / 2 - (Double(face.width) / 2)
             var vectorPercentageX = vectorPercentageX1 / vectorPercentageX2
             vectorPercentageX = min(1, max(vectorPercentageX, 0))
             var speedX = vectorPercentageX * 1000
 //            print(vectorPercentageX)
 //            print(speedX)
 
+            if(speedX <= 1) {
+                return
+            }
 
-            let angleX = atan2(diffX, pixelFocalLength)
-            let angleY = atan2(diffY, pixelFocalLength)
+            let angleX = atan2(Double(result.x), pixelFocalLength)
+            let angleY = atan2(Double(result.y), pixelFocalLength)
 //            print("AngleX + AngleY: ", angleX*180/M_PI, angleY*180/M_PI)
 
             let stepsX = 5111 * angleX/(M_PI*2)
@@ -304,7 +311,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 return
             }
 
-            let expectedDuration = (1 / speedX) * abs(stepsX);
+            let expectedDuration = (1 / speedX) * abs(stepsX) + 0.5
 
             nextCommandFinished = CFAbsoluteTimeGetCurrent() + expectedDuration
 
@@ -320,6 +327,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //                return
 //            }
 
+            print(Int32(stepsX), Int32(speedX))
             self.service.moveX(Int32(stepsX), speed: Int32(speedX))
 //            if commandIsAllowed {
 //                self.service.moveX(Int32(stepsX), speed: Int32(speedX))
