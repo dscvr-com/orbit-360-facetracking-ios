@@ -18,12 +18,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let toolbar = UIToolbar()
     var isRecording = false
     var isInPhotoMode = false
-    var timer = NSTimer()
 
     var lastMovement = 0
     let steps: Int32 = 500
-    var faceLostCounter = 0
     var firstRun = true
+    var nextCommandFinished: CFAbsoluteTime = 0
 
     var outputSize: CGSize!
     var timeStamp: CMTime!
@@ -36,7 +35,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var imageOutput = AVCaptureStillImageOutput()
 
     let focalLengthOld = 2.139
-    let focalLengthNew = 3.50021
+    let focalLengthNew = /*3.50021*/ 1.537
     var pixelFocalLength: Double!
 
     override func prefersStatusBarHidden() -> Bool {
@@ -60,7 +59,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         toolbar.items = [videoFoto, playPause]
         toolbar.setItems(toolbar.items, animated: true)
         self.view.addSubview(toolbar)
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(CameraViewController.timerUpdate), userInfo: nil, repeats: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -213,11 +211,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
 
-    func timerUpdate() {
-        commandIsAllowed = true
-    }
-
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
+
         // Here you collect each frame and process it
         timeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
 
@@ -264,50 +259,51 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let faces = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
             CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
             if(faces.count == 0) {
-                faceLostCounter += 1
                 print("stop")
-                if faceLostCounter > 2 {
-                    self.service.sendStop()
-                }
                 return
             }
+
             let face = faces[0].CGRectValue()
 
-//            print(face)
-            faceLostCounter = 0
-            let stopWidthX: Double = 10
+
+            print(face)
+            let stopWidthX: Double = 0
             let stopWidthY: Double = 100
 
             let diffX = Double(face.midX) - Double(bufferHeight) / 2
             let diffY = Double(face.midY) - Double(bufferWidth) / 2
-//            print("Faceoffset: ", diffX, diffY)
-            let xright = Double(face.minX) - Double(bufferHeight) / 2
-            let xleft = Double(face.maxX) - Double(bufferHeight) / 2
-            var diffXmax = diffX < 0 ? xright : xleft
-            if (diffX < Double(bufferHeight) / 5) {
-                diffXmax = diffX
-            }
+            print("Faceoffset: ", diffX, diffY)
 
-            var vectorPercentageX = (abs(diffXmax) - stopWidthX) / ((Double(bufferHeight) / 2) - stopWidthX)
-            vectorPercentageX = min(0.7, max(vectorPercentageX, 0))
+            let vectorPercentageX1 = (abs(diffX) - stopWidthX)
+            let vectorPercentageX2 = ((Double(bufferHeight) / 2 - (Double(face.width) / 2)) - stopWidthX)
+            var vectorPercentageX = vectorPercentageX1 / vectorPercentageX2
+            vectorPercentageX = min(1, max(vectorPercentageX, 0))
             var speedX = vectorPercentageX * 1000
-            print(vectorPercentageX)
-            print(speedX)
+//            print(vectorPercentageX)
+//            print(speedX)
 
 
             let angleX = atan2(diffX, pixelFocalLength)
             let angleY = atan2(diffY, pixelFocalLength)
-//            print("AngleX + AngleY: ", angleX, angleY)
+//            print("AngleX + AngleY: ", angleX*180/M_PI, angleY*180/M_PI)
 
             let stepsX = 5111 * angleX/(M_PI*2)
-            let stepsY = 15000 * angleY/(M_PI*2)
+            let stepsY = 17820 * angleY/(M_PI*2)
 //            print("StepsX + StepsY: ", stepsX, stepsY)
 
-            if (abs(diffX) < stopWidthX) {
-                self.service.sendStop()
-                commandIsAllowed = true
+            if(CFAbsoluteTimeGetCurrent() < nextCommandFinished) {
                 return
             }
+
+            let expectedDuration = (1 / speedX) * abs(stepsX);
+
+            nextCommandFinished = CFAbsoluteTimeGetCurrent() + expectedDuration
+
+//            if (abs(diffX) < stopWidthX) {
+//                self.service.sendStop()
+//                commandIsAllowed = true
+//                return
+//            }
 
 //            if (abs(diffY) < stopWidthY) {
 //                self.service.sendStop()
@@ -315,10 +311,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //                return
 //            }
 
-            if commandIsAllowed {
-                self.service.moveX(Int32(stepsX*20), speed: Int32(speedX))
-                commandIsAllowed = false
-            }
+            self.service.moveX(Int32(stepsX), speed: Int32(speedX))
+//            if commandIsAllowed {
+//                self.service.moveX(Int32(stepsX), speed: Int32(speedX))
+//                commandIsAllowed = false
+//            }
         }
     }
 
