@@ -23,6 +23,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let steps: Int32 = 500
     var firstRun = true
     var nextCommandFinished: CFAbsoluteTime = 0
+    var timer: NSTimer!
+    var counter = 0
 
     var outputSize: CGSize!
     var timeStamp: CMTime!
@@ -45,6 +47,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override func viewDidLoad() {
         setupCameraSession()
         super.viewDidLoad()
+        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(CameraViewController.timerUpdate), userInfo: nil, repeats: true)
+    }
+
+    func timerUpdate() {
+        print("FPS:", counter)
+        counter = 0
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -257,6 +265,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
 
             let faces = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
+            counter++
             CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
             if(faces.count == 0) {
                 print("stop")
