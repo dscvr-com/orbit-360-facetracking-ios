@@ -33,6 +33,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var dataOutput = AVCaptureVideoDataOutput()
     var audioWriterInput: AVAssetWriterInput!
     var audioOutput = AVCaptureAudioDataOutput()
+    var imageOutput = AVCaptureStillImageOutput()
 
     let focalLengthOld = 2.139
     let focalLengthNew = 3.50021
@@ -126,6 +127,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
             if (cameraSession.canAddOutput(audioOutput) == true) {
                 cameraSession.addOutput(audioOutput)
+            }
+            if (cameraSession.canAddOutput(imageOutput) == true) {
+                cameraSession.addOutput(imageOutput)
             }
             cameraSession.commitConfiguration()
             let queue = dispatch_queue_create("videoQueue", DISPATCH_QUEUE_SERIAL)
@@ -263,47 +267,67 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 faceLostCounter += 1
                 print("stop")
                 if faceLostCounter > 2 {
-//                    self.service.sendStop()
+                    self.service.sendStop()
                 }
                 return
             }
             let face = faces[0].CGRectValue()
 
-            print(face)
+//            print(face)
             faceLostCounter = 0
+            let stopWidthX: Double = 10
+            let stopWidthY: Double = 100
 
             let diffX = Double(face.midX) - Double(bufferHeight) / 2
             let diffY = Double(face.midY) - Double(bufferWidth) / 2
-            print("Faceoffset: ", diffX, diffY)
+//            print("Faceoffset: ", diffX, diffY)
+            let xright = Double(face.minX) - Double(bufferHeight) / 2
+            let xleft = Double(face.maxX) - Double(bufferHeight) / 2
+            var diffXmax = diffX < 0 ? xright : xleft
+            if (diffX < Double(bufferHeight) / 5) {
+                diffXmax = diffX
+            }
+
+            var vectorPercentageX = (abs(diffXmax) - stopWidthX) / ((Double(bufferHeight) / 2) - stopWidthX)
+            vectorPercentageX = min(0.7, max(vectorPercentageX, 0))
+            var speedX = vectorPercentageX * 1000
+            print(vectorPercentageX)
+            print(speedX)
+
 
             let angleX = atan2(diffX, pixelFocalLength)
             let angleY = atan2(diffY, pixelFocalLength)
-            print("AngleX + AngleY: ", angleX, angleY)
+//            print("AngleX + AngleY: ", angleX, angleY)
 
             let stepsX = 5111 * angleX/(M_PI*2)
             let stepsY = 15000 * angleY/(M_PI*2)
-            print("StepsX + StepsY: ", stepsX, stepsY)
+//            print("StepsX + StepsY: ", stepsX, stepsY)
 
-//            if abs(diffX)<130 {
+            if (abs(diffX) < stopWidthX) {
+                self.service.sendStop()
+                commandIsAllowed = true
+                return
+            }
+
+//            if (abs(diffY) < stopWidthY) {
 //                self.service.sendStop()
 //                commandIsAllowed = true
 //                return
 //            }
-//            if abs(diffY)<100 {
-//                self.service.sendStop()
-//                x = 0
-//                return
-//            }
 
-//            if commandIsAllowed {
-//                self.service.moveX(Int32(stepsX*20))
-//                commandIsAllowed = false
-//            }
+            if commandIsAllowed {
+                self.service.moveX(Int32(stepsX*20), speed: Int32(speedX))
+                commandIsAllowed = false
+            }
         }
     }
 
     func captureOutput(captureOutput: AVCaptureOutput!, didDropSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // Here you can count how many frames are dopped
     }
-    
+
+    func captureStillImageAsynchronously(from connection: AVCaptureConnection!, completionHandler handler: ((CMSampleBuffer?, NSError?) -> Void)!) {
+        
+    }
+
 }
