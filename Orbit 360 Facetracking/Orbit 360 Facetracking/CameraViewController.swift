@@ -13,9 +13,9 @@ import AVFoundation
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate{
     var fd = FaceDetection()
     var service: MotorControl!
-    var commandIsAllowed = true
 
     let toolbar = UIToolbar()
+    var playPause: UIBarButtonItem!
     var isRecording = false
     var isInPhotoMode = false
 
@@ -61,8 +61,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         view.layer.addSublayer(previewLayer)
         cameraSession.startRunning()
 
-        let playPause = UIBarButtonItem(title: "Play/Pause", style: .Plain, target: self, action: #selector(CameraViewController.startStopRecording))
-        let videoFoto = UIBarButtonItem(title: "Video/Foto", style: .Plain, target: self, action: #selector(CameraViewController.videoFoto))
+        let videoFoto = UIBarButtonItem(title: "\u{1F4F9}", style: .Plain, target: self, action: nil)
+        playPause = UIBarButtonItem(title: "\u{25B6}", style: .Plain, target: self, action: #selector(CameraViewController.startStopRecording))
+        let takePhoto = UIBarButtonItem(title: "takePhoto", style: .Plain, target: self, action: #selector(CameraViewController.takePhoto))
         toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
         toolbar.barStyle = .Black
         toolbar.items = [videoFoto, playPause]
@@ -200,6 +201,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             videoWriter.startWriting()
             videoWriter.startSessionAtSourceTime(timeStamp)
             isRecording = true
+            playPause.setTitleTextAttributes(<#T##attributes: [String : AnyObject]?##[String : AnyObject]?#>, forState: <#T##UIControlState#>)
         } else {
             /*
              Finished video recording and export to photo roll.
@@ -207,17 +209,35 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             isRecording = false
             videoWriter.finishWritingWithCompletionHandler({})
             UISaveVideoAtPathToSavedPhotosAlbum(videoOutputURL.path!, nil, nil, nil)
+
         }
     }
 
-    func videoFoto() {
-        if isInPhotoMode {
+    func takePhoto() {
+        let connection = self.imageOutput.connectionWithMediaType(AVMediaTypeVideo)
+        connection.videoOrientation = AVCaptureVideoOrientation(rawValue: UIDevice.currentDevice().orientation.rawValue)!
+        self.imageOutput.captureStillImageAsynchronouslyFromConnection(connection) {
+            (imageDataSampleBuffer, error) -> Void in
+            if error == nil {
+                // if the session preset .Photo is used, or if explicitly set in the device's outputSettings
+                // we get the data already compressed as JPEG
+                let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
 
-            isInPhotoMode = false
-        } else {
-
-            isInPhotoMode = true
+                if let image = UIImage(data: imageData) {
+                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                }
+            }
+            else {
+                NSLog("error while capturing still image: \(error)")
+            }
         }
+//        if (isInPhotoMode == false) {
+//
+//            isInPhotoMode = true
+//        } else {
+//
+//            isInPhotoMode = false
+//        }
     }
 
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
@@ -265,10 +285,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
 
             let faces = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
-            counter++
+            counter += 1
             CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
             if(faces.count == 0) {
-//                print("stop")
                 return
             }
 
@@ -315,24 +334,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
             nextCommandFinished = CFAbsoluteTimeGetCurrent() + expectedDuration
 
-//            if (abs(diffX) < stopWidthX) {
-//                self.service.sendStop()
-//                commandIsAllowed = true
-//                return
-//            }
-
-//            if (abs(diffY) < stopWidthY) {
-//                self.service.sendStop()
-//                commandIsAllowed = true
-//                return
-//            }
-
             print(Int32(stepsX), Int32(speedX))
             self.service.moveX(Int32(stepsX), speed: Int32(speedX))
-//            if commandIsAllowed {
-//                self.service.moveX(Int32(stepsX), speed: Int32(speedX))
-//                commandIsAllowed = false
-//            }
         }
     }
 
