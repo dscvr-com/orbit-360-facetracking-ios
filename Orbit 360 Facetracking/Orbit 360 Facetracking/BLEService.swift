@@ -11,8 +11,8 @@ import CoreBluetooth
 
 // Services & Characteristics UUIDs
 // TODO EJ - pass from outside via constructor 
-let BLEServiceUUID = CBUUID(string: "1000")
-let BLECharacteristicUUID = CBUUID(string: "1001")
+let BLEServiceUUID = CBUUID(string: "69400001-B5A3-F393-E0A9-E50E24DCCA99")
+let BLECharacteristicUUID = CBUUID(string: "69400002-B5A3-F393-E0A9-E50E24DCCA99")
 
 class BTService: NSObject, CBPeripheralDelegate {
     var peripheral: CBPeripheral?

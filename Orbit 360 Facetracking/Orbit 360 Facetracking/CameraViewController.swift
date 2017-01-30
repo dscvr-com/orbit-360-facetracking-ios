@@ -15,9 +15,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var service: MotorControl!
 
     let toolbar = UIToolbar()
-    var playPause: UIBarButtonItem!
+    var switchToPhoto: UIBarButtonItem!
+    var switchToVideo: UIBarButtonItem!
+    var recordVideo: UIBarButtonItem!
+    var stopVideo: UIBarButtonItem!
     var isRecording = false
-    var isInPhotoMode = false
 
     var lastMovement = 0
     let steps: Int32 = 500
@@ -61,12 +63,14 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         view.layer.addSublayer(previewLayer)
         cameraSession.startRunning()
 
-        let videoFoto = UIBarButtonItem(title: "\u{1F4F9}", style: .Plain, target: self, action: nil)
-        playPause = UIBarButtonItem(title: "\u{25B6}", style: .Plain, target: self, action: #selector(CameraViewController.startStopRecording))
-        let takePhoto = UIBarButtonItem(title: "takePhoto", style: .Plain, target: self, action: #selector(CameraViewController.takePhoto))
+        switchToPhoto = UIBarButtonItem(title: "\u{1F4F9}", style: .Plain, target: self, action: #selector(CameraViewController.toPhoto))
+        switchToVideo = UIBarButtonItem(title: "\u{1F4F7}", style: .Plain, target: self, action: #selector(CameraViewController.toVideo))
+        recordVideo = UIBarButtonItem(title: "\u{25B6}", style: .Plain, target: self, action: #selector(CameraViewController.startRecording))
+        stopVideo = UIBarButtonItem(title: "\u{25A0}", style: .Plain, target: self, action: #selector(CameraViewController.stopRecording))
+
         toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
         toolbar.barStyle = .Black
-        toolbar.items = [videoFoto, playPause]
+        toolbar.items = [switchToPhoto, recordVideo]
         toolbar.setItems(toolbar.items, animated: true)
         self.view.addSubview(toolbar)
     }
@@ -89,11 +93,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         preview.videoGravity = AVLayerVideoGravityResizeAspectFill
         return preview
     }()
+    var captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
 
     /* Sets up in and outputs for the camerasession */
     func setupCameraSession() {
         let avaiableCameras = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
-        var captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
+//        var captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
         let audioDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
 
         for element in avaiableCameras{
@@ -150,72 +155,75 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
 
-    func startStopRecording() {
-        if (isRecording == false) {
-            /*
-             Get path to the Outputfile in the DocumentDirectory of the App and delete previously created files.
-             */
-            let fileManager = NSFileManager.defaultManager()
-            let urls = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-            guard let documentDirectory: NSURL = urls.first else {
-                fatalError("documentDir Error")
-            }
-            videoOutputURL = documentDirectory.URLByAppendingPathComponent("OutputVideo.mp4")
-            if NSFileManager.defaultManager().fileExistsAtPath(videoOutputURL.path!) {
-                do {
-                    try NSFileManager.defaultManager().removeItemAtPath(videoOutputURL.path!)
-                } catch {
-                    fatalError("Unable to delete file: \(error) : \(#function).")
-                }
-            }
-
-            /* 
-             Initiate new AVAssetWriter to record Video + Audio.
-             */
-            videoWriter = try? AVAssetWriter(URL: videoOutputURL, fileType: AVFileTypeMPEG4)
-            let outputSettings = [AVVideoCodecKey : AVVideoCodecH264,
-                                  AVVideoWidthKey : NSNumber(float: Float(outputSize.width)),
-                                  AVVideoHeightKey : NSNumber(float: Float(outputSize.height))]
-            guard videoWriter.canApplyOutputSettings(outputSettings, forMediaType: AVMediaTypeVideo) else {
-                fatalError("Negative : Can't apply the Output settings...")
-            }
-            videoWriterInput = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: outputSettings)
-            videoWriterInput.transform = CGAffineTransformMakeRotation(CGFloat(M_PI * 90 / 180.0))
-            if videoWriter.canAddInput(videoWriterInput) {
-                videoWriter.addInput(videoWriterInput)
-            }
-            videoWriterInput.expectsMediaDataInRealTime = true
-            var acl = AudioChannelLayout()
-            acl.mChannelLayoutTag = kAudioChannelLayoutTag_Mono
-            let audioOutputSettings = [
-                AVFormatIDKey : Int(kAudioFormatMPEG4AAC),
-                AVNumberOfChannelsKey : Int(1),
-                AVSampleRateKey : Int(44100.0),
-                AVEncoderBitRateKey : Int(64000),
-            ]
-            audioWriterInput = AVAssetWriterInput(mediaType: AVMediaTypeAudio, outputSettings: audioOutputSettings)
-            audioWriterInput.expectsMediaDataInRealTime = true
-            if videoWriter.canAddInput(audioWriterInput) {
-                videoWriter.addInput(audioWriterInput)
-            }
-            videoWriter.startWriting()
-            videoWriter.startSessionAtSourceTime(timeStamp)
-            isRecording = true
-            playPause.setTitleTextAttributes(<#T##attributes: [String : AnyObject]?##[String : AnyObject]?#>, forState: <#T##UIControlState#>)
-        } else {
-            /*
-             Finished video recording and export to photo roll.
-             */
-            isRecording = false
-            videoWriter.finishWritingWithCompletionHandler({})
-            UISaveVideoAtPathToSavedPhotosAlbum(videoOutputURL.path!, nil, nil, nil)
-
+    func startRecording() {
+        /*
+         Get path to the Outputfile in the DocumentDirectory of the App and delete previously created files.
+         */
+        let fileManager = NSFileManager.defaultManager()
+        let urls = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+        guard let documentDirectory: NSURL = urls.first else {
+            fatalError("documentDir Error")
         }
+        videoOutputURL = documentDirectory.URLByAppendingPathComponent("OutputVideo.mp4")
+        if NSFileManager.defaultManager().fileExistsAtPath(videoOutputURL.path!) {
+            do {
+                try NSFileManager.defaultManager().removeItemAtPath(videoOutputURL.path!)
+            } catch {
+                fatalError("Unable to delete file: \(error) : \(#function).")
+            }
+        }
+
+        /* 
+         Initiate new AVAssetWriter to record Video + Audio.
+         */
+        videoWriter = try? AVAssetWriter(URL: videoOutputURL, fileType: AVFileTypeMPEG4)
+        let outputSettings = [AVVideoCodecKey : AVVideoCodecH264,
+                              AVVideoWidthKey : NSNumber(float: Float(outputSize.width)),
+                              AVVideoHeightKey : NSNumber(float: Float(outputSize.height))]
+        guard videoWriter.canApplyOutputSettings(outputSettings, forMediaType: AVMediaTypeVideo) else {
+            fatalError("Negative : Can't apply the Output settings...")
+        }
+        videoWriterInput = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: outputSettings)
+        videoWriterInput.transform = CGAffineTransformMakeRotation(CGFloat(M_PI * 90 / 180.0))
+        if videoWriter.canAddInput(videoWriterInput) {
+            videoWriter.addInput(videoWriterInput)
+        }
+        videoWriterInput.expectsMediaDataInRealTime = true
+        var acl = AudioChannelLayout()
+        acl.mChannelLayoutTag = kAudioChannelLayoutTag_Mono
+        let audioOutputSettings = [
+            AVFormatIDKey : Int(kAudioFormatMPEG4AAC),
+            AVNumberOfChannelsKey : Int(1),
+            AVSampleRateKey : Int(44100.0),
+            AVEncoderBitRateKey : Int(64000),
+        ]
+        audioWriterInput = AVAssetWriterInput(mediaType: AVMediaTypeAudio, outputSettings: audioOutputSettings)
+        audioWriterInput.expectsMediaDataInRealTime = true
+        if videoWriter.canAddInput(audioWriterInput) {
+            videoWriter.addInput(audioWriterInput)
+        }
+        videoWriter.startWriting()
+        videoWriter.startSessionAtSourceTime(timeStamp)
+        toolbar.items = [switchToPhoto, stopVideo]
+        isRecording = true
     }
 
-    func takePhoto() {
+    func stopRecording() {
+        /*
+         Finished video recording and export to photo roll.
+         */
+        isRecording = false
+        videoWriter.finishWritingWithCompletionHandler({})
+        UISaveVideoAtPathToSavedPhotosAlbum(videoOutputURL.path!, nil, nil, nil)
+        toolbar.items = [switchToPhoto, recordVideo]
+    }
+
+    func toPhoto() {
+        toolbar.items = [switchToVideo]
+//        cameraSession.sessionPreset = AVCaptureSessionPresetPhoto
         let connection = self.imageOutput.connectionWithMediaType(AVMediaTypeVideo)
         connection.videoOrientation = AVCaptureVideoOrientation(rawValue: UIDevice.currentDevice().orientation.rawValue)!
+
         self.imageOutput.captureStillImageAsynchronouslyFromConnection(connection) {
             (imageDataSampleBuffer, error) -> Void in
             if error == nil {
@@ -231,13 +239,13 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 NSLog("error while capturing still image: \(error)")
             }
         }
-//        if (isInPhotoMode == false) {
-//
-//            isInPhotoMode = true
-//        } else {
-//
-//            isInPhotoMode = false
-//        }
+
+    }
+
+    func toVideo() {
+//        cameraSession.sessionPreset = AVCaptureSessionPresetHigh
+        toolbar.items = [switchToPhoto, recordVideo]
+
     }
 
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
