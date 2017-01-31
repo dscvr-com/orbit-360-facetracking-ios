@@ -322,7 +322,13 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            print(vectorPercentageX)
 //            print(speedX)
 
-            if(speedX <= 1) {
+            let vectorPercentageY1 = Double(abs(result.y))
+            let vectorPercentageY2 = Double(bufferWidth) / 2 - (Double(face.height) / 2)
+            var vectorPercentageY = vectorPercentageY1 / vectorPercentageY2
+            vectorPercentageY = min(1, max(vectorPercentageY, 0))
+            var speedY = vectorPercentageY * 1000
+
+            if(speedX <= 1 && speedY <= 1) {
                 return
             }
 
@@ -334,16 +340,17 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let stepsY = 17820 * angleY/(M_PI*2)
 //            print("StepsX + StepsY: ", stepsX, stepsY)
 
-            if(CFAbsoluteTimeGetCurrent() < nextCommandFinished) {
-                return
-            }
+//            if(CFAbsoluteTimeGetCurrent() < nextCommandFinished) {
+//                return
+//            }
 
             let expectedDuration = (1 / speedX) * abs(stepsX) + 0.5
 
             nextCommandFinished = CFAbsoluteTimeGetCurrent() + expectedDuration
 
             print(Int32(stepsX), Int32(speedX))
-            self.service.moveX(Int32(stepsX), speed: Int32(speedX))
+            //self.service.moveX(Int32(-stepsX), speed: Int32(speedX))
+            self.service.moveXandY(Int32(-stepsX), speedX: Int32(speedX), stepsY: Int32(stepsY), speedY: Int32(speedY))
         }
     }
 

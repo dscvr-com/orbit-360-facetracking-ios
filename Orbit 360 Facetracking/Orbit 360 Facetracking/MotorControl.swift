@@ -53,25 +53,24 @@ class MotorControl: NSObject {
         sendCommand(0x01, data: command)
     }
     
-    func moveY(steps: Int32) {
+    func moveY(steps: Int32, speed: Int32) {
         var command = toByteArray(steps)
         command = command.reverse()
-        command.append(0x03)
-        command.append(0xE8)
+        command.append(UInt8((speed >> 8) & 0xFF))
+        command.append(UInt8(speed & 0xFF))
         command.append(0x00)
         sendCommand(0x02, data: command)
     }
     
-    func moveXandY(stepsX: Int32, stepsY: Int32) {
+    func moveXandY(stepsX: Int32, speedX: Int32, stepsY: Int32, speedY: Int32) {
         var command = toByteArray(stepsX)
         command = command.reverse()
-        command.append(0x03)
-        command.append(0xE8)
-        command.append(0x00)
+        command.append(UInt8((speedX >> 8) & 0xFF))
+        command.append(UInt8(speedX & 0xFF))
         var commandYpart = toByteArray(stepsY)
         commandYpart = commandYpart.reverse()
-        commandYpart.append(0x03)
-        commandYpart.append(0xE8)
+        commandYpart.append(UInt8((speedY >> 8) & 0xFF))
+        commandYpart.append(UInt8(speedY & 0xFF))
         commandYpart.append(0x00)
         command.appendContentsOf(commandYpart)
         sendCommand(0x03, data: command)

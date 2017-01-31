@@ -39,6 +39,11 @@ class BLETableViewController: UITableViewController {
             self.tableView.reloadData()
         });
         // Show in list.
+//        for i in btDevices { //check for double entry bug?
+//            if (i.name == device.name) {
+//                return
+//            }
+//        }
         self.btDevices = self.btDevices + [device]
     }
     
@@ -56,7 +61,6 @@ class BLETableViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if (segue.identifier == "cameraSegue") {
             let secondViewController = segue.destinationViewController as! CameraViewController
-            
             secondViewController.service = btMotorControl
         }
     }
