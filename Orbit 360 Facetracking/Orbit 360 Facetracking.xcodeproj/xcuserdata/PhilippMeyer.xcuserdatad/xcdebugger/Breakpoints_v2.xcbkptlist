@@ -143,8 +143,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "46"
             endingLineNumber = "46"
-            landmarkName = "peripheral(_:didDiscoverServices:)"
-            landmarkType = "5">
+            landmarkName = "peripheral(peripheral:didDiscoverServices:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -159,8 +159,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
             endingLineNumber = "69"
-            landmarkName = "peripheral(_:didDiscoverCharacteristicsForService:error:)"
-            landmarkType = "5">
+            landmarkName = "peripheral(peripheral:didDiscoverCharacteristicsForService:error:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -175,8 +175,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "70"
             endingLineNumber = "70"
-            landmarkName = "peripheral(_:didDiscoverCharacteristicsForService:error:)"
-            landmarkType = "5">
+            landmarkName = "peripheral(peripheral:didDiscoverCharacteristicsForService:error:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -414,7 +414,7 @@
             startingLineNumber = "23"
             endingLineNumber = "23"
             landmarkName = "init(initWithPeripheral:onServiceConnected:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -430,7 +430,7 @@
             startingLineNumber = "35"
             endingLineNumber = "35"
             landmarkName = "startDiscoveringServices()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -445,8 +445,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "45"
             endingLineNumber = "45"
-            landmarkName = "peripheral(_:didDiscoverServices:)"
-            landmarkType = "5">
+            landmarkName = "peripheral(peripheral:didDiscoverServices:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -526,7 +526,7 @@
             startingLineNumber = "31"
             endingLineNumber = "31"
             landmarkName = "deinit"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -908,7 +908,7 @@
             startingLineNumber = "115"
             endingLineNumber = "115"
             landmarkName = "UIDevice"
-            landmarkType = "3">
+            landmarkType = "4">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

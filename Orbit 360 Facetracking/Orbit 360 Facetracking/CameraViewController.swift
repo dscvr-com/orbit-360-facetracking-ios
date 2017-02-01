@@ -42,6 +42,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let focalLengthNew = /*3.50021*/ 1.537
     var pixelFocalLength: Double!
     var filter: Tracker?
+    var lastMovementTime = CFAbsoluteTimeGetCurrent()
+    
+    var faceBorder: UILabel?
 
     override func prefersStatusBarHidden() -> Bool {
         return true
@@ -51,10 +54,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setupCameraSession()
         super.viewDidLoad()
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(CameraViewController.timerUpdate), userInfo: nil, repeats: true)
+        
     }
 
     func timerUpdate() {
-        print("FPS:", counter)
+        //print("FPS:", counter)
         counter = 0
     }
 
@@ -73,6 +77,13 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         toolbar.items = [switchToPhoto, recordVideo]
         toolbar.setItems(toolbar.items, animated: true)
         self.view.addSubview(toolbar)
+        
+        
+        faceBorder = UILabel(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 0, height: 0)))
+        faceBorder?.backgroundColor = UIColor.redColor()
+        
+        self.view.addSubview(faceBorder!)
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -295,62 +306,79 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let faces = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
             counter += 1
             CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
-            if(faces.count == 0) {
-                return
+            
+            
+            let currentTime = CFAbsoluteTimeGetCurrent()
+            
+            if(faces.count > 0) {
+                
+                let face = faces[0].CGRectValue()
+    //            print(face)
+
+                let diffX = -(Double(face.midX) - Double(bufferHeight) / 2)
+                let diffY = Double(face.midY) - Double(bufferWidth) / 2
+    //            print("Faceoffset: ", diffX, diffY)
+
+                if firstRun {
+                    filter = Tracker(Float(diffX), Float(diffY))
+                    lastMovementTime = CFAbsoluteTimeGetCurrent()
+                    firstRun = false
+                    return
+                }
+                filter!.correct(Float(diffX), Float(diffY))
+                
+                let x = (CGFloat(bufferHeight) - face.midX) / CGFloat(bufferHeight) * self.view.frame.size.width;
+                let y = face.midY / CGFloat(bufferWidth) * self.view.frame.size.height;
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    //print("X: \(Int(x)), Y: \(Int(y))")
+                    
+
+                    self.faceBorder?.frame = CGRect(x: x, y: y, width: 10, height: 10)
+                }
+            } else if(!firstRun) {
+                filter!.correct(Float(0), Float(0))
             }
+            if(!firstRun) {
+                let result = filter!.predict()
+                
+                print("ResultX: \(Int(result.x)), ResultY: \(Int(result.y)), ResultDX: \(Int(result.vx)), ResultDY: \(Int(result.vy))")
 
-            let face = faces[0].CGRectValue()
-//            print(face)
+                let angleX = atan2(Double(result.x), pixelFocalLength) / 2
+                let angleY = atan2(Double(result.y), pixelFocalLength) / 2
+    //            print("AngleX + AngleY: ", angleX*180/M_PI, angleY*180/M_PI)
 
-            let diffX = Double(face.midX) - Double(bufferHeight) / 2
-            let diffY = Double(face.midY) - Double(bufferWidth) / 2
-//            print("Faceoffset: ", diffX, diffY)
+                let stepsX = 5111 * angleX/(M_PI*2)
+                let stepsY = 17820 * angleY/(M_PI*2)
+                
+                let dt = currentTime - lastMovementTime
+                
+                var speedX = abs(stepsX) / dt
+                var speedY = abs(stepsY) / dt
+                
+                if(speedX > 1000) {
+                    speedX = 1000
+                }
+                
+                if(speedY > 1000) {
+                    speedY = 1000
+                }
+                
+    //            if(CFAbsoluteTimeGetCurrent() < nextCommandFinished) {
+    //                return
+    //            }
+    //
+    //            let expectedDuration = (1 / Double(speedX)) * abs(stepsX) + 0.5
 
-            if firstRun {
-                filter = Tracker(Float(diffX), Float(diffY))
-                firstRun = false
-                return
+    //            nextCommandFinished = CFAbsoluteTimeGetCurrent() + expectedDuration
+
+      //          self.service.moveX(Int32(-stepsX), speed: Int32(speedX))
+                if(abs(stepsX) > 5 || abs(stepsY) > 5) {
+                    //print("StepsX: \(Int32(-stepsX)), StepsY: \(Int32(stepsY)), SpeedX: \(Int32(speedX)), SPeedY: \(Int32(speedY))")
+                    self.service.moveXandY(Int32(stepsX), speedX: Int32(speedX), stepsY: Int32(stepsY), speedY: Int32(speedY))
+                }
             }
-            let result = filter!.update(Float(diffX), Float(diffY))
-//            print("Kalmanresult: ", result.x, result.y)
-
-            let vectorPercentageX1 = Double(abs(result.x))
-            let vectorPercentageX2 = Double(bufferHeight) / 2 - (Double(face.width) / 2)
-            var vectorPercentageX = vectorPercentageX1 / vectorPercentageX2
-            vectorPercentageX = min(1, max(vectorPercentageX, 0))
-            var speedX = vectorPercentageX * 1000
-//            print(vectorPercentageX)
-//            print(speedX)
-
-            let vectorPercentageY1 = Double(abs(result.y))
-            let vectorPercentageY2 = Double(bufferWidth) / 2 - (Double(face.height) / 2)
-            var vectorPercentageY = vectorPercentageY1 / vectorPercentageY2
-            vectorPercentageY = min(1, max(vectorPercentageY, 0))
-            var speedY = vectorPercentageY * 1000
-
-            if(speedX <= 1 && speedY <= 1) {
-                return
-            }
-
-            let angleX = atan2(Double(result.x), pixelFocalLength)
-            let angleY = atan2(Double(result.y), pixelFocalLength)
-//            print("AngleX + AngleY: ", angleX*180/M_PI, angleY*180/M_PI)
-
-            let stepsX = 5111 * angleX/(M_PI*2)
-            let stepsY = 17820 * angleY/(M_PI*2)
-//            print("StepsX + StepsY: ", stepsX, stepsY)
-
-//            if(CFAbsoluteTimeGetCurrent() < nextCommandFinished) {
-//                return
-//            }
-
-            let expectedDuration = (1 / speedX) * abs(stepsX) + 0.5
-
-            nextCommandFinished = CFAbsoluteTimeGetCurrent() + expectedDuration
-
-            print(Int32(stepsX), Int32(speedX))
-            //self.service.moveX(Int32(-stepsX), speed: Int32(speedX))
-            self.service.moveXandY(Int32(-stepsX), speedX: Int32(speedX), stepsY: Int32(stepsY), speedY: Int32(speedY))
+            lastMovementTime = currentTime
         }
     }
 

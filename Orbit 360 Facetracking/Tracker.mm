@@ -36,19 +36,15 @@ float transistionMat[] = {
     filter.statePre.at<float>(2) = 0;
     filter.statePre.at<float>(3) = 0;
     setIdentity(filter.measurementMatrix);
-    setIdentity(filter.processNoiseCov, Scalar::all(1e-2));
-    setIdentity(filter.measurementNoiseCov, Scalar::all(1e-2));
+    setIdentity(filter.processNoiseCov, Scalar::all(1e-6));
+    setIdentity(filter.measurementNoiseCov, Scalar::all(1e-1));
     setIdentity(filter.errorCovPost, Scalar::all(.1));
     return self;
 };
 
--(TrackerState) update: (float)x :(float) y {
-    filter.predict();
-    Mat measurement(2, 1, CV_32F);
-    measurement.at<float>(0) = x;
-    measurement.at<float>(1) = y;
-
-    Mat estimate = filter.correct(measurement);
+-(TrackerState) predict {
+    
+    Mat estimate = filter.predict();
 
     TrackerState res;
     res.x = estimate.at<float>(0);
@@ -59,6 +55,20 @@ float transistionMat[] = {
     return res;
 }
 
-
+-(TrackerState) correct: (float)x :(float) y {
+    Mat measurement(2, 1, CV_32F);
+    measurement.at<float>(0) = x;
+    measurement.at<float>(1) = y;
+    
+    Mat estimate = filter.correct(measurement);
+    
+    TrackerState res;
+    res.x = estimate.at<float>(0);
+    res.y = estimate.at<float>(1);
+    res.vx = estimate.at<float>(2);
+    res.vy = estimate.at<float>(3);
+    
+    return res;
+}
 @end
 

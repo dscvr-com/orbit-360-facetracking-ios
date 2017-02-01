@@ -18,7 +18,8 @@ struct TrackerState {
 
 @interface Tracker : NSObject
     - (id) init: (float)x :(float) y;
-    - (struct TrackerState) update: (float)x :(float) y;
+    - (struct TrackerState) predict;
+    - (struct TrackerState) correct: (float)x :(float) y;
 @end
 
 #endif /* Tracker_h */
