@@ -43,7 +43,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var pixelFocalLength: Double!
     var filter: Tracker?
     var lastMovementTime = CFAbsoluteTimeGetCurrent()
-    
     var faceBorder: UILabel?
 
     override func prefersStatusBarHidden() -> Bool {
@@ -310,6 +309,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             
             let currentTime = CFAbsoluteTimeGetCurrent()
             
+            let dt = currentTime - lastMovementTime
+            
+            var result = TrackerState()
+            
             if(faces.count > 0) {
                 
                 let face = faces[0].CGRectValue()
@@ -325,7 +328,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     firstRun = false
                     return
                 }
-                filter!.correct(Float(diffX), Float(diffY))
+                result = filter!.correct(Float(diffX), Float(diffY), Float(dt))
                 
                 let x = (CGFloat(bufferHeight) - face.midX) / CGFloat(bufferHeight) * self.view.frame.size.width;
                 let y = face.midY / CGFloat(bufferWidth) * self.view.frame.size.height;
@@ -337,21 +340,18 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     self.faceBorder?.frame = CGRect(x: x, y: y, width: 10, height: 10)
                 }
             } else if(!firstRun) {
-                filter!.correct(Float(0), Float(0))
+                result = filter!.correct(Float(0), Float(0), Float(dt))
             }
             if(!firstRun) {
-                let result = filter!.predict()
                 
                 print("ResultX: \(Int(result.x)), ResultY: \(Int(result.y)), ResultDX: \(Int(result.vx)), ResultDY: \(Int(result.vy))")
-
+                
                 let angleX = atan2(Double(result.x), pixelFocalLength) / 2
                 let angleY = atan2(Double(result.y), pixelFocalLength) / 2
     //            print("AngleX + AngleY: ", angleX*180/M_PI, angleY*180/M_PI)
 
                 let stepsX = 5111 * angleX/(M_PI*2)
                 let stepsY = 17820 * angleY/(M_PI*2)
-                
-                let dt = currentTime - lastMovementTime
                 
                 var speedX = abs(stepsX) / dt
                 var speedY = abs(stepsY) / dt
@@ -377,6 +377,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     //print("StepsX: \(Int32(-stepsX)), StepsY: \(Int32(stepsY)), SpeedX: \(Int32(speedX)), SPeedY: \(Int32(speedY))")
                     self.service.moveXandY(Int32(stepsX), speedX: Int32(speedX), stepsY: Int32(stepsY), speedY: Int32(speedY))
                 }
+                
+                let result = filter!.predict(result.x, result.y, Float(dt))
             }
             lastMovementTime = currentTime
         }
