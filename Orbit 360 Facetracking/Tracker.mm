@@ -29,22 +29,30 @@ float transistionMat[] = {
 
 -(id) init: (float)x :(float) y {
     self = [super init];
-    filter = KalmanFilter(4, 2, 0);
+    filter = KalmanFilter(4, 2, 2);
     filter.transitionMatrix = Mat(4, 4, CV_32F, transistionMat);
     filter.statePre.at<float>(0) = x;
     filter.statePre.at<float>(1) = y;
     filter.statePre.at<float>(2) = 0;
     filter.statePre.at<float>(3) = 0;
     setIdentity(filter.measurementMatrix);
+    setIdentity(filter.controlMatrix);
     setIdentity(filter.processNoiseCov, Scalar::all(1e-6));
     setIdentity(filter.measurementNoiseCov, Scalar::all(1e-1));
     setIdentity(filter.errorCovPost, Scalar::all(.1));
     return self;
 };
 
--(TrackerState) predict {
+-(TrackerState) predict: (float)cx :(float) cy: (float)dt {
     
-    Mat estimate = filter.predict();
+    filter.transitionMatrix.at<float>(0, 2) = dt;
+    filter.transitionMatrix.at<float>(1, 3) = dt;
+    
+    Mat control(2, 1, CV_32F);
+    control.at<float>(0) = cx;
+    control.at<float>(1) = cy;
+    
+    Mat estimate = filter.predict(control);
 
     TrackerState res;
     res.x = estimate.at<float>(0);
@@ -55,7 +63,11 @@ float transistionMat[] = {
     return res;
 }
 
--(TrackerState) correct: (float)x :(float) y {
+-(TrackerState) correct: (float)x :(float) y :(float)dt {
+    
+    filter.transitionMatrix.at<float>(0, 2) = dt;
+    filter.transitionMatrix.at<float>(1, 3) = dt;
+    
     Mat measurement(2, 1, CV_32F);
     measurement.at<float>(0) = x;
     measurement.at<float>(1) = y;
