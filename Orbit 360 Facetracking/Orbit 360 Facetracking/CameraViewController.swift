@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import AVFoundation
 
-class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate{
+class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureMetadataOutputObjectsDelegate{
     var fd = FaceDetection()
     var service: MotorControl!
 
@@ -21,12 +21,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var stopVideo: UIBarButtonItem!
     var isRecording = false
 
-    var lastMovement = 0
-    let steps: Int32 = 500
+    var faceFrame: UIView?
+    var face: CGRect! = nil
     var firstRun = true
-    var nextCommandFinished: CFAbsoluteTime = 0
     var timer: NSTimer!
-    var counter = 0
 
     var outputSize: CGSize!
     var timeStamp: CMTime!
@@ -34,6 +32,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var videoWriter: AVAssetWriter!
     var videoWriterInput: AVAssetWriterInput!
     var dataOutput = AVCaptureVideoDataOutput()
+    var metaOutput = AVCaptureMetadataOutput()
     var audioWriterInput: AVAssetWriterInput!
     var audioOutput = AVCaptureAudioDataOutput()
     var imageOutput = AVCaptureStillImageOutput()
@@ -46,16 +45,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
-    
+
     override func viewDidLoad() {
         setupCameraSession()
         super.viewDidLoad()
-        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(CameraViewController.timerUpdate), userInfo: nil, repeats: true)
-    }
-
-    func timerUpdate() {
-        print("FPS:", counter)
-        counter = 0
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -73,8 +66,14 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         toolbar.items = [switchToPhoto, recordVideo]
         toolbar.setItems(toolbar.items, animated: true)
         self.view.addSubview(toolbar)
+
+        faceFrame = UIView()
+        faceFrame?.layer.borderColor = UIColor.greenColor().CGColor
+        faceFrame?.layer.borderWidth = 2
+        view.addSubview(faceFrame!)
+        view.bringSubviewToFront(faceFrame!)
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -138,6 +137,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             if (cameraSession.canAddOutput(dataOutput) == true) {
                 cameraSession.addOutput(dataOutput)
             }
+            if (cameraSession.canAddOutput(metaOutput) == true) {
+                cameraSession.addOutput(metaOutput)
+            metaOutput.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
+            metaOutput.metadataObjectTypes = [AVMetadataObjectTypeFace]
+            }
             if (cameraSession.canAddOutput(audioOutput) == true) {
                 cameraSession.addOutput(audioOutput)
             }
@@ -148,7 +152,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let queue = dispatch_queue_create("videoQueue", DISPATCH_QUEUE_SERIAL)
             dataOutput.setSampleBufferDelegate(self, queue: queue)
             audioOutput.setSampleBufferDelegate(self, queue: queue)
-            
+
+
         }
         catch let error as NSError {
             NSLog("\(error), \(error.localizedDescription)")
@@ -292,19 +297,19 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 }
             }
 
-            let faces = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
-            counter += 1
+//            let faces = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
             CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
-            if(faces.count == 0) {
+//            if(faces.count == 0) {
+//                return
+//            }
+
+//            face = faces[0].CGRectValue()
+            if (face == nil) {
                 return
             }
-
-            let face = faces[0].CGRectValue()
-//            print(face)
-
+            print(face.midX, face.midY)
             let diffX = Double(face.midX) - Double(bufferHeight) / 2
             let diffY = Double(face.midY) - Double(bufferWidth) / 2
-//            print("Faceoffset: ", diffX, diffY)
 
             if firstRun {
                 filter = Tracker(Float(diffX), Float(diffY))
@@ -312,50 +317,29 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 return
             }
             let result = filter!.update(Float(diffX), Float(diffY))
-//            print("Kalmanresult: ", result.x, result.y)
 
-            let vectorPercentageX1 = Double(abs(result.x))
-            let vectorPercentageX2 = Double(bufferHeight) / 2 - (Double(face.width) / 2)
-            var vectorPercentageX = vectorPercentageX1 / vectorPercentageX2
-            vectorPercentageX = min(1, max(vectorPercentageX, 0))
-            var speedX = vectorPercentageX * 1000
-//            print(vectorPercentageX)
-//            print(speedX)
-
-            let vectorPercentageY1 = Double(abs(result.y))
-            let vectorPercentageY2 = Double(bufferWidth) / 2 - (Double(face.height) / 2)
-            var vectorPercentageY = vectorPercentageY1 / vectorPercentageY2
-            vectorPercentageY = min(1, max(vectorPercentageY, 0))
-            var speedY = vectorPercentageY * 1000
-
-            if(speedX <= 1 && speedY <= 1) {
-                return
-            }
-
-            let angleX = atan2(Double(result.x), pixelFocalLength)
-            let angleY = atan2(Double(result.y), pixelFocalLength)
-//            print("AngleX + AngleY: ", angleX*180/M_PI, angleY*180/M_PI)
-
-            let stepsX = 5111 * angleX/(M_PI*2)
-            let stepsY = 17820 * angleY/(M_PI*2)
-//            print("StepsX + StepsY: ", stepsX, stepsY)
-
-//            if(CFAbsoluteTimeGetCurrent() < nextCommandFinished) {
-//                return
-//            }
-
-            let expectedDuration = (1 / speedX) * abs(stepsX) + 0.5
-
-            nextCommandFinished = CFAbsoluteTimeGetCurrent() + expectedDuration
-
-            print(Int32(stepsX), Int32(speedX))
-            //self.service.moveX(Int32(-stepsX), speed: Int32(speedX))
-            self.service.moveXandY(Int32(-stepsX), speedX: Int32(speedX), stepsY: Int32(stepsY), speedY: Int32(speedY))
         }
     }
 
     func captureOutput(captureOutput: AVCaptureOutput!, didDropSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // Here you can count how many frames are dopped
+    }
+
+    func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
+
+        // Check if the metadataObjects array is not nil and it contains at least one object.
+        if metadataObjects == nil || metadataObjects.count == 0 {
+            faceFrame?.frame = CGRectZero
+            return
+        }
+
+        let metadataObj = metadataObjects[0]
+        if metadataObj.type == AVMetadataObjectTypeFace {
+            let faceObject = previewLayer.transformedMetadataObjectForMetadataObject(metadataObj as! AVMetadataFaceObject) as! AVMetadataFaceObject
+            faceFrame?.frame = faceObject.bounds
+            face = faceObject.bounds
+        }
+
     }
 
     func captureStillImageAsynchronously(from connection: AVCaptureConnection!, completionHandler handler: ((CMSampleBuffer?, NSError?) -> Void)!) {
