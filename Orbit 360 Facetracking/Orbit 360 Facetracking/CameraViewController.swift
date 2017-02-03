@@ -286,96 +286,20 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 outputSize = CGSizeMake(CGFloat(bufferWidth), CGFloat(bufferHeight))
                 switch UIDevice.currentDevice().deviceType {
                 case .iPhone2G, .iPhone3G, .iPhone3GS, .iPhone4, .iPhone4S, .iPhone5, .iPhone5S:
-                    pixelFocalLength = Double(outputSize.height) * focalLengthOld
+                    pixelFocalLength = focalLengthOld
                     break
                 case .iPhoneSE, .iPhone6, .iPhone6Plus, .iPhone6S, .iPhone6SPlus, .iPhone7, .iPhone7Plus:
-                    pixelFocalLength = Double(outputSize.height) * focalLengthNew
+                    pixelFocalLength = focalLengthNew
                     break
                 default:
-                    pixelFocalLength = Double(outputSize.height) * focalLengthNew
+                    pixelFocalLength = focalLengthNew
                     break
                 }
             }
 
 //            let faces = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
             CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
-            
-            let currentTime = CFAbsoluteTimeGetCurrent()
-            
-            let dt = currentTime - lastMovementTime
-            
-            var result = TrackerState()
-            
-            if(face != nil) {
 
-                let diffX = Double(face.midX) - 0.5
-                let diffY = Double(face.midY) - 0.5
-
-                if firstRun {
-                    filter = Tracker(Float(diffX), Float(diffY))
-                    lastMovementTime = CFAbsoluteTimeGetCurrent()
-                    firstRun = false
-                    return
-                }
-                result = filter!.correct(Float(diffX), Float(diffY), Float(dt))
-                
-                let x = face.midX * self.view.frame.size.width;
-                let y = face.midY * self.view.frame.size.height;
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    //print("X: \(Int(x)), Y: \(Int(y))")
-                    self.faceFrame?.frame = CGRect(x: x, y: y, width: 10, height: 10)
-                }
-            } else if(!firstRun) {
-                result = filter!.correct(Float(0), Float(0), Float(dt))
-            }
-            if(!firstRun) {
-                
-                 // We found the bitch. It is in this line.
-                let px = Int(result.x * Float(100))
-                let py = Int(result.y * Float(100))
-                let pvx = Int(result.vx * Float(100))
-                let pvy = Int(result.vy * Float(100))
-                print("ResultX: \(px), ResultY: \(py), ResultDX: \(pvx), ResultDY: \(pvy)")
-                 
-                
-                let angleX = atan2(Double(result.x * Float(bufferHeight)), pixelFocalLength) / 2
-                let angleY = atan2(Double(result.y * Float(bufferWidth)), pixelFocalLength) / 2
-    //            print("AngleX + AngleY: ", angleX*180/M_PI, angleY*180/M_PI)
-                let stepsX = 5111 * angleX/(M_PI*2)
-                let stepsY = 17820 * angleY/(M_PI*2)
-                
-                var speedX = abs(stepsX) / dt
-                var speedY = abs(stepsY) / dt
-                
-                if(speedX > 1000) {
-                    speedX = 1000
-                }
-                
-                if(speedY > 1000) {
-                    speedY = 1000
-                }
-                
- 
-    //            if(CFAbsoluteTimeGetCurrent() < nextCommandFinished) {
-    //                return
-    //            }
-    //
-    //            let expectedDuration = (1 / Double(speedX)) * abs(stepsX) + 0.5
-
-    //            nextCommandFinished = CFAbsoluteTimeGetCurrent() + expectedDuration
-
-      //          self.service.moveX(Int32(-stepsX), speed: Int32(speedX))
-                if(abs(stepsX) > 5 || abs(stepsY) > 5) {
-                    //print("StepsX: \(Int32(-stepsX)), StepsY: \(Int32(stepsY)), SpeedX: \(Int32(speedX)), SPeedY: \(Int32(speedY))")
-                    self.service.moveXandY(Int32(stepsX), speedX: Int32(speedX), stepsY: Int32(stepsY), speedY: Int32(speedY))
-                }
-                
-                let result = filter!.predict(-result.x, -result.y, Float(dt))
- 
-            }
- 
-        lastMovementTime = currentTime
         }
  
     }
@@ -399,6 +323,81 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             face = metadataObj.bounds
         }
 
+        let currentTime = CFAbsoluteTimeGetCurrent()
+
+        let dt = currentTime - lastMovementTime
+
+        var result = TrackerState()
+
+        if(face != nil) {
+
+            let diffX = Double(face.midY) - 0.5
+            let diffY = Double(face.midX) - 0.5
+
+            if firstRun {
+                filter = Tracker(Float(diffX), Float(diffY))
+                lastMovementTime = CFAbsoluteTimeGetCurrent()
+                firstRun = false
+                return
+            }
+            result = filter!.correct(Float(diffX), Float(diffY), Float(dt))
+
+            let x = face.midY * self.view.frame.size.width;
+            let y = face.midX * self.view.frame.size.height;
+
+            dispatch_async(dispatch_get_main_queue()) {
+                //print("X: \(Int(x)), Y: \(Int(y))")
+                self.faceFrame?.frame = CGRect(x: x, y: y, width: 10, height: 10)
+            }
+        } else if(!firstRun) {
+            result = filter!.correct(Float(0), Float(0), Float(dt))
+        }
+        if(!firstRun) {
+
+            // We found the bitch. It is in this line.
+            let px = Int(result.x * Float(100))
+            let py = Int(result.y * Float(100))
+            let pvx = Int(result.vx * Float(100))
+            let pvy = Int(result.vy * Float(100))
+            print("ResultX: \(px), ResultY: \(py), ResultDX: \(pvx), ResultDY: \(pvy)")
+
+
+            let angleX = atan2(Double(result.x), pixelFocalLength) / 2
+            let angleY = atan2(Double(result.y), pixelFocalLength) / 2
+            let stepsX = 5111 * angleX/(M_PI*2)
+            let stepsY = 17820 * angleY/(M_PI*2)
+
+            var speedX = abs(stepsX) / dt
+            var speedY = abs(stepsY) / dt
+
+            if(speedX > 1000) {
+                speedX = 1000
+            }
+
+            if(speedY > 1000) {
+                speedY = 1000
+            }
+
+
+            //            if(CFAbsoluteTimeGetCurrent() < nextCommandFinished) {
+            //                return
+            //            }
+            //
+            //            let expectedDuration = (1 / Double(speedX)) * abs(stepsX) + 0.5
+
+            //            nextCommandFinished = CFAbsoluteTimeGetCurrent() + expectedDuration
+
+            //          self.service.moveX(Int32(-stepsX), speed: Int32(speedX))
+            if(abs(stepsX) > 5 || abs(stepsY) > 5) {
+                //print("StepsX: \(Int32(-stepsX)), StepsY: \(Int32(stepsY)), SpeedX: \(Int32(speedX)), SPeedY: \(Int32(speedY))")
+                self.service.moveXandY(Int32(stepsX), speedX: Int32(speedX), stepsY: Int32(stepsY), speedY: Int32(speedY))
+            }
+
+            let result = filter!.predict(-result.x, -result.y, Float(dt))
+
+        }
+
+        lastMovementTime = currentTime
     }
 
     func captureStillImageAsynchronously(from connection: AVCaptureConnection!, completionHandler handler: ((CMSampleBuffer?, NSError?) -> Void)!) {
