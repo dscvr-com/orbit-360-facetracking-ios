@@ -37,8 +37,8 @@ float transistionMat[] = {
     filter.statePre.at<float>(3) = 0;
     setIdentity(filter.measurementMatrix);
     setIdentity(filter.controlMatrix);
-    setIdentity(filter.processNoiseCov, Scalar::all(1e-6));
-    setIdentity(filter.measurementNoiseCov, Scalar::all(1e-1));
+    setIdentity(filter.processNoiseCov, Scalar::all(1e-1));
+    setIdentity(filter.measurementNoiseCov, Scalar::all(1e-10));
     setIdentity(filter.errorCovPost, Scalar::all(.1));
     return self;
 };
