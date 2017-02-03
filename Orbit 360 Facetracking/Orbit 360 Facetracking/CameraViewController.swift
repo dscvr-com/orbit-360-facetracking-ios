@@ -255,7 +255,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
-
+        
         // Here you collect each frame and process it
         timeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
 
@@ -276,10 +276,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
         }
 
-
         if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
             CVPixelBufferLockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
-            let bufferData = CVPixelBufferGetBaseAddress(pixelBuffer)
+           // let bufferData = CVPixelBufferGetBaseAddress(pixelBuffer)
             let bufferWidth = UInt32(CVPixelBufferGetWidth(pixelBuffer))
             let bufferHeight = UInt32(CVPixelBufferGetHeight(pixelBuffer))
 
@@ -332,12 +331,17 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
             if(!firstRun) {
                 
-                print("ResultX: \(Int(result.x * 100)), ResultY: \(Int(result.y * 100)), ResultDX: \(Int(result.vx * 100)), ResultDY: \(Int(result.vy * 100))")
+                 // We found the bitch. It is in this line.
+                let px = Int(result.x * Float(100))
+                let py = Int(result.y * Float(100))
+                let pvx = Int(result.vx * Float(100))
+                let pvy = Int(result.vy * Float(100))
+                print("ResultX: \(px), ResultY: \(py), ResultDX: \(pvx), ResultDY: \(pvy)")
+                 
                 
                 let angleX = atan2(Double(result.x * Float(bufferHeight)), pixelFocalLength) / 2
                 let angleY = atan2(Double(result.y * Float(bufferWidth)), pixelFocalLength) / 2
     //            print("AngleX + AngleY: ", angleX*180/M_PI, angleY*180/M_PI)
-
                 let stepsX = 5111 * angleX/(M_PI*2)
                 let stepsY = 17820 * angleY/(M_PI*2)
                 
@@ -352,6 +356,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     speedY = 1000
                 }
                 
+ 
     //            if(CFAbsoluteTimeGetCurrent() < nextCommandFinished) {
     //                return
     //            }
@@ -367,9 +372,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 }
                 
                 let result = filter!.predict(-result.x, -result.y, Float(dt))
+ 
             }
+ 
         lastMovementTime = currentTime
         }
+ 
     }
 
     func captureOutput(captureOutput: AVCaptureOutput!, didDropSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
@@ -394,7 +402,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     func captureStillImageAsynchronously(from connection: AVCaptureConnection!, completionHandler handler: ((CMSampleBuffer?, NSError?) -> Void)!) {
-        
     }
 
 }
