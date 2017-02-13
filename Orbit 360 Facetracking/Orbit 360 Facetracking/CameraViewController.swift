@@ -38,7 +38,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var imageOutput = AVCaptureStillImageOutput()
 
     let focalLengthOld = 2.139
-    let focalLengthNew = /*3.50021*/ 1.537
+    let focalLengthNew = 3.50021
     var pixelFocalLength: Double!
     var filter: Tracker?
     var lastMovementTime = CFAbsoluteTimeGetCurrent()
@@ -254,6 +254,15 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     }
 
+    // TODO: Composite pattern OpenCV vs. iOS. 
+    // iOS Face detection könnte bereits filtern (und daher Überschwingen)
+    // TODO: Integrator model is incorrect!
+    // Our plant (motor) is an integrator already (since we give steps and
+    // the system measures position). 
+    // 
+    // So tired.
+    // I should stop coding now.
+    
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         
         // Here you collect each frame and process it
@@ -307,68 +316,84 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func captureOutput(captureOutput: AVCaptureOutput!, didDropSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // Here you can count how many frames are dopped
     }
-
+    
+    var result = TrackerState()
+    
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
-
-        // Check if the metadataObjects array is not nil and it contains at least one object.
-        if metadataObjects == nil || metadataObjects.count == 0 {
-            faceFrame?.frame = CGRectZero
-            return
-        }
-
-        let metadataObj = metadataObjects[0]
-        if metadataObj.type == AVMetadataObjectTypeFace {
-//            let faceObject = previewLayer.transformedMetadataObjectForMetadataObject(metadataObj as! AVMetadataFaceObject) as! AVMetadataFaceObject
-//            faceFrame?.frame = faceObject.bounds
-            face = metadataObj.bounds
-        }
 
         let currentTime = CFAbsoluteTimeGetCurrent()
 
-        let dt = currentTime - lastMovementTime
+        face = nil
+        
+        // Check if the metadataObjects array is not nil and it contains at least one object.
+        if metadataObjects == nil || metadataObjects.count == 0 {
+            faceFrame?.frame = CGRectZero
+        } else {
+            let metadataObj = metadataObjects[0]
+            if metadataObj.type == AVMetadataObjectTypeFace {
+                //            let faceObject = previewLayer.transformedMetadataObjectForMetadataObject(metadataObj as! AVMetadataFaceObject) as! AVMetadataFaceObject
+                //            faceFrame?.frame = faceObject.bounds
+                face = metadataObj.bounds
+            }
+        }
 
-        var result = TrackerState()
+        let dt = currentTime - lastMovementTime
+        
+        print(dt)
+        
+        var diffX:Float = 0
+        var diffY:Float = 0
 
         if(face != nil) {
 
-            let diffX = Double(face.midY) - 0.5
-            let diffY = Double(face.midX) - 0.5
+            diffX = Float(face.midY) - 0.5
+            diffY = Float(face.midX) - 0.5
 
             if firstRun {
-                filter = Tracker(Float(diffX), Float(diffY))
+                //filter = Tracker(Float(diffX), Float(diffY))
                 lastMovementTime = CFAbsoluteTimeGetCurrent()
                 firstRun = false
+                result.x = 0
+                result.y = 0
                 return
             }
-            result = filter!.correct(Float(diffX), Float(diffY), Float(dt))
+            //result = filter!.correct(Float(diffX), Float(diffY), Float(dt))
 
             let x = face.midY * self.view.frame.size.width;
             let y = face.midX * self.view.frame.size.height;
+            
+            result.x = 0
+            result.y = 0
+            result.x += Float(diffX)
+            result.y += Float(diffY)
 
             dispatch_async(dispatch_get_main_queue()) {
                 //print("X: \(Int(x)), Y: \(Int(y))")
                 self.faceFrame?.frame = CGRect(x: x, y: y, width: 10, height: 10)
             }
         } else if(!firstRun) {
-            result = filter!.correct(Float(0), Float(0), Float(dt))
+            //result = filter!.correct(Float(0), Float(0), Float(dt))
+            result.x = 0
+            result.y = 0
         }
         if(!firstRun) {
+            
+//            let result = filter!.predict(0, 0, Float(dt))
+            
+            let cx = result.x * 0.5
+            let cy = result.y * 0.5
 
             // We found the bitch. It is in this line.
-            let px = Int(result.x * Float(100))
-            let py = Int(result.y * Float(100))
-            let pvx = Int(result.vx * Float(100))
-            let pvy = Int(result.vy * Float(100))
-            print("ResultX: \(px), ResultY: \(py), ResultDX: \(pvx), ResultDY: \(pvy)")
+            print("cx: \(Int(cy * 100)), cy: \(Int(cx * 100))")
 
 
-            let angleX = atan2(Double(result.x), pixelFocalLength) / 2
-            let angleY = atan2(Double(result.y), pixelFocalLength) / 2
+            let angleX = atan2(Double(cx), pixelFocalLength)
+            let angleY = atan2(Double(cy), pixelFocalLength * Double(1.777))
             let stepsX = 5111 * angleX/(M_PI*2)
             let stepsY = 17820 * angleY/(M_PI*2)
 
-            var speedX = abs(stepsX) / dt
-            var speedY = abs(stepsY) / dt
+            var speedX = abs(stepsX) / dt * 0.8
+            var speedY = abs(stepsY) / dt * 0.8
 
             if(speedX > 1000) {
                 speedX = 1000
@@ -389,12 +414,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
             //          self.service.moveX(Int32(-stepsX), speed: Int32(speedX))
             if(abs(stepsX) > 5 || abs(stepsY) > 5) {
-                //print("StepsX: \(Int32(-stepsX)), StepsY: \(Int32(stepsY)), SpeedX: \(Int32(speedX)), SPeedY: \(Int32(speedY))")
+                //print("StepsX: \(Int32(stepsX)), StepsY: \(Int32(stepsY)), SpeedX: \(Int32(speedX)), SPeedY: \(Int32(speedY))")
                 self.service.moveXandY(Int32(stepsX), speedX: Int32(speedX), stepsY: Int32(stepsY), speedY: Int32(speedY))
             }
-
-            let result = filter!.predict(-result.x, -result.y, Float(dt))
-
         }
 
         lastMovementTime = currentTime
