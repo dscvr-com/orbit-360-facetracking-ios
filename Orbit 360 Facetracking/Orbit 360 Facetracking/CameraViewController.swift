@@ -40,7 +40,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let focalLengthOld = 2.139
     let focalLengthNew = 3.50021
     var pixelFocalLength: Double!
-    var filter: Tracker?
+    var result = TrackerState()
     var lastMovementTime = CFAbsoluteTimeGetCurrent()
 
     override func prefersStatusBarHidden() -> Bool {
@@ -77,8 +77,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }    
+    }
     
     lazy var cameraSession: AVCaptureSession = {
         let s = AVCaptureSession()
@@ -253,19 +252,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         toolbar.items = [switchToPhoto, recordVideo]
 
     }
-
-    // TODO: Composite pattern OpenCV vs. iOS. 
-    // iOS Face detection könnte bereits filtern (und daher Überschwingen)
-    // TODO: Integrator model is incorrect!
-    // Our plant (motor) is an integrator already (since we give steps and
-    // the system measures position). 
-    // 
-    // So tired.
-    // I should stop coding now.
     
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         
-        // Here you collect each frame and process it
         timeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
 
         if captureOutput == audioOutput {
@@ -287,7 +276,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
             CVPixelBufferLockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
-           // let bufferData = CVPixelBufferGetBaseAddress(pixelBuffer)
             let bufferWidth = UInt32(CVPixelBufferGetWidth(pixelBuffer))
             let bufferHeight = UInt32(CVPixelBufferGetHeight(pixelBuffer))
 
@@ -305,10 +293,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     break
                 }
             }
-
-//            let faces = fd.detectFaces(bufferData, bufferWidth, bufferHeight)
             CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
-
         }
  
     }
@@ -316,31 +301,24 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func captureOutput(captureOutput: AVCaptureOutput!, didDropSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // Here you can count how many frames are dopped
     }
-    
-    var result = TrackerState()
-    
+
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
 
         let currentTime = CFAbsoluteTimeGetCurrent()
 
         face = nil
-        
-        // Check if the metadataObjects array is not nil and it contains at least one object.
         if metadataObjects == nil || metadataObjects.count == 0 {
             faceFrame?.frame = CGRectZero
         } else {
             let metadataObj = metadataObjects[0]
             if metadataObj.type == AVMetadataObjectTypeFace {
-                //            let faceObject = previewLayer.transformedMetadataObjectForMetadataObject(metadataObj as! AVMetadataFaceObject) as! AVMetadataFaceObject
-                //            faceFrame?.frame = faceObject.bounds
                 face = metadataObj.bounds
             }
         }
 
         let dt = currentTime - lastMovementTime
-        
         print(dt)
-        
+
         var diffX:Float = 0
         var diffY:Float = 0
 
@@ -350,14 +328,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             diffY = Float(face.midX) - 0.5
 
             if firstRun {
-                //filter = Tracker(Float(diffX), Float(diffY))
                 lastMovementTime = CFAbsoluteTimeGetCurrent()
                 firstRun = false
                 result.x = 0
                 result.y = 0
                 return
             }
-            //result = filter!.correct(Float(diffX), Float(diffY), Float(dt))
 
             let x = face.midY * self.view.frame.size.width;
             let y = face.midX * self.view.frame.size.height;
@@ -368,30 +344,22 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             result.y += Float(diffY)
 
             dispatch_async(dispatch_get_main_queue()) {
-                //print("X: \(Int(x)), Y: \(Int(y))")
                 self.faceFrame?.frame = CGRect(x: x, y: y, width: 10, height: 10)
             }
         } else if(!firstRun) {
-            //result = filter!.correct(Float(0), Float(0), Float(dt))
             result.x = 0
             result.y = 0
         }
         if(!firstRun) {
-            
-//            let result = filter!.predict(0, 0, Float(dt))
-            
+
             let cx = result.x * 0.5
             let cy = result.y * 0.5
-
-            // We found the bitch. It is in this line.
             print("cx: \(Int(cy * 100)), cy: \(Int(cx * 100))")
-
 
             let angleX = atan2(Double(cx), pixelFocalLength)
             let angleY = atan2(Double(cy), pixelFocalLength * Double(1.777))
             let stepsX = 5111 * angleX/(M_PI*2)
             let stepsY = 17820 * angleY/(M_PI*2)
-
             var speedX = abs(stepsX) / dt * 0.8
             var speedY = abs(stepsY) / dt * 0.8
 
@@ -403,16 +371,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 speedY = 1000
             }
 
-
-            //            if(CFAbsoluteTimeGetCurrent() < nextCommandFinished) {
-            //                return
-            //            }
-            //
-            //            let expectedDuration = (1 / Double(speedX)) * abs(stepsX) + 0.5
-
-            //            nextCommandFinished = CFAbsoluteTimeGetCurrent() + expectedDuration
-
-            //          self.service.moveX(Int32(-stepsX), speed: Int32(speedX))
             if(abs(stepsX) > 5 || abs(stepsY) > 5) {
                 //print("StepsX: \(Int32(stepsX)), StepsY: \(Int32(stepsY)), SpeedX: \(Int32(speedX)), SPeedY: \(Int32(speedY))")
                 self.service.moveXandY(Int32(stepsX), speedX: Int32(speedX), stepsY: Int32(stepsY), speedY: Int32(speedY))
