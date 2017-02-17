@@ -30,6 +30,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var faceFrame: UIView?
     var face: CGRect! = nil
     var firstRun = true
+    var firstRunMeta = true
     var timer: NSTimer!
 
     var outputSize: CGSize!
@@ -48,8 +49,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let fps: Int32 = 30
     var result = TrackerState()
     var lastMovementTime = CFAbsoluteTimeGetCurrent()
-    var timeStart = CFAbsoluteTimeGetCurrent()
-    var timeEnd = CFAbsoluteTimeGetCurrent()
 
     // Movement thresholds
     let xThresh = 10
@@ -98,13 +97,47 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+
+    private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
+        layer.videoOrientation = orientation
+        previewLayer.frame = self.view.bounds
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        if let connection =  self.previewLayer.connection  {
+            let currentDevice: UIDevice = UIDevice.currentDevice()
+            let orientation: UIDeviceOrientation = currentDevice.orientation
+            let previewLayerConnection : AVCaptureConnection = connection
+
+            if previewLayerConnection.supportsVideoOrientation {
+
+                switch (orientation) {
+                case .Portrait: updatePreviewLayer(previewLayerConnection, orientation: .Portrait)
+                toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
+                    break
+                case .LandscapeRight: updatePreviewLayer(previewLayerConnection, orientation: .LandscapeLeft)
+                toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
+                    break
+                case .LandscapeLeft: updatePreviewLayer(previewLayerConnection, orientation: .LandscapeRight)
+                toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
+                    break
+                case .PortraitUpsideDown: updatePreviewLayer(previewLayerConnection, orientation: .PortraitUpsideDown)
+                    break
+                default: updatePreviewLayer(previewLayerConnection, orientation: .Portrait)
+                    break
+                }
+            }
+        }
+    }
+
     lazy var cameraSession: AVCaptureSession = {
         let s = AVCaptureSession()
         s.sessionPreset = AVCaptureSessionPresetHigh
         return s
     }()
-    
+
     lazy var previewLayer: AVCaptureVideoPreviewLayer = {
         let preview =  AVCaptureVideoPreviewLayer(session: self.cameraSession)
         preview.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
@@ -281,6 +314,17 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         timeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
 
+        if firstRun {
+            if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+                CVPixelBufferLockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
+                let bufferWidth = UInt32(CVPixelBufferGetWidth(pixelBuffer))
+                let bufferHeight = UInt32(CVPixelBufferGetHeight(pixelBuffer))
+                outputSize = CGSizeMake(CGFloat(bufferWidth), CGFloat(bufferHeight))
+                CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
+                firstRun = false
+            }
+        }
+
         if captureOutput == audioOutput {
             if (isRecording == true) {
                 if(audioWriterInput.readyForMoreMediaData) {
@@ -307,15 +351,14 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         let currentTime = CFAbsoluteTimeGetCurrent()
         let dt = currentTime - lastMovementTime
-        
-        if (firstRun) {
-            // Initialization code here. 
+
+        //TODO: OBSOLET?
+        if (firstRunMeta) {
+            // Initialization code here.
             lastMovementTime = currentTime
-            
-            firstRun = false
+            firstRunMeta = false
             return
         }
-
         var face: CGRect? = nil
         
         for candidate in metadataObjects {
@@ -349,7 +392,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            print("X: \(Int(steps.x)), Y: \(Int(steps.y)), SX: \(Int(speed.x)), SY: \(Int(speed.y))")
             
             if(abs(steps.x) > Float(xThresh) || abs(steps.y) > Float(yThresh)) {
-                self.service.moveXandY(Int32(steps.x), speedX: Int32(speed.x), stepsY: Int32(steps.y), speedY: Int32(speed.y))
+                //self.service.moveXandY(Int32(steps.x), speedX: Int32(speed.x), stepsY: Int32(steps.y), speedY: Int32(speed.y))
             }
         }
         
