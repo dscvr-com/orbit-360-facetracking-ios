@@ -12,7 +12,8 @@ import AVFoundation
 
 // Global constants
 let focalLen = 3.50021
-let aspect = Float(1280) / Float(720)
+let aspectPortrait = Float(1280) / Float(720)
+let aspectLandscape = Float(1280) / Float(720)
 let motorStepsX = 5111
 let motorStepsY = 17820
 
@@ -52,19 +53,52 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let xThresh = 10
     let yThresh = 10
     
-    let toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspect) // Todo - make dynamic
-    let toAngle = UnitToMotorSpaceCoordinateConversion(unitFocalLength: Float(focalLen)) // Todo - make dynamic
-    let toSteps = MotorSpaceToStepsConversion(fullStepsX: Float(motorStepsX), fullStepsY: Float(motorStepsY))
-    let controlTarget = Point(x: 0.5, y: 0.33) // Target to the upper third.
+    var toCorrectOrientation: GenericTransform!
+    var toUnitSpace: CameraToUnitSpaceCoordinateConversion!
+    var toAngle: UnitToMotorSpaceCoordinateConversion!
+    var toSteps: MotorSpaceToStepsConversion!
+    var controlTarget: Point!
     let controlLogic = PControl<Point>(p: 0.5) // Emulate I-control, since motor does integrating
     let speedFactorX: Float = 0.5
     let speedFactorY: Float = 0.5
+    
+    func initializeProcessing() {
+        let orientation = UIDevice.currentDevice().orientation
+        switch (orientation) {
+            case .LandscapeLeft:
+                toCorrectOrientation = GenericTransform(m11: 1, m12: 0, m21: 0, m22: -1)
+                toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
+                controlTarget = Point(x: 0.5, y: 0.66) // Target to the upper third.
+                break
+            case .LandscapeRight:
+                toCorrectOrientation = GenericTransform(m11: -1, m12: 0, m21: 0, m22: 1)
+                toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
+                controlTarget = Point(x: 0.5, y: 0.33) // Target to the upper third.
+                break
+            case .PortraitUpsideDown:
+                toCorrectOrientation = GenericTransform(m11: 0, m12: -1, m21: 1, m22: 0)
+                toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
+                controlTarget = Point(x: 0.5, y: 0.33) // Target to the upper third.
+                break
+            default:
+                // Portrait case
+                toCorrectOrientation = GenericTransform(m11: 0, m12: 1, m21: 1, m22: 0)
+                toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
+                controlTarget = Point(x: 0.5, y: 0.33) // Target to the upper third.
+                break
+        }
+        
+        toAngle = UnitToMotorSpaceCoordinateConversion(unitFocalLength: Float(focalLen))
+        toSteps = MotorSpaceToStepsConversion(fullStepsX: Float(motorStepsX), fullStepsY: Float(motorStepsY))
+    }
 
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
 
     override func viewDidLoad() {
+        
+        initializeProcessing()
         setupCameraSession()
         super.viewDidLoad()
     }
@@ -102,6 +136,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        initializeProcessing()
 
         if let connection =  self.previewLayer.connection  {
             let currentDevice: UIDevice = UIDevice.currentDevice()
@@ -121,6 +157,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
                     break
                 case .PortraitUpsideDown: updatePreviewLayer(previewLayerConnection, orientation: .PortraitUpsideDown)
+                toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
                     break
                 default: updatePreviewLayer(previewLayerConnection, orientation: .Portrait)
                     break
@@ -364,7 +401,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         for candidate in metadataObjects {
             if candidate.type == AVMetadataObjectTypeFace {
-                let curPos = Point(x: Float(candidate.bounds.midY), y: Float(candidate.bounds.midX))
+                let curPos = Point(x: Float(candidate.bounds.midX), y: Float(candidate.bounds.midY))
                 if(facePos == nil) {
                     facePos = curPos
                 } else {
@@ -374,8 +411,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         
         if let facePos = facePos {
-            let unitPos = toUnitSpace.convert(facePos)
-            let unitTarget = toUnitSpace.convert(controlTarget)
+            let unitPos = toUnitSpace.convert(toCorrectOrientation.convert(facePos))
+            let unitTarget = toUnitSpace.convert(toCorrectOrientation.convert(controlTarget))
             let angle = toAngle.convert(unitPos) - toAngle.convert(unitTarget)
             
             // Control moves to 0, 0
@@ -395,7 +432,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            print("X: \(Int(steps.x)), Y: \(Int(steps.y)), SX: \(Int(speed.x)), SY: \(Int(speed.y))")
             
             if(abs(steps.x) > Float(xThresh) || abs(steps.y) > Float(yThresh)) {
-                //self.service.moveXandY(Int32(steps.x), speedX: Int32(speed.x), stepsY: Int32(steps.y), speedY: Int32(speed.y))
+                self.service.moveXandY(Int32(steps.x), speedX: Int32(speed.x), stepsY: Int32(steps.y), speedY: Int32(speed.y))
             }
         }
         

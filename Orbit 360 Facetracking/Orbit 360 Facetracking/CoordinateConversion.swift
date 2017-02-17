@@ -18,6 +18,26 @@ class IdentityCoordinateConversion : CoordinateConversion {
     }
 }
 
+class GenericTransform: CoordinateConversion {
+    let m11: Float
+    let m12: Float
+    let m21: Float
+    let m22: Float
+    
+    init(m11: Float, m12: Float, m21: Float, m22: Float) {
+        self.m11 = m11
+        self.m12 = m12
+        self.m21 = m21
+        self.m22 = m22
+    }
+    
+    func convert(p: Point) -> Point {
+        return Point(x: p.x * m11 + p.y * m12,
+                     y: p.x * m21 + p.y * m22)
+    }
+    
+}
+
 class CameraToUnitSpaceCoordinateConversion : CoordinateConversion {
     let cameraWidth: Float
     let cameraHeight: Float
