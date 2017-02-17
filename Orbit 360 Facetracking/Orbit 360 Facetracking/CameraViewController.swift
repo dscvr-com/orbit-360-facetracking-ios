@@ -45,6 +45,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var lastMovementTime = CFAbsoluteTimeGetCurrent()
     var timeStart = CFAbsoluteTimeGetCurrent()
     var timeEnd = CFAbsoluteTimeGetCurrent()
+    
+    let toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: Float(1280) / Float(720)) // Todo - make dynamic
+    let toAngle = UnitToMotorSpaceCoordinateConversion(unitFocalLength: 3.50021) // Todo - make dynamic
+    let toSteps = MotorSpaceToStepsConversion(fullStepsX: 5111, fullStepsY: 17820) // Todo - make a constant
+    let controlLogic = PControl<Point>(p: 0.5) // Emulate I-control, since motor does integrating
+    let speedFactor: Float = 0.5
 
     override func prefersStatusBarHidden() -> Bool {
         return true
@@ -312,78 +318,51 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
 
         let currentTime = CFAbsoluteTimeGetCurrent()
-
-        face = nil
-        if metadataObjects == nil || metadataObjects.count == 0 {
-            faceFrame?.frame = CGRectZero
-        } else {
-            let metadataObj = metadataObjects[0]
-            if metadataObj.type == AVMetadataObjectTypeFace {
-                face = metadataObj.bounds
-            }
-        }
-
         let dt = currentTime - lastMovementTime
-//        print(dt)
-
-        var diffX:Float = 0
-        var diffY:Float = 0
-
-        if(face != nil) {
-
-            diffX = Float(face.midY) - 0.5
-            diffY = Float(face.midX) - 0.5
-
-            if firstRun {
-                lastMovementTime = CFAbsoluteTimeGetCurrent()
-                firstRun = false
-                result.x = 0
-                result.y = 0
-                return
-            }
-
-            let x = face.midY * self.view.frame.size.width;
-            let y = face.midX * self.view.frame.size.height;
+        
+        if (firstRun) {
+            // Initialization code here. 
+            lastMovementTime = currentTime
             
-            result.x = 0
-            result.y = 0
-            result.x += Float(diffX)
-            result.y += Float(diffY)
-
-//            dispatch_async(dispatch_get_main_queue()) {
-//                self.faceFrame?.frame = CGRect(x: x, y: y, width: 10, height: 10)
-//            }
-        } else if(!firstRun) {
-            result.x = 0
-            result.y = 0
-        }
-        if(!firstRun) {
-
-            let cx = result.x * 0.5
-            let cy = result.y * 0.5
-//            print("cx: \(Int(cy * 100)), cy: \(Int(cx * 100))")
-
-            let angleX = atan2(Double(cx), pixelFocalLength)
-            let angleY = atan2(Double(cy), pixelFocalLength * Double(1.777))
-            let stepsX = 5111 * angleX/(M_PI*2)
-            let stepsY = 17820 * angleY/(M_PI*2)
-            var speedX = abs(stepsX) / dt * 0.8
-            var speedY = abs(stepsY) / dt * 0.8
-
-            if(speedX > 1000) {
-                speedX = 1000
-            }
-
-            if(speedY > 1000) {
-                speedY = 1000
-            }
-
-            if(abs(stepsX) > 5 || abs(stepsY) > 5) {
-                //print("StepsX: \(Int32(stepsX)), StepsY: \(Int32(stepsY)), SpeedX: \(Int32(speedX)), SPeedY: \(Int32(speedY))")
-                self.service.moveXandY(Int32(stepsX), speedX: Int32(speedX), stepsY: Int32(stepsY), speedY: Int32(speedY))
-            }
+            firstRun = false
+            return
         }
 
+        var face: CGRect? = nil
+        
+        for candidate in metadataObjects {
+            if candidate.type == AVMetadataObjectTypeFace {
+                face = candidate.bounds
+                break
+            }
+        }
+        
+        if let face = face {
+            let facePos = Point(x: Float(face.midY), y: Float(face.midX))
+            
+            let unitPos = toUnitSpace.convert(facePos)
+            
+            print("X: \(Int(unitPos.x * 100)), Y: \(Int(unitPos.y * 100))")
+            let steering = controlLogic.push(unitPos)
+            
+            let angle = toAngle.convert(steering)
+            let steps = toSteps.convert(angle)
+            
+            
+            let speed =
+                max(
+                    min(
+                        abs(steps / Float(dt) * speedFactor),
+                        b: Point(x: 1000, y: 1000)),
+                    b: Point(x: 50, y: 50))
+            
+            print("X: \(Int(steps.x)), Y: \(Int(steps.y))")
+            
+            if(abs(steps.x) > 15 || abs(steps.y) > 15) {
+                self.service.moveXandY(Int32(steps.x), speedX: Int32(speed.x), stepsY: Int32(steps.y), speedY: Int32(speed.y))
+            }
+        }
+        
         lastMovementTime = currentTime
     }
 
