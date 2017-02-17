@@ -13,6 +13,8 @@
 		E81027EA1DBFA8FD00B4B63D /* haarcascade_frontalface_alt.xml in Resources */ = {isa = PBXBuildFile; fileRef = E81027E91DBFA8FD00B4B63D /* haarcascade_frontalface_alt.xml */; };
 		E81EC93A1DDDFA11005330F0 /* AsyncStream.hpp in Resources */ = {isa = PBXBuildFile; fileRef = E81EC9391DDDFA11005330F0 /* AsyncStream.hpp */; };
 		E81EC93C1DE348F0005330F0 /* IPhoneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81EC93B1DE348EF005330F0 /* IPhoneModel.swift */; };
+		E82534FF1E5799C400F525A6 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = E82534FD1E5799C400F525A6 /* camera.png */; };
+		E82535001E5799C400F525A6 /* movie.png in Resources */ = {isa = PBXBuildFile; fileRef = E82534FE1E5799C400F525A6 /* movie.png */; };
 		E827BA151DB5171C005257CB /* BLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E827BA141DB5171C005257CB /* BLEDiscovery.swift */; };
 		E827BA171DB517DC005257CB /* BLEService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E827BA161DB517DC005257CB /* BLEService.swift */; };
 		E843FE4B1DBDB83F00C0B855 /* MotorControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */; };
@@ -24,6 +26,7 @@
 		E88EF6EB1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6EA1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift */; };
 		E8D887D21DF5C57700A13F66 /* FaceDetection.mm in Sources */ = {isa = PBXBuildFile; fileRef = E8D887D11DF5C57700A13F66 /* FaceDetection.mm */; };
 		E8D887D51DF5CC0D00A13F66 /* Tracker.mm in Sources */ = {isa = PBXBuildFile; fileRef = E8D887D41DF5CC0D00A13F66 /* Tracker.mm */; };
+		E8E7A0A71E57A43D00DCB9EC /* movie_recording.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E7A0A61E57A43D00DCB9EC /* movie_recording.png */; };
 		E8F545C41DB7E42300ED5EFE /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F545C31DB7E42300ED5EFE /* TableViewController.swift */; };
 		E8F545C61DB7F2DF00ED5EFE /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F545C51DB7F2DF00ED5EFE /* TableViewCell.swift */; };
 		E8F545C91DB8380700ED5EFE /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8F545C81DB8380700ED5EFE /* opencv2.framework */; };
@@ -54,6 +57,8 @@
 		E81027E91DBFA8FD00B4B63D /* haarcascade_frontalface_alt.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = haarcascade_frontalface_alt.xml; sourceTree = "<group>"; };
 		E81EC9391DDDFA11005330F0 /* AsyncStream.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AsyncStream.hpp; sourceTree = "<group>"; };
 		E81EC93B1DE348EF005330F0 /* IPhoneModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPhoneModel.swift; sourceTree = "<group>"; };
+		E82534FD1E5799C400F525A6 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
+		E82534FE1E5799C400F525A6 /* movie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movie.png; sourceTree = "<group>"; };
 		E827BA141DB5171C005257CB /* BLEDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEDiscovery.swift; sourceTree = "<group>"; };
 		E827BA161DB517DC005257CB /* BLEService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEService.swift; sourceTree = "<group>"; };
 		E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotorControl.swift; sourceTree = "<group>"; };
@@ -74,6 +79,7 @@
 		E8D887D11DF5C57700A13F66 /* FaceDetection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FaceDetection.mm; sourceTree = "<group>"; };
 		E8D887D31DF5CAF400A13F66 /* Tracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tracker.h; sourceTree = "<group>"; };
 		E8D887D41DF5CC0D00A13F66 /* Tracker.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Tracker.mm; sourceTree = "<group>"; };
+		E8E7A0A61E57A43D00DCB9EC /* movie_recording.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movie_recording.png; sourceTree = "<group>"; };
 		E8F545C31DB7E42300ED5EFE /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		E8F545C51DB7F2DF00ED5EFE /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		E8F545C81DB8380700ED5EFE /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
@@ -152,6 +158,9 @@
 			children = (
 				E88EF6CA1DA6DE070009E99D /* AppDelegate.swift */,
 				E88EF6CE1DA6DE070009E99D /* Main.storyboard */,
+				E8E7A0A61E57A43D00DCB9EC /* movie_recording.png */,
+				E82534FD1E5799C400F525A6 /* camera.png */,
+				E82534FE1E5799C400F525A6 /* movie.png */,
 				E88EF6D31DA6DE070009E99D /* LaunchScreen.storyboard */,
 				E88EF6D11DA6DE070009E99D /* Assets.xcassets */,
 				E88EF6D61DA6DE070009E99D /* Info.plist */,
@@ -299,7 +308,7 @@
 				TargetAttributes = {
 					E88EF6C61DA6DE070009E99D = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 3VNDY9CY79;
+						DevelopmentTeam = 93N5JQ6UW7;
 						LastSwiftMigration = 0810;
 					};
 					E88EF6DA1DA6DE080009E99D = {
@@ -342,9 +351,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				E81EC93A1DDDFA11005330F0 /* AsyncStream.hpp in Resources */,
+				E82535001E5799C400F525A6 /* movie.png in Resources */,
+				E8E7A0A71E57A43D00DCB9EC /* movie_recording.png in Resources */,
 				E81027EA1DBFA8FD00B4B63D /* haarcascade_frontalface_alt.xml in Resources */,
 				E88EF6D51DA6DE070009E99D /* LaunchScreen.storyboard in Resources */,
 				E88EF6D21DA6DE070009E99D /* Assets.xcassets in Resources */,
+				E82534FF1E5799C400F525A6 /* camera.png in Resources */,
 				E88EF6D01DA6DE070009E99D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -534,7 +546,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 3VNDY9CY79;
+				DEVELOPMENT_TEAM = 93N5JQ6UW7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -558,7 +570,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 3VNDY9CY79;
+				DEVELOPMENT_TEAM = 93N5JQ6UW7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
