@@ -10,6 +10,12 @@ import Foundation
 import UIKit
 import AVFoundation
 
+// Global constants
+let focalLen = 3.50021
+let aspect = Float(1280) / Float(720)
+let motorStepsX = 5111
+let motorStepsY = 17820
+
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureMetadataOutputObjectsDelegate{
     var fd = FaceDetection()
     var service: MotorControl!
@@ -38,19 +44,24 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var imageOutput = AVCaptureStillImageOutput()
 
     let focalLengthOld = 2.139
-    let focalLengthNew = 3.50021
     var pixelFocalLength: Double!
     let fps: Int32 = 30
     var result = TrackerState()
     var lastMovementTime = CFAbsoluteTimeGetCurrent()
     var timeStart = CFAbsoluteTimeGetCurrent()
     var timeEnd = CFAbsoluteTimeGetCurrent()
+
+    // Movement thresholds
+    let xThresh = 10
+    let yThresh = 10
     
-    let toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: Float(1280) / Float(720)) // Todo - make dynamic
-    let toAngle = UnitToMotorSpaceCoordinateConversion(unitFocalLength: 3.50021) // Todo - make dynamic
-    let toSteps = MotorSpaceToStepsConversion(fullStepsX: 5111, fullStepsY: 17820) // Todo - make a constant
+    let toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspect) // Todo - make dynamic
+    let toAngle = UnitToMotorSpaceCoordinateConversion(unitFocalLength: Float(focalLen)) // Todo - make dynamic
+    let toSteps = MotorSpaceToStepsConversion(fullStepsX: Float(motorStepsX), fullStepsY: Float(motorStepsY))
+    let controlTarget = Point(x: 0.5, y: 0.33) // Target to the upper third.
     let controlLogic = PControl<Point>(p: 0.5) // Emulate I-control, since motor does integrating
-    let speedFactor: Float = 0.5
+    let speedFactorX: Float = 0.5
+    let speedFactorY: Float = 0.5
 
     override func prefersStatusBarHidden() -> Bool {
         return true
@@ -286,29 +297,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 }
             }
         }
-
-        if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
-            CVPixelBufferLockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
-            let bufferWidth = UInt32(CVPixelBufferGetWidth(pixelBuffer))
-            let bufferHeight = UInt32(CVPixelBufferGetHeight(pixelBuffer))
-
-            if firstRun {
-                outputSize = CGSizeMake(CGFloat(bufferWidth), CGFloat(bufferHeight))
-                switch UIDevice.currentDevice().deviceType {
-                case .iPhone2G, .iPhone3G, .iPhone3GS, .iPhone4, .iPhone4S, .iPhone5, .iPhone5S:
-                    pixelFocalLength = focalLengthOld
-                    break
-                case .iPhoneSE, .iPhone6, .iPhone6Plus, .iPhone6S, .iPhone6SPlus, .iPhone7, .iPhone7Plus:
-                    pixelFocalLength = focalLengthNew
-                    break
-                default:
-                    pixelFocalLength = focalLengthNew
-                    break
-                }
-            }
-            CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.ReadOnly)
-        }
- 
     }
 
     func captureOutput(captureOutput: AVCaptureOutput!, didDropSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
@@ -341,24 +329,26 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let facePos = Point(x: Float(face.midY), y: Float(face.midX))
             
             let unitPos = toUnitSpace.convert(facePos)
+            let unitTarget = toUnitSpace.convert(controlTarget)
+            let angle = toAngle.convert(unitPos) - toAngle.convert(unitTarget)
             
-            print("X: \(Int(unitPos.x * 100)), Y: \(Int(unitPos.y * 100))")
-            let steering = controlLogic.push(unitPos)
+            // Control moves to 0, 0
+            let steering = controlLogic.push(angle)
+            let steps = toSteps.convert(steering)
             
-            let angle = toAngle.convert(steering)
-            let steps = toSteps.convert(angle)
+            var speed = abs(steps / Float(dt))
+            speed = Point(x: speed.x * speedFactorX, y: speed.y * speedFactorY)
+            
+            print("X: \(Int(steps.x)), Y: \(Int(steps.y)), SX: \(Int(speed.x)), SY: \(Int(speed.y))")
+            
+            speed = min(speed, b: Point(x: 1000, y: 1000))
+            speed = max(speed, b: Point(x: 250, y: 250))
             
             
-            let speed =
-                max(
-                    min(
-                        abs(steps / Float(dt) * speedFactor),
-                        b: Point(x: 1000, y: 1000)),
-                    b: Point(x: 50, y: 50))
             
-            print("X: \(Int(steps.x)), Y: \(Int(steps.y))")
+//            print("X: \(Int(steps.x)), Y: \(Int(steps.y)), SX: \(Int(speed.x)), SY: \(Int(speed.y))")
             
-            if(abs(steps.x) > 15 || abs(steps.y) > 15) {
+            if(abs(steps.x) > Float(xThresh) || abs(steps.y) > Float(yThresh)) {
                 self.service.moveXandY(Int32(steps.x), speedX: Int32(speed.x), stepsY: Int32(steps.y), speedY: Int32(speed.y))
             }
         }

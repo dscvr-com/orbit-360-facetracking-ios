@@ -51,9 +51,9 @@ func abs(p: Point) -> Point {
 }
 
 func min(a: Point, b: Point) -> Point {
-    return Point(x: min(a.x, b.x), y: min(a.x, b.x))
+    return Point(x: min(a.x, b.x), y: min(a.y, b.y))
 }
 
 func max(a: Point, b: Point) -> Point {
-    return Point(x: max(a.x, b.x), y: max(a.x, b.x))
+    return Point(x: max(a.x, b.x), y: max(a.y, b.y))
 }
