@@ -353,25 +353,27 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let currentTime = CFAbsoluteTimeGetCurrent()
         let dt = currentTime - lastMovementTime
 
-        //TODO: OBSOLET?
         if (firstRunMeta) {
             // Initialization code here.
             lastMovementTime = currentTime
             firstRunMeta = false
             return
         }
-        var face: CGRect? = nil
-        
+
+        var facePos: Point? = nil
+
         for candidate in metadataObjects {
             if candidate.type == AVMetadataObjectTypeFace {
-                face = candidate.bounds
-                break
+                let curPos = Point(x: Float(candidate.bounds.midY), y: Float(candidate.bounds.midX))
+                if(facePos == nil) {
+                    facePos = curPos
+                } else {
+                    facePos = (curPos + facePos!) / 2
+                }
             }
         }
         
-        if let face = face {
-            let facePos = Point(x: Float(face.midY), y: Float(face.midX))
-            
+        if let facePos = facePos {
             let unitPos = toUnitSpace.convert(facePos)
             let unitTarget = toUnitSpace.convert(controlTarget)
             let angle = toAngle.convert(unitPos) - toAngle.convert(unitTarget)
