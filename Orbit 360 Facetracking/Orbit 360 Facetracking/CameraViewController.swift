@@ -20,17 +20,15 @@ let motorStepsY = 17820
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureMetadataOutputObjectsDelegate{
     var service: MotorControl!
 
-    let toolbar = UIToolbar()
-    var photo: UIBarButtonItem!
-    var recordVideo: UIBarButtonItem!
-    var stopVideo: UIBarButtonItem!
     var isRecording = false
-
     var faceFrame: UIView?
     var face: CGRect! = nil
     var firstRun = true
     var firstRunMeta = true
     var timer: NSTimer!
+
+    @IBOutlet weak var movieButton: UIButton!
+    @IBOutlet weak var controlBar: UIView!
 
     var outputSize: CGSize!
     var timeStamp: CMTime!
@@ -78,13 +76,13 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             case .PortraitUpsideDown:
                 toCorrectOrientation = GenericTransform(m11: 0, m12: -1, m21: 1, m22: 0)
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
-                controlTarget = Point(x: 0.5, y: 0.33) // Target to the upper third.
+                controlTarget = Point(x: 0.33, y: 0.5) // Target to the upper third.
                 break
             default:
                 // Portrait case
                 toCorrectOrientation = GenericTransform(m11: 0, m12: 1, m21: 1, m22: 0)
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
-                controlTarget = Point(x: 0.5, y: 0.33) // Target to the upper third.
+                controlTarget = Point(x: 0.33, y: 0.5) // Target to the upper third.
                 break
         }
         
@@ -108,25 +106,30 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         view.layer.addSublayer(previewLayer)
         cameraSession.startRunning()
 
-        photo = UIBarButtonItem(title: "\u{1F4F9}", style: .Plain, target: self, action: #selector(CameraViewController.startTimer))
-        recordVideo = UIBarButtonItem(title: "\u{25B6}", style: .Plain, target: self, action: #selector(CameraViewController.startRecording))
-        stopVideo = UIBarButtonItem(title: "\u{25A0}", style: .Plain, target: self, action: #selector(CameraViewController.stopRecording))
-
-        toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
-        toolbar.barStyle = .Black
-        toolbar.items = [photo, recordVideo]
-        toolbar.setItems(toolbar.items, animated: true)
-        self.view.addSubview(toolbar)
-
         faceFrame = UIView()
         faceFrame?.layer.borderColor = UIColor.greenColor().CGColor
         faceFrame?.layer.borderWidth = 2
         view.addSubview(faceFrame!)
         view.bringSubviewToFront(faceFrame!)
+        view.bringSubviewToFront(controlBar)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+
+    @IBAction func startMovie(sender: AnyObject) {
+        if (isRecording) {
+            stopRecording()
+            movieButton.setBackgroundImage(UIImage(named:"movie")!, forState: .Normal)
+        } else {
+            startRecording()
+            movieButton.setBackgroundImage(UIImage(named:"movie_recording")!, forState: .Normal)
+        }
+    }
+
+    @IBAction func startPhoto(sender: AnyObject) {
+        startTimer()
     }
 
     private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
@@ -148,17 +151,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
                 switch (orientation) {
                 case .Portrait: updatePreviewLayer(previewLayerConnection, orientation: .Portrait)
-                toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
-                    break
                 case .LandscapeRight: updatePreviewLayer(previewLayerConnection, orientation: .LandscapeLeft)
-                toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
-                    break
                 case .LandscapeLeft: updatePreviewLayer(previewLayerConnection, orientation: .LandscapeRight)
-                toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
-                    break
                 case .PortraitUpsideDown: updatePreviewLayer(previewLayerConnection, orientation: .PortraitUpsideDown)
-                toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
-                    break
                 default: updatePreviewLayer(previewLayerConnection, orientation: .Portrait)
                     break
                 }
@@ -300,7 +295,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         videoWriter.startWriting()
         videoWriter.startSessionAtSourceTime(timeStamp)
-        toolbar.items = [photo, stopVideo]
         isRecording = true
     }
 
@@ -311,7 +305,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         isRecording = false
         videoWriter.finishWritingWithCompletionHandler({})
         UISaveVideoAtPathToSavedPhotosAlbum(videoOutputURL.path!, nil, nil, nil)
-        toolbar.items = [photo, recordVideo]
     }
 
     func startTimer() {
@@ -322,7 +315,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         label.backgroundColor = UIColor.blackColor()
         label.textColor = UIColor.whiteColor()
 //        self.view.addSubview(label)
-        var timer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: nil/*#selector(CameraViewController.takePhoto)*/, userInfo: nil, repeats: false)
+        var timer = NSTimer.scheduledTimerWithTimeInterval(0, target: self, selector: #selector(CameraViewController.takePhoto), userInfo: nil, repeats: false)
     }
 
     func takePhoto() {

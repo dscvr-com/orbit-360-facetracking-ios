@@ -63,12 +63,64 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="72o-5b-zWh">
+                                <rect key="frame" x="0.0" y="595" width="375" height="72"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A5v-VN-gA2">
+                                        <rect key="frame" x="316" y="13" width="46" height="46"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="46" id="D3N-L3-yWI"/>
+                                            <constraint firstAttribute="height" constant="46" id="J3I-fV-tRa"/>
+                                        </constraints>
+                                        <state key="normal" backgroundImage="camera.png"/>
+                                        <connections>
+                                            <action selector="startPhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3ea-I7-C6g"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vAB-fx-FHn">
+                                        <rect key="frame" x="13" y="13" width="46" height="46"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="46" id="25R-Qw-Vtn"/>
+                                            <constraint firstAttribute="width" constant="46" id="qdn-qa-oGq"/>
+                                        </constraints>
+                                        <state key="normal" backgroundImage="movie.png"/>
+                                        <connections>
+                                            <action selector="startMovie:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0Ef-ec-Fau"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="vAB-fx-FHn" firstAttribute="top" secondItem="72o-5b-zWh" secondAttribute="top" constant="13" id="Id6-tK-ta0"/>
+                                    <constraint firstAttribute="bottom" secondItem="vAB-fx-FHn" secondAttribute="bottom" constant="13" id="ULf-oQ-WGX"/>
+                                    <constraint firstItem="A5v-VN-gA2" firstAttribute="top" secondItem="72o-5b-zWh" secondAttribute="top" constant="13" id="Ylb-K0-HJw"/>
+                                    <constraint firstAttribute="trailing" secondItem="A5v-VN-gA2" secondAttribute="trailing" constant="13" id="dWm-iZ-csL"/>
+                                    <constraint firstItem="vAB-fx-FHn" firstAttribute="leading" secondItem="72o-5b-zWh" secondAttribute="leading" constant="13" id="j5N-cF-Ljj"/>
+                                    <constraint firstAttribute="height" constant="72" id="mxn-44-tjf"/>
+                                    <constraint firstAttribute="bottom" secondItem="A5v-VN-gA2" secondAttribute="bottom" constant="13" id="paV-dv-ItZ"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="72o-5b-zWh" secondAttribute="bottom" id="Pn1-tc-Lkl"/>
+                            <constraint firstAttribute="trailing" secondItem="72o-5b-zWh" secondAttribute="trailing" id="fyg-ji-e8l"/>
+                            <constraint firstItem="72o-5b-zWh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="zzc-Dk-kQU"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="controlBar" destination="72o-5b-zWh" id="9gv-bN-vnh"/>
+                        <outlet property="movieButton" destination="vAB-fx-FHn" id="mfg-2k-HIg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1260" y="442"/>
+            <point key="canvasLocation" x="1260" y="441.22938530734638"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="camera.png" width="572" height="572"/>
+        <image name="movie.png" width="800" height="800"/>
+    </resources>
 </document>
