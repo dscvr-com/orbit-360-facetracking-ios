@@ -40,8 +40,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let focalLengthOld = 2.139
     let focalLengthNew = 3.50021
     var pixelFocalLength: Double!
+    let fps: Int32 = 30
     var result = TrackerState()
     var lastMovementTime = CFAbsoluteTimeGetCurrent()
+    var timeStart = CFAbsoluteTimeGetCurrent()
+    var timeEnd = CFAbsoluteTimeGetCurrent()
 
     override func prefersStatusBarHidden() -> Bool {
         return true
@@ -118,6 +121,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         try! captureDevice.lockForConfiguration()
         captureDevice.activeFormat = best
+        captureDevice.activeVideoMinFrameDuration = CMTimeMake(1, fps)
+        captureDevice.activeVideoMaxFrameDuration = CMTimeMake(1, fps)
         captureDevice.unlockForConfiguration()
         print(captureDevice.activeFormat)
 
@@ -133,15 +138,17 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
             dataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey: NSNumber(unsignedInt: kCVPixelFormatType_32BGRA)]
             dataOutput.alwaysDiscardsLateVideoFrames = true
-
             if (cameraSession.canAddOutput(dataOutput) == true) {
                 cameraSession.addOutput(dataOutput)
             }
             if (cameraSession.canAddOutput(metaOutput) == true) {
                 cameraSession.addOutput(metaOutput)
-            metaOutput.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
-            metaOutput.metadataObjectTypes = [AVMetadataObjectTypeFace]
             }
+            var metaQueue = dispatch_queue_create("metaQueue", DISPATCH_QUEUE_SERIAL)
+            dispatch_set_target_queue(metaQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0))
+            metaOutput.setMetadataObjectsDelegate(self, queue: metaQueue)
+//            metaOutput.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
+            metaOutput.metadataObjectTypes = [AVMetadataObjectTypeFace]
             if (cameraSession.canAddOutput(audioOutput) == true) {
                 cameraSession.addOutput(audioOutput)
             }
@@ -149,9 +156,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 cameraSession.addOutput(imageOutput)
             }
             cameraSession.commitConfiguration()
-            let queue = dispatch_queue_create("videoQueue", DISPATCH_QUEUE_SERIAL)
-            dataOutput.setSampleBufferDelegate(self, queue: queue)
-            audioOutput.setSampleBufferDelegate(self, queue: queue)
+            let videoQueue = dispatch_queue_create("videoQueue", DISPATCH_QUEUE_SERIAL)
+            dataOutput.setSampleBufferDelegate(self, queue: videoQueue)
+            audioOutput.setSampleBufferDelegate(self, queue: videoQueue)
 
 
         }
@@ -317,7 +324,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
 
         let dt = currentTime - lastMovementTime
-        print(dt)
+//        print(dt)
 
         var diffX:Float = 0
         var diffY:Float = 0
@@ -343,9 +350,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             result.x += Float(diffX)
             result.y += Float(diffY)
 
-            dispatch_async(dispatch_get_main_queue()) {
-                self.faceFrame?.frame = CGRect(x: x, y: y, width: 10, height: 10)
-            }
+//            dispatch_async(dispatch_get_main_queue()) {
+//                self.faceFrame?.frame = CGRect(x: x, y: y, width: 10, height: 10)
+//            }
         } else if(!firstRun) {
             result.x = 0
             result.y = 0
@@ -354,7 +361,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
             let cx = result.x * 0.5
             let cy = result.y * 0.5
-            print("cx: \(Int(cy * 100)), cy: \(Int(cx * 100))")
+//            print("cx: \(Int(cy * 100)), cy: \(Int(cx * 100))")
 
             let angleX = atan2(Double(cx), pixelFocalLength)
             let angleY = atan2(Double(cy), pixelFocalLength * Double(1.777))
