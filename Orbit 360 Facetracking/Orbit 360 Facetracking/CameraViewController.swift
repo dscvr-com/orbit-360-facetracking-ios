@@ -17,12 +17,10 @@ let motorStepsX = 5111
 let motorStepsY = 17820
 
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureMetadataOutputObjectsDelegate{
-    var fd = FaceDetection()
     var service: MotorControl!
 
     let toolbar = UIToolbar()
-    var switchToPhoto: UIBarButtonItem!
-    var switchToVideo: UIBarButtonItem!
+    var photo: UIBarButtonItem!
     var recordVideo: UIBarButtonItem!
     var stopVideo: UIBarButtonItem!
     var isRecording = false
@@ -76,14 +74,13 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         view.layer.addSublayer(previewLayer)
         cameraSession.startRunning()
 
-        switchToPhoto = UIBarButtonItem(title: "\u{1F4F9}", style: .Plain, target: self, action: #selector(CameraViewController.toPhoto))
-        switchToVideo = UIBarButtonItem(title: "\u{1F4F7}", style: .Plain, target: self, action: #selector(CameraViewController.toVideo))
+        photo = UIBarButtonItem(title: "\u{1F4F9}", style: .Plain, target: self, action: #selector(CameraViewController.startTimer))
         recordVideo = UIBarButtonItem(title: "\u{25B6}", style: .Plain, target: self, action: #selector(CameraViewController.startRecording))
         stopVideo = UIBarButtonItem(title: "\u{25A0}", style: .Plain, target: self, action: #selector(CameraViewController.stopRecording))
 
         toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46, self.view.frame.size.width, 46)
         toolbar.barStyle = .Black
-        toolbar.items = [switchToPhoto, recordVideo]
+        toolbar.items = [photo, recordVideo]
         toolbar.setItems(toolbar.items, animated: true)
         self.view.addSubview(toolbar)
 
@@ -194,7 +191,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             if (cameraSession.canAddOutput(metaOutput) == true) {
                 cameraSession.addOutput(metaOutput)
             }
-            var metaQueue = dispatch_queue_create("metaQueue", DISPATCH_QUEUE_SERIAL)
+            let metaQueue = dispatch_queue_create("metaQueue", DISPATCH_QUEUE_SERIAL)
             dispatch_set_target_queue(metaQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0))
             metaOutput.setMetadataObjectsDelegate(self, queue: metaQueue)
 //            metaOutput.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
@@ -266,7 +263,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         videoWriter.startWriting()
         videoWriter.startSessionAtSourceTime(timeStamp)
-        toolbar.items = [switchToPhoto, stopVideo]
+        toolbar.items = [photo, stopVideo]
         isRecording = true
     }
 
@@ -277,11 +274,21 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         isRecording = false
         videoWriter.finishWritingWithCompletionHandler({})
         UISaveVideoAtPathToSavedPhotosAlbum(videoOutputURL.path!, nil, nil, nil)
-        toolbar.items = [switchToPhoto, recordVideo]
+        toolbar.items = [photo, recordVideo]
     }
 
-    func toPhoto() {
-        toolbar.items = [switchToVideo]
+    func startTimer() {
+        var label = UILabel(frame: CGRectMake(0, outputSize.height / 2, outputSize.width, 50))
+        label.center = CGPointMake(100, 100)
+        label.textAlignment = NSTextAlignment.Center
+        label.text = "3"
+        label.backgroundColor = UIColor.blackColor()
+        label.textColor = UIColor.whiteColor()
+//        self.view.addSubview(label)
+        var timer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: nil/*#selector(CameraViewController.takePhoto)*/, userInfo: nil, repeats: false)
+    }
+
+    func takePhoto() {
 //        cameraSession.sessionPreset = AVCaptureSessionPresetPhoto
         let connection = self.imageOutput.connectionWithMediaType(AVMediaTypeVideo)
         connection.videoOrientation = AVCaptureVideoOrientation(rawValue: UIDevice.currentDevice().orientation.rawValue)!
@@ -301,12 +308,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 NSLog("error while capturing still image: \(error)")
             }
         }
-
-    }
-
-    func toVideo() {
-//        cameraSession.sessionPreset = AVCaptureSessionPresetHigh
-        toolbar.items = [switchToPhoto, recordVideo]
 
     }
     
