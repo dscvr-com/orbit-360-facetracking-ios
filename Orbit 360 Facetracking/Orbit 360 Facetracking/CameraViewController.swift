@@ -95,7 +95,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     override func viewDidLoad() {
-        
+        UIApplication.sharedApplication().idleTimerDisabled = true
         initializeProcessing()
         setupCameraSession()
         super.viewDidLoad()
