@@ -48,7 +48,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let focalLengthOld = 2.139
     var pixelFocalLength: Double!
     let fps: Int32 = 30
-    var result = TrackerState()
     var lastMovementTime = CFAbsoluteTimeGetCurrent()
 
     // Movement thresholds
@@ -78,9 +77,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 controlTarget = Point(x: 0.5, y: 0.33) // Target to the upper third.
                 break
             case .PortraitUpsideDown:
-                toCorrectOrientation = GenericTransform(m11: 0, m12: -1, m21: 1, m22: 0)
+                /*toCorrectOrientation = GenericTransform(m11: 0, m12: -1, m21: 1, m22: 0)
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
-                controlTarget = Point(x: 0.33, y: 0.5) // Target to the upper third.
+                controlTarget = Point(x: 0.33, y: 0.5) // Target to the upper third.*/
                 break
             default:
                 // Portrait case
@@ -102,9 +101,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         UIApplication.sharedApplication().idleTimerDisabled = true
         initializeProcessing()
         setupCameraSession()
-        super.viewDidLoad()
         liveSession = VCSimpleSession(videoSize: CGSize(width: 1280, height: 720), frameRate: 30, bitrate: 400000, useInterfaceOrientation: false)
+        //view.addSubview(liveSession.previewView)
+        //liveSession.previewView.frame = view.bounds
         liveSession.delegate = self
+        super.viewDidLoad()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -215,7 +216,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 case .Portrait: updatePreviewLayer(previewLayerConnection, orientation: .Portrait)
                 case .LandscapeRight: updatePreviewLayer(previewLayerConnection, orientation: .LandscapeLeft)
                 case .LandscapeLeft: updatePreviewLayer(previewLayerConnection, orientation: .LandscapeRight)
-                case .PortraitUpsideDown: updatePreviewLayer(previewLayerConnection, orientation: .PortraitUpsideDown)
+                //case .PortraitUpsideDown: updatePreviewLayer(previewLayerConnection, orientation: .PortraitUpsideDown)
                 default: updatePreviewLayer(previewLayerConnection, orientation: .Portrait)
                     break
                 }
@@ -508,7 +509,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             liveButton.setTitle("Disconnect", forState: .Normal)
             //liveButton.backgroundColor = UIColor.redColor()
         default:
-            liveButton.setTitle("Live", forState: .Normal)
+            liveButton.setTitle("Go Live", forState: .Normal)
             //liveButton.backgroundColor = UIColor.greenColor()
         }
     }
