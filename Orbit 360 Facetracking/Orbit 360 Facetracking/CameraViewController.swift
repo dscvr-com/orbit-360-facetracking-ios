@@ -17,8 +17,11 @@ let aspectLandscape = Float(1280) / Float(720)
 let motorStepsX = 5111
 let motorStepsY = 17820
 
-class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureMetadataOutputObjectsDelegate{
+class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureMetadataOutputObjectsDelegate, VCSessionDelegate{
     var service: MotorControl!
+
+    var liveSession: VCSimpleSession!
+    var livePrivacy: FBLivePrivacy = .closed
 
     var isRecording = false
     var faceFrame: UIView?
@@ -29,6 +32,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     @IBOutlet weak var movieButton: UIButton!
     @IBOutlet weak var controlBar: UIView!
+    @IBOutlet weak var liveButton: UIButton!
 
     var outputSize: CGSize!
     var timeStamp: CMTime!
@@ -99,6 +103,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         initializeProcessing()
         setupCameraSession()
         super.viewDidLoad()
+        liveSession = VCSimpleSession(videoSize: CGSize(width: 1280, height: 720), frameRate: 30, bitrate: 400000, useInterfaceOrientation: false)
+        liveSession.delegate = self
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -130,6 +136,62 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     @IBAction func startPhoto(sender: AnyObject) {
         startTimer()
+    }
+
+    @IBAction func goLive(sender: AnyObject) {
+        switch liveSession.rtmpSessionState {
+        case .None, .PreviewStarted, .Ended, .Error:
+            startFBLive()
+        default:
+            endFBLive()
+            break
+        }
+    }
+
+    func startFBLive() {
+        if FBSDKAccessToken.currentAccessToken() != nil {
+            FBLiveAPI.shared.startLive(livePrivacy) { result in
+                guard let streamUrlString = (result as? NSDictionary)?.valueForKey("stream_url") as? String else {
+                    return
+                }
+                let streamUrl = NSURL(string: streamUrlString)
+
+                guard let lastPathComponent = streamUrl?.lastPathComponent,
+                    let query = streamUrl?.query else {
+                        return
+                }
+
+                self.liveSession.startRtmpSessionWithURL(
+                    "rtmp://rtmp-api.facebook.com:80/rtmp/",
+                    andStreamKey: "\(lastPathComponent)?\(query)"
+                )
+            }
+        } else {
+            fbLogin()
+        }
+    }
+
+    func endFBLive() {
+        if FBSDKAccessToken.currentAccessToken() != nil {
+            FBLiveAPI.shared.endLive { _ in
+                self.liveSession.endRtmpSession()
+            }
+        } else {
+            fbLogin()
+        }
+    }
+
+    func fbLogin() {
+        let loginManager = FBSDKLoginManager()
+        loginManager.logInWithPublishPermissions(["publish_actions"], fromViewController: self) { (result, error) in
+            if error != nil {
+                print("Error")
+            } else if result?.isCancelled == true {
+                print("Cancelled")
+            } else {
+                print("Logged in")
+            }
+        }
     }
 
     private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
@@ -425,7 +487,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            print("X: \(Int(steps.x)), Y: \(Int(steps.y)), SX: \(Int(speed.x)), SY: \(Int(speed.y))")
             
             if(abs(steps.x) > Float(xThresh) || abs(steps.y) > Float(yThresh)) {
-                self.service.moveXandY(Int32(steps.x), speedX: Int32(speed.x), stepsY: Int32(steps.y), speedY: Int32(speed.y))
+                //self.service.moveXandY(Int32(steps.x), speedX: Int32(speed.x), stepsY: Int32(steps.y), speedY: Int32(speed.y))
             }
         }
         
@@ -433,6 +495,22 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     func captureStillImageAsynchronously(from connection: AVCaptureConnection!, completionHandler handler: ((CMSampleBuffer?, NSError?) -> Void)!) {
+    }
+
+    // MARK: VCSessionDelegate
+
+    func connectionStatusChanged(sessionState: VCSessionState) {
+        switch liveSession.rtmpSessionState {
+        case .Starting:
+            liveButton.setTitle("Connecting", forState: .Normal)
+            //liveButton.backgroundColor = UIColor.orangeColor()
+        case .Started:
+            liveButton.setTitle("Disconnect", forState: .Normal)
+            //liveButton.backgroundColor = UIColor.redColor()
+        default:
+            liveButton.setTitle("Live", forState: .Normal)
+            //liveButton.backgroundColor = UIColor.greenColor()
+        }
     }
 
 }

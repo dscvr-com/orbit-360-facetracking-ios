@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="OqD-yW-qaK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -89,16 +89,27 @@
                                             <action selector="startMovie:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0Ef-ec-Fau"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ucp-XR-2UJ">
+                                        <rect key="frame" x="136" y="21" width="103" height="30"/>
+                                        <state key="normal" title="Facebook Live!"/>
+                                        <connections>
+                                            <action selector="goLive:" destination="BYZ-38-t0r" eventType="touchUpInside" id="b8s-oL-y2v"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="A5v-VN-gA2" firstAttribute="leading" secondItem="Ucp-XR-2UJ" secondAttribute="trailing" constant="77" id="6WK-tu-COb"/>
                                     <constraint firstItem="vAB-fx-FHn" firstAttribute="top" secondItem="72o-5b-zWh" secondAttribute="top" constant="13" id="Id6-tK-ta0"/>
                                     <constraint firstAttribute="bottom" secondItem="vAB-fx-FHn" secondAttribute="bottom" constant="13" id="ULf-oQ-WGX"/>
                                     <constraint firstItem="A5v-VN-gA2" firstAttribute="top" secondItem="72o-5b-zWh" secondAttribute="top" constant="13" id="Ylb-K0-HJw"/>
+                                    <constraint firstItem="Ucp-XR-2UJ" firstAttribute="leading" secondItem="vAB-fx-FHn" secondAttribute="trailing" constant="77" id="d9K-BP-80w"/>
                                     <constraint firstAttribute="trailing" secondItem="A5v-VN-gA2" secondAttribute="trailing" constant="13" id="dWm-iZ-csL"/>
                                     <constraint firstItem="vAB-fx-FHn" firstAttribute="leading" secondItem="72o-5b-zWh" secondAttribute="leading" constant="13" id="j5N-cF-Ljj"/>
                                     <constraint firstAttribute="height" constant="72" id="mxn-44-tjf"/>
+                                    <constraint firstItem="Ucp-XR-2UJ" firstAttribute="top" secondItem="72o-5b-zWh" secondAttribute="top" constant="21" id="pTc-wK-GSC"/>
                                     <constraint firstAttribute="bottom" secondItem="A5v-VN-gA2" secondAttribute="bottom" constant="13" id="paV-dv-ItZ"/>
+                                    <constraint firstAttribute="bottom" secondItem="Ucp-XR-2UJ" secondAttribute="bottom" constant="21" id="xiE-WM-Bqv"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -111,6 +122,7 @@
                     </view>
                     <connections>
                         <outlet property="controlBar" destination="72o-5b-zWh" id="9gv-bN-vnh"/>
+                        <outlet property="liveButton" destination="Ucp-XR-2UJ" id="efX-CB-JU1"/>
                         <outlet property="movieButton" destination="vAB-fx-FHn" id="mfg-2k-HIg"/>
                     </connections>
                 </viewController>
