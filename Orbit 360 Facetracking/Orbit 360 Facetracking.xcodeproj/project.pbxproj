@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		185FB48B7B462FFF154A7DBF /* libPods-Orbit 360 Facetracking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5767D0D544A4E8EE7F6D89C1 /* libPods-Orbit 360 Facetracking.a */; };
+		611837C3672731E2EA7E7557 /* libPods-Orbit 360 FacetrackingTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B935749E82F4EDCEF89B08 /* libPods-Orbit 360 FacetrackingTests.a */; };
+		6261439EE1E603497DE76FD1 /* libPods-Orbit 360 FacetrackingUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 616538A151C3F3D3CA7BBDDC /* libPods-Orbit 360 FacetrackingUITests.a */; };
 		A5831FA81E57275500A50103 /* CoordinateConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5831FA71E57275500A50103 /* CoordinateConversion.swift */; };
 		A5831FAA1E57298800A50103 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5831FA91E57298800A50103 /* Point.swift */; };
 		A5831FAC1E5732A800A50103 /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5831FAB1E5732A800A50103 /* Control.swift */; };
@@ -29,7 +32,6 @@
 		E8E7A0A71E57A43D00DCB9EC /* movie_recording.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E7A0A61E57A43D00DCB9EC /* movie_recording.png */; };
 		E8F545C41DB7E42300ED5EFE /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F545C31DB7E42300ED5EFE /* TableViewController.swift */; };
 		E8F545C61DB7F2DF00ED5EFE /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F545C51DB7F2DF00ED5EFE /* TableViewCell.swift */; };
-		E8F545C91DB8380700ED5EFE /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8F545C81DB8380700ED5EFE /* opencv2.framework */; };
 		E8F545CB1DB8CC0900ED5EFE /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F545CA1DB8CC0900ED5EFE /* CameraViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,9 +53,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		03B0ED1B143F56371F15057B /* Pods-Orbit 360 FacetrackingUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Orbit 360 FacetrackingUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Orbit 360 FacetrackingUITests/Pods-Orbit 360 FacetrackingUITests.release.xcconfig"; sourceTree = "<group>"; };
+		2EFF894706876BF1876BD30E /* Pods-Orbit 360 FacetrackingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Orbit 360 FacetrackingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Orbit 360 FacetrackingTests/Pods-Orbit 360 FacetrackingTests.release.xcconfig"; sourceTree = "<group>"; };
+		3C3D17854958F2073B311719 /* Pods-Orbit 360 FacetrackingUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Orbit 360 FacetrackingUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Orbit 360 FacetrackingUITests/Pods-Orbit 360 FacetrackingUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		5767D0D544A4E8EE7F6D89C1 /* libPods-Orbit 360 Facetracking.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Orbit 360 Facetracking.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		616538A151C3F3D3CA7BBDDC /* libPods-Orbit 360 FacetrackingUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Orbit 360 FacetrackingUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		802E8DADFE781A0E9591FAD0 /* Pods-Orbit 360 FacetrackingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Orbit 360 FacetrackingTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Orbit 360 FacetrackingTests/Pods-Orbit 360 FacetrackingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A5831FA71E57275500A50103 /* CoordinateConversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateConversion.swift; sourceTree = "<group>"; };
 		A5831FA91E57298800A50103 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		A5831FAB1E5732A800A50103 /* Control.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Control.swift; sourceTree = "<group>"; };
+		B8A34279C18308A5E8E92D8C /* Pods-Orbit 360 Facetracking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Orbit 360 Facetracking.release.xcconfig"; path = "Pods/Target Support Files/Pods-Orbit 360 Facetracking/Pods-Orbit 360 Facetracking.release.xcconfig"; sourceTree = "<group>"; };
+		D519106C457EB9C3586E19D2 /* Pods-Orbit 360 Facetracking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Orbit 360 Facetracking.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Orbit 360 Facetracking/Pods-Orbit 360 Facetracking.debug.xcconfig"; sourceTree = "<group>"; };
+		E6B935749E82F4EDCEF89B08 /* libPods-Orbit 360 FacetrackingTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Orbit 360 FacetrackingTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E81027E91DBFA8FD00B4B63D /* haarcascade_frontalface_alt.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = haarcascade_frontalface_alt.xml; sourceTree = "<group>"; };
 		E81EC9391DDDFA11005330F0 /* AsyncStream.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AsyncStream.hpp; sourceTree = "<group>"; };
 		E81EC93B1DE348EF005330F0 /* IPhoneModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPhoneModel.swift; sourceTree = "<group>"; };
@@ -82,7 +93,6 @@
 		E8E7A0A61E57A43D00DCB9EC /* movie_recording.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movie_recording.png; sourceTree = "<group>"; };
 		E8F545C31DB7E42300ED5EFE /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		E8F545C51DB7F2DF00ED5EFE /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
-		E8F545C81DB8380700ED5EFE /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		E8F545CA1DB8CC0900ED5EFE /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,7 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E8F545C91DB8380700ED5EFE /* opencv2.framework in Frameworks */,
+				185FB48B7B462FFF154A7DBF /* libPods-Orbit 360 Facetracking.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				611837C3672731E2EA7E7557 /* libPods-Orbit 360 FacetrackingTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,12 +117,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6261439EE1E603497DE76FD1 /* libPods-Orbit 360 FacetrackingUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5454F39DA700F163BE2C0495 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D519106C457EB9C3586E19D2 /* Pods-Orbit 360 Facetracking.debug.xcconfig */,
+				B8A34279C18308A5E8E92D8C /* Pods-Orbit 360 Facetracking.release.xcconfig */,
+				802E8DADFE781A0E9591FAD0 /* Pods-Orbit 360 FacetrackingTests.debug.xcconfig */,
+				2EFF894706876BF1876BD30E /* Pods-Orbit 360 FacetrackingTests.release.xcconfig */,
+				3C3D17854958F2073B311719 /* Pods-Orbit 360 FacetrackingUITests.debug.xcconfig */,
+				03B0ED1B143F56371F15057B /* Pods-Orbit 360 FacetrackingUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		7EAB1FBB964F3926D5107036 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5767D0D544A4E8EE7F6D89C1 /* libPods-Orbit 360 Facetracking.a */,
+				E6B935749E82F4EDCEF89B08 /* libPods-Orbit 360 FacetrackingTests.a */,
+				616538A151C3F3D3CA7BBDDC /* libPods-Orbit 360 FacetrackingUITests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A5831FA61E57271400A50103 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
@@ -139,7 +174,8 @@
 				E88EF6DE1DA6DE080009E99D /* Orbit 360 FacetrackingTests */,
 				E88EF6E91DA6DE080009E99D /* Orbit 360 FacetrackingUITests */,
 				E88EF6C81DA6DE070009E99D /* Products */,
-				E8F545C81DB8380700ED5EFE /* opencv2.framework */,
+				5454F39DA700F163BE2C0495 /* Pods */,
+				7EAB1FBB964F3926D5107036 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -247,9 +283,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E88EF6EF1DA6DE080009E99D /* Build configuration list for PBXNativeTarget "Orbit 360 Facetracking" */;
 			buildPhases = (
+				761F6B0AC7BAA792BA27260F /* [CP] Check Pods Manifest.lock */,
 				E88EF6C31DA6DE070009E99D /* Sources */,
 				E88EF6C41DA6DE070009E99D /* Frameworks */,
 				E88EF6C51DA6DE070009E99D /* Resources */,
+				7DEE4052DB8D184FB4A438ED /* [CP] Embed Pods Frameworks */,
+				4B7A59BB12B59A4B286321AF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -264,9 +303,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E88EF6F21DA6DE080009E99D /* Build configuration list for PBXNativeTarget "Orbit 360 FacetrackingTests" */;
 			buildPhases = (
+				F14F045D89B64A03C770D741 /* [CP] Check Pods Manifest.lock */,
 				E88EF6D71DA6DE080009E99D /* Sources */,
 				E88EF6D81DA6DE080009E99D /* Frameworks */,
 				E88EF6D91DA6DE080009E99D /* Resources */,
+				28A77D80C064A7D479070589 /* [CP] Embed Pods Frameworks */,
+				D68BFEDBFEA4C5944B42CFF2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -282,9 +324,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E88EF6F51DA6DE080009E99D /* Build configuration list for PBXNativeTarget "Orbit 360 FacetrackingUITests" */;
 			buildPhases = (
+				AB2B8170596A09FF4F2659B9 /* [CP] Check Pods Manifest.lock */,
 				E88EF6E21DA6DE080009E99D /* Sources */,
 				E88EF6E31DA6DE080009E99D /* Frameworks */,
 				E88EF6E41DA6DE080009E99D /* Resources */,
+				570A473B70C1AC826A5326C9 /* [CP] Embed Pods Frameworks */,
+				687FF5CA139A8D0FCBE3CC3E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -376,6 +421,144 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		28A77D80C064A7D479070589 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Orbit 360 FacetrackingTests/Pods-Orbit 360 FacetrackingTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4B7A59BB12B59A4B286321AF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Orbit 360 Facetracking/Pods-Orbit 360 Facetracking-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		570A473B70C1AC826A5326C9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Orbit 360 FacetrackingUITests/Pods-Orbit 360 FacetrackingUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		687FF5CA139A8D0FCBE3CC3E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Orbit 360 FacetrackingUITests/Pods-Orbit 360 FacetrackingUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		761F6B0AC7BAA792BA27260F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7DEE4052DB8D184FB4A438ED /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Orbit 360 Facetracking/Pods-Orbit 360 Facetracking-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AB2B8170596A09FF4F2659B9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D68BFEDBFEA4C5944B42CFF2 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Orbit 360 FacetrackingTests/Pods-Orbit 360 FacetrackingTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F14F045D89B64A03C770D741 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E88EF6C31DA6DE070009E99D /* Sources */ = {
@@ -541,6 +724,7 @@
 		};
 		E88EF6F01DA6DE080009E99D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D519106C457EB9C3586E19D2 /* Pods-Orbit 360 Facetracking.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -565,6 +749,7 @@
 		};
 		E88EF6F11DA6DE080009E99D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B8A34279C18308A5E8E92D8C /* Pods-Orbit 360 Facetracking.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -587,6 +772,7 @@
 		};
 		E88EF6F31DA6DE080009E99D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 802E8DADFE781A0E9591FAD0 /* Pods-Orbit 360 FacetrackingTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "Orbit 360 FacetrackingTests/Info.plist";
@@ -600,6 +786,7 @@
 		};
 		E88EF6F41DA6DE080009E99D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2EFF894706876BF1876BD30E /* Pods-Orbit 360 FacetrackingTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "Orbit 360 FacetrackingTests/Info.plist";
@@ -613,6 +800,7 @@
 		};
 		E88EF6F61DA6DE080009E99D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3C3D17854958F2073B311719 /* Pods-Orbit 360 FacetrackingUITests.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "Orbit 360 FacetrackingUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -625,6 +813,7 @@
 		};
 		E88EF6F71DA6DE080009E99D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 03B0ED1B143F56371F15057B /* Pods-Orbit 360 FacetrackingUITests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "Orbit 360 FacetrackingUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
