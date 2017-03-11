@@ -23,15 +23,16 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var liveSession: VCSimpleSession!
     var livePrivacy: FBLivePrivacy = .closed
 
+    var isInMovieMode = true
     var isRecording = false
-    var faceFrame: UIView?
     var face: CGRect! = nil
     var firstRun = true
     var firstRunMeta = true
     var timer: NSTimer!
 
-    @IBOutlet weak var movieButton: UIButton!
     @IBOutlet weak var controlBar: UIView!
+    @IBOutlet weak var navBar: UIView!
+    @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var liveButton: UIButton!
 
     var outputSize: CGSize!
@@ -50,10 +51,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let fps: Int32 = 30
     var lastMovementTime = CFAbsoluteTimeGetCurrent()
 
-    // Movement thresholds
-    let xThresh = 10
-    let yThresh = 10
-    
     var toCorrectOrientation: GenericTransform!
     var toUnitSpace: CameraToUnitSpaceCoordinateConversion!
     var toAngle: UnitToMotorSpaceCoordinateConversion!
@@ -62,7 +59,13 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let controlLogic = PControl<Point>(p: 0.5) // Emulate I-control, since motor does integrating
     let speedFactorX: Float = 0.5
     let speedFactorY: Float = 0.5
-    
+    let xThresh = 10
+    let yThresh = 10
+
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+
     func initializeProcessing() {
         let orientation = UIDevice.currentDevice().orientation
         switch (orientation) {
@@ -88,23 +91,18 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 controlTarget = Point(x: 0.33, y: 0.5) // Target to the upper third.
                 break
         }
-        
         toAngle = UnitToMotorSpaceCoordinateConversion(unitFocalLength: Float(focalLen))
         toSteps = MotorSpaceToStepsConversion(fullStepsX: Float(motorStepsX), fullStepsY: Float(motorStepsY))
-    }
-
-    override func prefersStatusBarHidden() -> Bool {
-        return true
     }
 
     override func viewDidLoad() {
         UIApplication.sharedApplication().idleTimerDisabled = true
         initializeProcessing()
         setupCameraSession()
-        liveSession = VCSimpleSession(videoSize: CGSize(width: 1280, height: 720), frameRate: 30, bitrate: 400000, useInterfaceOrientation: false)
+        //liveSession = VCSimpleSession(videoSize: CGSize(width: 1280, height: 720), frameRate: 30, bitrate: 400000, useInterfaceOrientation: false)
         //view.addSubview(liveSession.previewView)
         //liveSession.previewView.frame = view.bounds
-        liveSession.delegate = self
+        //liveSession.delegate = self
         super.viewDidLoad()
     }
 
@@ -112,33 +110,35 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         super.viewDidAppear(animated)
         view.layer.addSublayer(previewLayer)
         cameraSession.startRunning()
-
-        faceFrame = UIView()
-        faceFrame?.layer.borderColor = UIColor.greenColor().CGColor
-        faceFrame?.layer.borderWidth = 2
-        view.addSubview(faceFrame!)
-        view.bringSubviewToFront(faceFrame!)
         view.bringSubviewToFront(controlBar)
+        view.bringSubviewToFront(navBar)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
-    @IBAction func startMovie(sender: AnyObject) {
-        if (isRecording) {
-            stopRecording()
-            movieButton.setBackgroundImage(UIImage(named:"movie")!, forState: .Normal)
+    @IBAction func startButtonclicked(sender: AnyObject) {
+        if (isInMovieMode) {
+            startMovie()
         } else {
-            startRecording()
-            movieButton.setBackgroundImage(UIImage(named:"movie_recording")!, forState: .Normal)
+            startTimer()
         }
     }
 
-    @IBAction func startPhoto(sender: AnyObject) {
-        startTimer()
+    func startMovie() {
+        if (isRecording) {
+            stopRecording()
+            startButton.setBackgroundImage(UIImage(named:"start")!, forState: .Normal)
+        } else {
+            startRecording()
+            startButton.setBackgroundImage(UIImage(named:"stop")!, forState: .Normal)
+        }
     }
 
+    @IBAction func toggleCamera(sender: AnyObject) {
+    }
+    
     @IBAction func goLive(sender: AnyObject) {
         switch liveSession.rtmpSessionState {
         case .None, .PreviewStarted, .Ended, .Error:
@@ -161,7 +161,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     let query = streamUrl?.query else {
                         return
                 }
-
                 self.liveSession.startRtmpSessionWithURL(
                     "rtmp://rtmp-api.facebook.com:80/rtmp/",
                     andStreamKey: "\(lastPathComponent)?\(query)"
@@ -202,16 +201,13 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         initializeProcessing()
 
         if let connection =  self.previewLayer.connection  {
             let currentDevice: UIDevice = UIDevice.currentDevice()
             let orientation: UIDeviceOrientation = currentDevice.orientation
             let previewLayerConnection : AVCaptureConnection = connection
-
             if previewLayerConnection.supportsVideoOrientation {
-
                 switch (orientation) {
                 case .Portrait: updatePreviewLayer(previewLayerConnection, orientation: .Portrait)
                 case .LandscapeRight: updatePreviewLayer(previewLayerConnection, orientation: .LandscapeLeft)
@@ -237,6 +233,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         preview.videoGravity = AVLayerVideoGravityResizeAspectFill
         return preview
     }()
+
     var captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
 
     /* Sets up in and outputs for the camerasession */
@@ -482,11 +479,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             
             speed = min(speed, b: Point(x: 1000, y: 1000))
             speed = max(speed, b: Point(x: 250, y: 250))
-            
-            
-            
-//            print("X: \(Int(steps.x)), Y: \(Int(steps.y)), SX: \(Int(speed.x)), SY: \(Int(speed.y))")
-            
+
             if(abs(steps.x) > Float(xThresh) || abs(steps.y) > Float(yThresh)) {
                 //self.service.moveXandY(Int32(steps.x), speedX: Int32(speed.x), stepsY: Int32(steps.y), speedY: Int32(speed.y))
             }

@@ -13,11 +13,14 @@
 		A5831FA81E57275500A50103 /* CoordinateConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5831FA71E57275500A50103 /* CoordinateConversion.swift */; };
 		A5831FAA1E57298800A50103 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5831FA91E57298800A50103 /* Point.swift */; };
 		A5831FAC1E5732A800A50103 /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5831FAB1E5732A800A50103 /* Control.swift */; };
-		E81027EA1DBFA8FD00B4B63D /* haarcascade_frontalface_alt.xml in Resources */ = {isa = PBXBuildFile; fileRef = E81027E91DBFA8FD00B4B63D /* haarcascade_frontalface_alt.xml */; };
+		E80E5FFE1E744B38004EF2DE /* gradient.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E80E5FF91E744B38004EF2DE /* gradient.jpg */; };
+		E80E5FFF1E744B38004EF2DE /* haarcascade_frontalface_alt.xml in Resources */ = {isa = PBXBuildFile; fileRef = E80E5FFA1E744B38004EF2DE /* haarcascade_frontalface_alt.xml */; };
+		E80E60031E745269004EF2DE /* Loadingscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = E80E60021E745269004EF2DE /* Loadingscreen.png */; };
+		E80E60051E745C1A004EF2DE /* cameraicon.png in Resources */ = {isa = PBXBuildFile; fileRef = E80E60041E745C1A004EF2DE /* cameraicon.png */; };
+		E80E60081E746ADA004EF2DE /* start.png in Resources */ = {isa = PBXBuildFile; fileRef = E80E60061E746ADA004EF2DE /* start.png */; };
+		E80E60091E746ADA004EF2DE /* stop.png in Resources */ = {isa = PBXBuildFile; fileRef = E80E60071E746ADA004EF2DE /* stop.png */; };
 		E81EC93A1DDDFA11005330F0 /* AsyncStream.hpp in Resources */ = {isa = PBXBuildFile; fileRef = E81EC9391DDDFA11005330F0 /* AsyncStream.hpp */; };
 		E81EC93C1DE348F0005330F0 /* IPhoneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81EC93B1DE348EF005330F0 /* IPhoneModel.swift */; };
-		E82534FF1E5799C400F525A6 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = E82534FD1E5799C400F525A6 /* camera.png */; };
-		E82535001E5799C400F525A6 /* movie.png in Resources */ = {isa = PBXBuildFile; fileRef = E82534FE1E5799C400F525A6 /* movie.png */; };
 		E827BA151DB5171C005257CB /* BLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E827BA141DB5171C005257CB /* BLEDiscovery.swift */; };
 		E827BA171DB517DC005257CB /* BLEService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E827BA161DB517DC005257CB /* BLEService.swift */; };
 		E843FE4B1DBDB83F00C0B855 /* MotorControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */; };
@@ -29,7 +32,6 @@
 		E88EF6EB1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6EA1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift */; };
 		E8D887D21DF5C57700A13F66 /* FaceDetection.mm in Sources */ = {isa = PBXBuildFile; fileRef = E8D887D11DF5C57700A13F66 /* FaceDetection.mm */; };
 		E8D887D51DF5CC0D00A13F66 /* Tracker.mm in Sources */ = {isa = PBXBuildFile; fileRef = E8D887D41DF5CC0D00A13F66 /* Tracker.mm */; };
-		E8E7A0A71E57A43D00DCB9EC /* movie_recording.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E7A0A61E57A43D00DCB9EC /* movie_recording.png */; };
 		E8EFEB2C1E6489E20088F663 /* FBLiveAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EFEB2B1E6489E20088F663 /* FBLiveAPI.swift */; };
 		E8F545C41DB7E42300ED5EFE /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F545C31DB7E42300ED5EFE /* TableViewController.swift */; };
 		E8F545C61DB7F2DF00ED5EFE /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F545C51DB7F2DF00ED5EFE /* TableViewCell.swift */; };
@@ -66,11 +68,14 @@
 		B8A34279C18308A5E8E92D8C /* Pods-Orbit 360 Facetracking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Orbit 360 Facetracking.release.xcconfig"; path = "Pods/Target Support Files/Pods-Orbit 360 Facetracking/Pods-Orbit 360 Facetracking.release.xcconfig"; sourceTree = "<group>"; };
 		D519106C457EB9C3586E19D2 /* Pods-Orbit 360 Facetracking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Orbit 360 Facetracking.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Orbit 360 Facetracking/Pods-Orbit 360 Facetracking.debug.xcconfig"; sourceTree = "<group>"; };
 		E6B935749E82F4EDCEF89B08 /* libPods-Orbit 360 FacetrackingTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Orbit 360 FacetrackingTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E81027E91DBFA8FD00B4B63D /* haarcascade_frontalface_alt.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = haarcascade_frontalface_alt.xml; path = ../haarcascade_frontalface_alt.xml; sourceTree = "<group>"; };
+		E80E5FF91E744B38004EF2DE /* gradient.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = gradient.jpg; path = ressources/gradient.jpg; sourceTree = "<group>"; };
+		E80E5FFA1E744B38004EF2DE /* haarcascade_frontalface_alt.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = haarcascade_frontalface_alt.xml; path = ressources/haarcascade_frontalface_alt.xml; sourceTree = "<group>"; };
+		E80E60021E745269004EF2DE /* Loadingscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Loadingscreen.png; path = ressources/Loadingscreen.png; sourceTree = "<group>"; };
+		E80E60041E745C1A004EF2DE /* cameraicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cameraicon.png; path = ressources/cameraicon.png; sourceTree = "<group>"; };
+		E80E60061E746ADA004EF2DE /* start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = start.png; path = ressources/start.png; sourceTree = "<group>"; };
+		E80E60071E746ADA004EF2DE /* stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stop.png; path = ressources/stop.png; sourceTree = "<group>"; };
 		E81EC9391DDDFA11005330F0 /* AsyncStream.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AsyncStream.hpp; sourceTree = "<group>"; };
 		E81EC93B1DE348EF005330F0 /* IPhoneModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPhoneModel.swift; sourceTree = "<group>"; };
-		E82534FD1E5799C400F525A6 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
-		E82534FE1E5799C400F525A6 /* movie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movie.png; sourceTree = "<group>"; };
 		E827BA141DB5171C005257CB /* BLEDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEDiscovery.swift; sourceTree = "<group>"; };
 		E827BA161DB517DC005257CB /* BLEService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEService.swift; sourceTree = "<group>"; };
 		E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotorControl.swift; sourceTree = "<group>"; };
@@ -91,7 +96,6 @@
 		E8D887D11DF5C57700A13F66 /* FaceDetection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FaceDetection.mm; sourceTree = "<group>"; };
 		E8D887D31DF5CAF400A13F66 /* Tracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tracker.h; sourceTree = "<group>"; };
 		E8D887D41DF5CC0D00A13F66 /* Tracker.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Tracker.mm; sourceTree = "<group>"; };
-		E8E7A0A61E57A43D00DCB9EC /* movie_recording.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movie_recording.png; sourceTree = "<group>"; };
 		E8EFEB2B1E6489E20088F663 /* FBLiveAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBLiveAPI.swift; sourceTree = "<group>"; };
 		E8F545C31DB7E42300ED5EFE /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		E8F545C51DB7F2DF00ED5EFE /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
@@ -247,10 +251,12 @@
 		E8EFEB2A1E6485280088F663 /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
-				E81027E91DBFA8FD00B4B63D /* haarcascade_frontalface_alt.xml */,
-				E8E7A0A61E57A43D00DCB9EC /* movie_recording.png */,
-				E82534FD1E5799C400F525A6 /* camera.png */,
-				E82534FE1E5799C400F525A6 /* movie.png */,
+				E80E5FF91E744B38004EF2DE /* gradient.jpg */,
+				E80E5FFA1E744B38004EF2DE /* haarcascade_frontalface_alt.xml */,
+				E80E60021E745269004EF2DE /* Loadingscreen.png */,
+				E80E60061E746ADA004EF2DE /* start.png */,
+				E80E60071E746ADA004EF2DE /* stop.png */,
+				E80E60041E745C1A004EF2DE /* cameraicon.png */,
 			);
 			name = Ressources;
 			sourceTree = "<group>";
@@ -406,14 +412,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E80E60031E745269004EF2DE /* Loadingscreen.png in Resources */,
+				E80E60091E746ADA004EF2DE /* stop.png in Resources */,
+				E80E60081E746ADA004EF2DE /* start.png in Resources */,
 				E81EC93A1DDDFA11005330F0 /* AsyncStream.hpp in Resources */,
-				E82535001E5799C400F525A6 /* movie.png in Resources */,
-				E8E7A0A71E57A43D00DCB9EC /* movie_recording.png in Resources */,
-				E81027EA1DBFA8FD00B4B63D /* haarcascade_frontalface_alt.xml in Resources */,
 				E88EF6D51DA6DE070009E99D /* LaunchScreen.storyboard in Resources */,
 				E88EF6D21DA6DE070009E99D /* Assets.xcassets in Resources */,
-				E82534FF1E5799C400F525A6 /* camera.png in Resources */,
+				E80E5FFE1E744B38004EF2DE /* gradient.jpg in Resources */,
 				E88EF6D01DA6DE070009E99D /* Main.storyboard in Resources */,
+				E80E5FFF1E744B38004EF2DE /* haarcascade_frontalface_alt.xml in Resources */,
+				E80E60051E745C1A004EF2DE /* cameraicon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
