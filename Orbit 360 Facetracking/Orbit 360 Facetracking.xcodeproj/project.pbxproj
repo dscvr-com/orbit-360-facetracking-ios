@@ -24,10 +24,10 @@
 		E827BA151DB5171C005257CB /* BLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E827BA141DB5171C005257CB /* BLEDiscovery.swift */; };
 		E827BA171DB517DC005257CB /* BLEService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E827BA161DB517DC005257CB /* BLEService.swift */; };
 		E843FE4B1DBDB83F00C0B855 /* MotorControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */; };
+		E880ADFF1E74872C00E41ADB /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E880ADFD1E74872C00E41ADB /* Launch Screen.storyboard */; };
 		E88EF6CB1DA6DE070009E99D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6CA1DA6DE070009E99D /* AppDelegate.swift */; };
 		E88EF6D01DA6DE070009E99D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E88EF6CE1DA6DE070009E99D /* Main.storyboard */; };
 		E88EF6D21DA6DE070009E99D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E88EF6D11DA6DE070009E99D /* Assets.xcassets */; };
-		E88EF6D51DA6DE070009E99D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E88EF6D31DA6DE070009E99D /* LaunchScreen.storyboard */; };
 		E88EF6E01DA6DE080009E99D /* Orbit_360_FacetrackingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6DF1DA6DE080009E99D /* Orbit_360_FacetrackingTests.swift */; };
 		E88EF6EB1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6EA1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift */; };
 		E8D887D21DF5C57700A13F66 /* FaceDetection.mm in Sources */ = {isa = PBXBuildFile; fileRef = E8D887D11DF5C57700A13F66 /* FaceDetection.mm */; };
@@ -80,11 +80,11 @@
 		E827BA161DB517DC005257CB /* BLEService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEService.swift; sourceTree = "<group>"; };
 		E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotorControl.swift; sourceTree = "<group>"; };
 		E843FE4C1DBE32A600C0B855 /* Orbit 360 Facetracking-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Orbit 360 Facetracking-Bridging-Header.h"; sourceTree = "<group>"; };
+		E880ADFE1E74872C00E41ADB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
 		E88EF6C71DA6DE070009E99D /* Orbit 360 Facetracking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Orbit 360 Facetracking.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E88EF6CA1DA6DE070009E99D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E88EF6CF1DA6DE070009E99D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E88EF6D11DA6DE070009E99D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E88EF6D41DA6DE070009E99D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E88EF6D61DA6DE070009E99D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E88EF6DB1DA6DE080009E99D /* Orbit 360 FacetrackingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Orbit 360 FacetrackingTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E88EF6DF1DA6DE080009E99D /* Orbit_360_FacetrackingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orbit_360_FacetrackingTests.swift; sourceTree = "<group>"; };
@@ -200,7 +200,7 @@
 				E8EFEB2A1E6485280088F663 /* Ressources */,
 				E88EF6CA1DA6DE070009E99D /* AppDelegate.swift */,
 				E88EF6CE1DA6DE070009E99D /* Main.storyboard */,
-				E88EF6D31DA6DE070009E99D /* LaunchScreen.storyboard */,
+				E880ADFD1E74872C00E41ADB /* Launch Screen.storyboard */,
 				E88EF6D11DA6DE070009E99D /* Assets.xcassets */,
 				E88EF6D61DA6DE070009E99D /* Info.plist */,
 				E827BA131DB516F7005257CB /* BLE */,
@@ -416,8 +416,8 @@
 				E80E60091E746ADA004EF2DE /* stop.png in Resources */,
 				E80E60081E746ADA004EF2DE /* start.png in Resources */,
 				E81EC93A1DDDFA11005330F0 /* AsyncStream.hpp in Resources */,
-				E88EF6D51DA6DE070009E99D /* LaunchScreen.storyboard in Resources */,
 				E88EF6D21DA6DE070009E99D /* Assets.xcassets in Resources */,
+				E880ADFF1E74872C00E41ADB /* Launch Screen.storyboard in Resources */,
 				E80E5FFE1E744B38004EF2DE /* gradient.jpg in Resources */,
 				E88EF6D01DA6DE070009E99D /* Main.storyboard in Resources */,
 				E80E5FFF1E744B38004EF2DE /* haarcascade_frontalface_alt.xml in Resources */,
@@ -633,20 +633,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		E880ADFD1E74872C00E41ADB /* Launch Screen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E880ADFE1E74872C00E41ADB /* Base */,
+			);
+			name = "Launch Screen.storyboard";
+			sourceTree = "<group>";
+		};
 		E88EF6CE1DA6DE070009E99D /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				E88EF6CF1DA6DE070009E99D /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		E88EF6D31DA6DE070009E99D /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E88EF6D41DA6DE070009E99D /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
