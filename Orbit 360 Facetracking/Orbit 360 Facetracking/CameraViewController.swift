@@ -23,6 +23,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var liveSession: VCSimpleSession!
     var livePrivacy: FBLivePrivacy = .closed
 
+    var isTracking = true
     var isInMovieMode = true
     var isRecording = false
     var useFront = true
@@ -31,6 +32,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var firstRunMeta = true
     var timer: NSTimer!
 
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet var switchToPhoto: UISwipeGestureRecognizer!
+    @IBOutlet var switchToVideo: UISwipeGestureRecognizer!
+    @IBOutlet weak var video: UILabel!
+    @IBOutlet weak var photo: UILabel!
     @IBOutlet weak var controlBar: UIView!
     @IBOutlet weak var navBar: UIView!
     @IBOutlet weak var startButton: UIButton!
@@ -117,6 +123,35 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+
+    @IBAction func switchTracking(sender: AnyObject) {
+        switch segmentedControl.selectedSegmentIndex
+        {
+        case 0:
+            isTracking = false
+        case 1:
+            isTracking = true
+        default:
+            break; 
+        }
+    }
+
+    @IBAction func switchToVideoMode(sender: AnyObject) {
+        switchToVideo.enabled = false
+        switchToPhoto.enabled = true
+        isInMovieMode = true
+        video.frame = CGRect(x: video.frame.minX + 60, y: video.frame.minY, width: video.frame.width, height: video.frame.height)
+        photo.frame = CGRect(x: photo.frame.minX + 60, y: photo.frame.minY, width: photo.frame.width, height: photo.frame.height)
+
+    }
+
+    @IBAction func switchToPhotoMode(sender: AnyObject) {
+        switchToVideo.enabled = true
+        switchToPhoto.enabled = false
+        isInMovieMode = false
+        video.frame = CGRect(x: video.frame.minX - 60, y: video.frame.minY, width: video.frame.width, height: video.frame.height)
+        photo.frame = CGRect(x: photo.frame.minX - 60, y: photo.frame.minY, width: photo.frame.width, height: photo.frame.height)
     }
 
     @IBAction func startButtonclicked(sender: AnyObject) {
@@ -217,11 +252,18 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let previewLayerConnection : AVCaptureConnection = connection
             if previewLayerConnection.supportsVideoOrientation {
                 switch (orientation) {
-                case .Portrait: updatePreviewLayer(previewLayerConnection, orientation: .Portrait)
-                case .LandscapeRight: updatePreviewLayer(previewLayerConnection, orientation: .LandscapeLeft)
-                case .LandscapeLeft: updatePreviewLayer(previewLayerConnection, orientation: .LandscapeRight)
+                case .Portrait:
+                    updatePreviewLayer(previewLayerConnection, orientation: .Portrait)
+                    break
+                case .LandscapeRight:
+                    updatePreviewLayer(previewLayerConnection, orientation: .LandscapeLeft)
+                    break
+                case .LandscapeLeft:
+                    updatePreviewLayer(previewLayerConnection, orientation: .LandscapeRight)
+                    break
                 //case .PortraitUpsideDown: updatePreviewLayer(previewLayerConnection, orientation: .PortraitUpsideDown)
-                default: updatePreviewLayer(previewLayerConnection, orientation: .Portrait)
+                default:
+                    updatePreviewLayer(previewLayerConnection, orientation: .Portrait)
                     break
                 }
             }
@@ -494,7 +536,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             speed = max(speed, b: Point(x: 250, y: 250))
 
             if(abs(steps.x) > Float(xThresh) || abs(steps.y) > Float(yThresh)) {
-                //self.service.moveXandY(Int32(steps.x), speedX: Int32(speed.x), stepsY: Int32(steps.y), speedY: Int32(speed.y))
+                if (isTracking) {
+                    self.service.moveXandY(Int32(steps.x), speedX: Int32(speed.x), stepsY: Int32(steps.y), speedY: Int32(speed.y))
+                }
             }
         }
         
