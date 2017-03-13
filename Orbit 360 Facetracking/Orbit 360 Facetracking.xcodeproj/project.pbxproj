@@ -24,6 +24,10 @@
 		E827BA151DB5171C005257CB /* BLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E827BA141DB5171C005257CB /* BLEDiscovery.swift */; };
 		E827BA171DB517DC005257CB /* BLEService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E827BA161DB517DC005257CB /* BLEService.swift */; };
 		E843FE4B1DBDB83F00C0B855 /* MotorControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */; };
+		E844FAAD1E748B8500082DA2 /* signal_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = E844FAAA1E748B8500082DA2 /* signal_blue.png */; };
+		E844FAAE1E748B8500082DA2 /* signal_dark_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = E844FAAB1E748B8500082DA2 /* signal_dark_blue.png */; };
+		E844FAAF1E748B8500082DA2 /* signal_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = E844FAAC1E748B8500082DA2 /* signal_grey.png */; };
+		E844FAB11E748E6500082DA2 /* ConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E844FAB01E748E6500082DA2 /* ConnectViewController.swift */; };
 		E880ADFF1E74872C00E41ADB /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E880ADFD1E74872C00E41ADB /* Launch Screen.storyboard */; };
 		E88EF6CB1DA6DE070009E99D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6CA1DA6DE070009E99D /* AppDelegate.swift */; };
 		E88EF6D01DA6DE070009E99D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E88EF6CE1DA6DE070009E99D /* Main.storyboard */; };
@@ -80,6 +84,10 @@
 		E827BA161DB517DC005257CB /* BLEService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEService.swift; sourceTree = "<group>"; };
 		E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotorControl.swift; sourceTree = "<group>"; };
 		E843FE4C1DBE32A600C0B855 /* Orbit 360 Facetracking-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Orbit 360 Facetracking-Bridging-Header.h"; sourceTree = "<group>"; };
+		E844FAAA1E748B8500082DA2 /* signal_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = signal_blue.png; path = ressources/signal_blue.png; sourceTree = "<group>"; };
+		E844FAAB1E748B8500082DA2 /* signal_dark_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = signal_dark_blue.png; path = ressources/signal_dark_blue.png; sourceTree = "<group>"; };
+		E844FAAC1E748B8500082DA2 /* signal_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = signal_grey.png; path = ressources/signal_grey.png; sourceTree = "<group>"; };
+		E844FAB01E748E6500082DA2 /* ConnectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectViewController.swift; sourceTree = "<group>"; };
 		E880ADFE1E74872C00E41ADB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
 		E88EF6C71DA6DE070009E99D /* Orbit 360 Facetracking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Orbit 360 Facetracking.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E88EF6CA1DA6DE070009E99D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -234,6 +242,7 @@
 			children = (
 				E8F545C31DB7E42300ED5EFE /* TableViewController.swift */,
 				E8F545C51DB7F2DF00ED5EFE /* TableViewCell.swift */,
+				E844FAB01E748E6500082DA2 /* ConnectViewController.swift */,
 			);
 			name = BLE;
 			sourceTree = "<group>";
@@ -257,6 +266,9 @@
 				E80E60061E746ADA004EF2DE /* start.png */,
 				E80E60071E746ADA004EF2DE /* stop.png */,
 				E80E60041E745C1A004EF2DE /* cameraicon.png */,
+				E844FAAA1E748B8500082DA2 /* signal_blue.png */,
+				E844FAAB1E748B8500082DA2 /* signal_dark_blue.png */,
+				E844FAAC1E748B8500082DA2 /* signal_grey.png */,
 			);
 			name = Ressources;
 			sourceTree = "<group>";
@@ -412,14 +424,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E844FAAF1E748B8500082DA2 /* signal_grey.png in Resources */,
 				E80E60031E745269004EF2DE /* Loadingscreen.png in Resources */,
 				E80E60091E746ADA004EF2DE /* stop.png in Resources */,
 				E80E60081E746ADA004EF2DE /* start.png in Resources */,
 				E81EC93A1DDDFA11005330F0 /* AsyncStream.hpp in Resources */,
+				E844FAAD1E748B8500082DA2 /* signal_blue.png in Resources */,
 				E88EF6D21DA6DE070009E99D /* Assets.xcassets in Resources */,
 				E880ADFF1E74872C00E41ADB /* Launch Screen.storyboard in Resources */,
 				E80E5FFE1E744B38004EF2DE /* gradient.jpg in Resources */,
 				E88EF6D01DA6DE070009E99D /* Main.storyboard in Resources */,
+				E844FAAE1E748B8500082DA2 /* signal_dark_blue.png in Resources */,
 				E80E5FFF1E744B38004EF2DE /* haarcascade_frontalface_alt.xml in Resources */,
 				E80E60051E745C1A004EF2DE /* cameraicon.png in Resources */,
 			);
@@ -584,6 +599,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E844FAB11E748E6500082DA2 /* ConnectViewController.swift in Sources */,
 				E8D887D21DF5C57700A13F66 /* FaceDetection.mm in Sources */,
 				A5831FAC1E5732A800A50103 /* Control.swift in Sources */,
 				E827BA151DB5171C005257CB /* BLEDiscovery.swift in Sources */,

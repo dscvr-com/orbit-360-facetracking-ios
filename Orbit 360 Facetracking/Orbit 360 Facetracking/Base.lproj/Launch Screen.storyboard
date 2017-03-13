@@ -24,16 +24,21 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="tdb-9U-puD">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Loadingscreen.png" translatesAutoresizingMaskIntoConstraints="NO" id="k0r-1t-4nq">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Loadingscreen.png" translatesAutoresizingMaskIntoConstraints="NO" id="k0r-1t-4nq">
                                 <rect key="frame" x="0.0" y="220" width="375" height="227"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="227" id="1Ep-gX-192"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="tdb-9U-puD" secondAttribute="bottom" id="BE7-zS-728"/>
+                            <constraint firstAttribute="trailing" secondItem="k0r-1t-4nq" secondAttribute="trailing" id="CFN-MN-zHc"/>
                             <constraint firstItem="tdb-9U-puD" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="MIs-bF-7P6"/>
                             <constraint firstItem="tdb-9U-puD" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="UPg-vp-o3A"/>
+                            <constraint firstItem="k0r-1t-4nq" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="VMZ-5R-kgC"/>
+                            <constraint firstItem="k0r-1t-4nq" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="mfi-e4-h1d"/>
                             <constraint firstAttribute="trailing" secondItem="tdb-9U-puD" secondAttribute="trailing" id="tKu-15-0e7"/>
                         </constraints>
                     </view>

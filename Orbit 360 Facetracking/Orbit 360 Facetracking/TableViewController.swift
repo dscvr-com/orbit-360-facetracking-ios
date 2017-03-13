@@ -34,16 +34,10 @@ class BLETableViewController: UITableViewController {
 
     func onDeviceFound(device: CBPeripheral, name: NSString) {
         dispatch_async(dispatch_get_main_queue(), {
-            print(name);
+            print(name)
             self.btDevicesName = self.btDevicesName + [String(name)]
             self.tableView.reloadData()
-        });
-        // Show in list.
-//        for i in btDevices { //check for double entry bug?
-//            if (i.name == device.name) {
-//                return
-//            }
-//        }
+        })
         self.btDevices = self.btDevices + [device]
     }
     
