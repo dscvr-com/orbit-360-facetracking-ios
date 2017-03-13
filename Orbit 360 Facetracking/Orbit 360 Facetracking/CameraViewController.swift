@@ -25,6 +25,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     var isInMovieMode = true
     var isRecording = false
+    var useFront = true
     var face: CGRect! = nil
     var firstRun = true
     var firstRunMeta = true
@@ -137,8 +138,15 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     @IBAction func toggleCamera(sender: AnyObject) {
+        if (useFront == true) {
+            useFront = false
+            setupCameraSession()
+        } else {
+            useFront = true
+            setupCameraSession()
+        }
     }
-    
+
     @IBAction func goLive(sender: AnyObject) {
         switch liveSession.rtmpSessionState {
         case .None, .PreviewStarted, .Ended, .Error:
@@ -236,20 +244,19 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     var captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
 
-    /* Sets up in and outputs for the camerasession */
-    func setupCameraSession() {
-        let avaiableCameras = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
-//        var captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
-        let audioDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
-
-        for element in avaiableCameras{
-            let element = element as! AVCaptureDevice
-            if element.position == AVCaptureDevicePosition.Front {
-                captureDevice = element
-                break
+    func getCamera() {
+        if (useFront == true) {
+            let avaiableCameras = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+            for element in avaiableCameras{
+                let element = element as! AVCaptureDevice
+                if element.position == AVCaptureDevicePosition.Front {
+                    captureDevice = element
+                    break
+                }
             }
+        } else {
+            captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
         }
-
         let formats = captureDevice.formats as! [AVCaptureDeviceFormat]
         var best = formats[0]
         for element in formats{
@@ -257,18 +264,27 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 best = element
             }
         }
-
         try! captureDevice.lockForConfiguration()
         captureDevice.activeFormat = best
         captureDevice.activeVideoMinFrameDuration = CMTimeMake(1, fps)
         captureDevice.activeVideoMaxFrameDuration = CMTimeMake(1, fps)
         captureDevice.unlockForConfiguration()
         print(captureDevice.activeFormat)
+    }
 
+    /* Sets up in and outputs for the camerasession */
+    func setupCameraSession() {
+        getCamera()
+        let audioDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
         do {
             let deviceInput = try AVCaptureDeviceInput(device: captureDevice)
             let audioInput = try AVCaptureDeviceInput(device: audioDevice)
             cameraSession.beginConfiguration()
+
+            for ii in cameraSession.inputs {
+                cameraSession.removeInput(ii as! AVCaptureInput)
+            }
+
             if (cameraSession.canAddInput(deviceInput) == true) {
                 cameraSession.addInput(deviceInput)
             }
@@ -286,7 +302,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let metaQueue = dispatch_queue_create("metaQueue", DISPATCH_QUEUE_SERIAL)
             dispatch_set_target_queue(metaQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0))
             metaOutput.setMetadataObjectsDelegate(self, queue: metaQueue)
-//            metaOutput.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
             metaOutput.metadataObjectTypes = [AVMetadataObjectTypeFace]
             if (cameraSession.canAddOutput(audioOutput) == true) {
                 cameraSession.addOutput(audioOutput)
@@ -298,8 +313,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let videoQueue = dispatch_queue_create("videoQueue", DISPATCH_QUEUE_SERIAL)
             dataOutput.setSampleBufferDelegate(self, queue: videoQueue)
             audioOutput.setSampleBufferDelegate(self, queue: videoQueue)
-
-
         }
         catch let error as NSError {
             NSLog("\(error), \(error.localizedDescription)")

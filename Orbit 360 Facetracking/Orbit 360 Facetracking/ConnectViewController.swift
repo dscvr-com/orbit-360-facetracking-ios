@@ -47,7 +47,7 @@ class ConnectViewController: UIViewController {
         btMotorControl = MotorControl(s: service, p: btService!.peripheral!)
         signal.image = UIImage(named:"signal_blue")!
         status.text = "CONNECTED"
-        var timer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(ConnectViewController.performSegue), userInfo: nil, repeats: false)
+        _ = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(ConnectViewController.performSegue), userInfo: nil, repeats: false)
     }
 
     func performSegue() {
