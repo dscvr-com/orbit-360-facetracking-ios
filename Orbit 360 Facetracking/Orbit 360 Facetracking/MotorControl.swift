@@ -18,7 +18,7 @@ class MotorControl: NSObject {
         peripheral = p
         super.init()
     }
-    
+
     func sendCommand(opCode: UInt8, data: [UInt8]) {
         var command : [UInt8] = [0xFE]
         let lengthOfData = UInt8(data.count)
@@ -30,7 +30,7 @@ class MotorControl: NSObject {
         for c in command {
             checksum += UInt32(c)
         }
-        
+
         let crc = UInt8(checksum & 0xFF)
         command.append(crc)
         
@@ -49,7 +49,7 @@ class MotorControl: NSObject {
         command = command.reverse()
         command.append(UInt8((speed >> 8) & 0xFF))
         command.append(UInt8(speed & 0xFF))
-        command.append(0x00) //Fullstep if <500 halfstep?
+        command.append(0x00)
         sendCommand(0x01, data: command)
     }
     
@@ -61,7 +61,7 @@ class MotorControl: NSObject {
         command.append(0x00)
         sendCommand(0x02, data: command)
     }
-    
+
     func moveXandY(stepsX: Int32, speedX: Int32, stepsY: Int32, speedY: Int32) {
         var command = toByteArray(stepsX)
         command = command.reverse()
@@ -75,7 +75,7 @@ class MotorControl: NSObject {
         command.appendContentsOf(commandYpart)
         sendCommand(0x03, data: command)
     }
-    
+
     func sendStop() {
         sendCommand(0x04, data: [])
     }

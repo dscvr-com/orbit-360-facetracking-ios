@@ -34,6 +34,7 @@
 		E88EF6D21DA6DE070009E99D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E88EF6D11DA6DE070009E99D /* Assets.xcassets */; };
 		E88EF6E01DA6DE080009E99D /* Orbit_360_FacetrackingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6DF1DA6DE080009E99D /* Orbit_360_FacetrackingTests.swift */; };
 		E88EF6EB1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6EA1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift */; };
+		E8A7D4761E76F6440096FAB7 /* UIWindowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A7D4751E76F6440096FAB7 /* UIWindowExtension.swift */; };
 		E8D887D21DF5C57700A13F66 /* FaceDetection.mm in Sources */ = {isa = PBXBuildFile; fileRef = E8D887D11DF5C57700A13F66 /* FaceDetection.mm */; };
 		E8D887D51DF5CC0D00A13F66 /* Tracker.mm in Sources */ = {isa = PBXBuildFile; fileRef = E8D887D41DF5CC0D00A13F66 /* Tracker.mm */; };
 		E8EFEB2C1E6489E20088F663 /* FBLiveAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EFEB2B1E6489E20088F663 /* FBLiveAPI.swift */; };
@@ -100,6 +101,7 @@
 		E88EF6E61DA6DE080009E99D /* Orbit 360 FacetrackingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Orbit 360 FacetrackingUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E88EF6EA1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orbit_360_FacetrackingUITests.swift; sourceTree = "<group>"; };
 		E88EF6EC1DA6DE080009E99D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E8A7D4751E76F6440096FAB7 /* UIWindowExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWindowExtension.swift; sourceTree = "<group>"; };
 		E8D887D01DF5C39500A13F66 /* FaceDetection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FaceDetection.h; sourceTree = "<group>"; };
 		E8D887D11DF5C57700A13F66 /* FaceDetection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FaceDetection.mm; sourceTree = "<group>"; };
 		E8D887D31DF5CAF400A13F66 /* Tracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tracker.h; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 			children = (
 				E8EFEB2A1E6485280088F663 /* Ressources */,
 				E88EF6CA1DA6DE070009E99D /* AppDelegate.swift */,
+				E8A7D4751E76F6440096FAB7 /* UIWindowExtension.swift */,
 				E88EF6CE1DA6DE070009E99D /* Main.storyboard */,
 				E880ADFD1E74872C00E41ADB /* Launch Screen.storyboard */,
 				E88EF6D11DA6DE070009E99D /* Assets.xcassets */,
@@ -604,6 +607,7 @@
 				A5831FAC1E5732A800A50103 /* Control.swift in Sources */,
 				E827BA151DB5171C005257CB /* BLEDiscovery.swift in Sources */,
 				E8D887D51DF5CC0D00A13F66 /* Tracker.mm in Sources */,
+				E8A7D4761E76F6440096FAB7 /* UIWindowExtension.swift in Sources */,
 				E843FE4B1DBDB83F00C0B855 /* MotorControl.swift in Sources */,
 				E81EC93C1DE348F0005330F0 /* IPhoneModel.swift in Sources */,
 				E827BA171DB517DC005257CB /* BLEService.swift in Sources */,
