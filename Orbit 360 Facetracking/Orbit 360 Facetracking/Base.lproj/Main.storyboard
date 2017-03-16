@@ -75,7 +75,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CyB-SP-lmh" userLabel="countdown">
                                 <rect key="frame" x="0.0" y="266" width="375" height="137"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="137" id="4Wl-U3-v9g"/>
+                                    <constraint firstAttribute="height" constant="137" id="XZE-PJ-Vma"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="130"/>
                                 <nil key="textColor"/>
@@ -186,13 +186,13 @@
                         <constraints>
                             <constraint firstItem="HVm-uA-EGL" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="5B3-hn-a91"/>
                             <constraint firstAttribute="trailing" secondItem="72o-5b-zWh" secondAttribute="trailing" id="6wI-OX-VCN"/>
-                            <constraint firstItem="CyB-SP-lmh" firstAttribute="leading" secondItem="72o-5b-zWh" secondAttribute="leading" id="9jm-G0-Xwz"/>
                             <constraint firstItem="HVm-uA-EGL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="JeI-Ol-E0w"/>
                             <constraint firstItem="72o-5b-zWh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="O6D-4j-nNR"/>
-                            <constraint firstItem="CyB-SP-lmh" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="266" id="fr1-nz-koa"/>
+                            <constraint firstItem="CyB-SP-lmh" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="266" id="bBY-TJ-lIi"/>
                             <constraint firstAttribute="trailing" secondItem="HVm-uA-EGL" secondAttribute="trailing" id="pul-DK-Hag"/>
+                            <constraint firstItem="CyB-SP-lmh" firstAttribute="trailing" secondItem="72o-5b-zWh" secondAttribute="trailing" id="q9d-J8-qHq"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="72o-5b-zWh" secondAttribute="bottom" id="vIR-hl-ZkL"/>
-                            <constraint firstItem="CyB-SP-lmh" firstAttribute="trailing" secondItem="72o-5b-zWh" secondAttribute="trailing" id="zMc-b6-rP0"/>
+                            <constraint firstItem="CyB-SP-lmh" firstAttribute="leading" secondItem="72o-5b-zWh" secondAttribute="leading" id="zav-e5-9Pb"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="Sc4-5b-D2v" appends="YES" id="WbJ-ax-J1C"/>
@@ -251,7 +251,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ORBIT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yf6-Dt-WTY">
-                                <rect key="frame" x="126" y="425" width="125" height="34"/>
+                                <rect key="frame" x="125" y="425" width="125" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="125" id="oOR-gh-nP1"/>
                                 </constraints>

@@ -58,6 +58,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let fps: Int32 = 30
     var lastMovementTime = CFAbsoluteTimeGetCurrent()
     var counter = 3
+    var interfacePosition: UIInterfaceOrientation = .Portrait
 
     var toCorrectOrientation: GenericTransform!
     var toUnitSpace: CameraToUnitSpaceCoordinateConversion!
@@ -89,6 +90,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 toCorrectOrientation = GenericTransform(m11: 1, m12: 0, m21: 0, m22: -1)
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
                 controlTarget = Point(x: 0.5, y: 0.66) // Target to the upper third.
+                if interfacePosition == .Portrait && !isInMovieMode {
+                    _ = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(CameraViewController.moveLeft), userInfo: nil, repeats: false)
+                }
+                interfacePosition = .LandscapeLeft
                 if useFront {
                     assetWriterTransform = CGFloat(M_PI * 180 / 180.0)
                 } else {
@@ -99,19 +104,27 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 toCorrectOrientation = GenericTransform(m11: -1, m12: 0, m21: 0, m22: 1)
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
                 controlTarget = Point(x: 0.5, y: 0.33) // Target to the upper third.
+                if interfacePosition == .Portrait && !isInMovieMode {
+                    _ = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(CameraViewController.moveLeft), userInfo: nil, repeats: false)
+                }
+                interfacePosition = .LandscapeRight
                 if useFront {
                     assetWriterTransform = CGFloat(M_PI * 0 / 180.0)
                 } else {
                     assetWriterTransform = CGFloat(M_PI * 180 / 180.0)
                 }
                 break
-            case .PortraitUpsideDown:
-                /*toCorrectOrientation = GenericTransform(m11: 0, m12: -1, m21: 1, m22: 0)
-                toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
-                controlTarget = Point(x: 0.33, y: 0.5) // Target to the upper third.*/
-                break
+//            case .PortraitUpsideDown:
+//                toCorrectOrientation = GenericTransform(m11: 0, m12: -1, m21: 1, m22: 0)
+//                toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
+//                controlTarget = Point(x: 0.33, y: 0.5) // Target to the upper third.
+//                break
             default:
                 // Portrait case
+                if interfacePosition != .Portrait && !isInMovieMode {
+                    _ = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(CameraViewController.moveLeft), userInfo: nil, repeats: false)
+                }
+                interfacePosition = .Portrait
                 toCorrectOrientation = GenericTransform(m11: 0, m12: 1, m21: 1, m22: 0)
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
                 controlTarget = Point(x: 0.33, y: 0.5) // Target to the upper third.
@@ -158,17 +171,24 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         switchToVideo.enabled = false
         switchToPhoto.enabled = true
         isInMovieMode = true
-        video.frame = CGRect(x: video.frame.minX + 60, y: video.frame.minY, width: video.frame.width, height: video.frame.height)
-        photo.frame = CGRect(x: photo.frame.minX + 60, y: photo.frame.minY, width: photo.frame.width, height: photo.frame.height)
-
+        moveRight()
     }
 
     @IBAction func switchToPhotoMode(sender: AnyObject) {
         switchToVideo.enabled = true
         switchToPhoto.enabled = false
         isInMovieMode = false
+        moveLeft()
+    }
+
+    func moveLeft() {
         video.frame = CGRect(x: video.frame.minX - 60, y: video.frame.minY, width: video.frame.width, height: video.frame.height)
         photo.frame = CGRect(x: photo.frame.minX - 60, y: photo.frame.minY, width: photo.frame.width, height: photo.frame.height)
+    }
+
+    func moveRight() {
+        video.frame = CGRect(x: video.frame.minX + 60, y: video.frame.minY, width: video.frame.width, height: video.frame.height)
+        photo.frame = CGRect(x: photo.frame.minX + 60, y: photo.frame.minY, width: photo.frame.width, height: photo.frame.height)
     }
 
     @IBAction func startButtonclicked(sender: AnyObject) {
