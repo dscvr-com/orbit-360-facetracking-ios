@@ -166,15 +166,23 @@
                                     <constraint firstAttribute="bottom" secondItem="AgA-aW-sns" secondAttribute="bottom" constant="11" id="ifW-Yy-B5q"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DEX-b2-UJM" userLabel="previewView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="HVm-uA-EGL" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="5B3-hn-a91"/>
                             <constraint firstAttribute="trailing" secondItem="72o-5b-zWh" secondAttribute="trailing" id="6wI-OX-VCN"/>
+                            <constraint firstItem="DEX-b2-UJM" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="8o8-jF-gPA"/>
                             <constraint firstItem="HVm-uA-EGL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="JeI-Ol-E0w"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="DEX-b2-UJM" secondAttribute="bottom" id="Mgd-3u-ZNe"/>
                             <constraint firstItem="72o-5b-zWh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="O6D-4j-nNR"/>
+                            <constraint firstAttribute="trailing" secondItem="DEX-b2-UJM" secondAttribute="trailing" id="Upu-qF-RIw"/>
                             <constraint firstAttribute="trailing" secondItem="HVm-uA-EGL" secondAttribute="trailing" id="pul-DK-Hag"/>
+                            <constraint firstItem="DEX-b2-UJM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="tH4-wS-a1L"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="72o-5b-zWh" secondAttribute="bottom" id="vIR-hl-ZkL"/>
                         </constraints>
                         <connections>
@@ -186,6 +194,7 @@
                         <outlet property="controlBar" destination="72o-5b-zWh" id="9gv-bN-vnh"/>
                         <outlet property="navBar" destination="HVm-uA-EGL" id="TE2-3m-gnT"/>
                         <outlet property="photo" destination="XBQ-bz-x0h" id="ngl-Hb-Cpy"/>
+                        <outlet property="previewView" destination="DEX-b2-UJM" id="9Gg-kM-1YH"/>
                         <outlet property="segmentedControl" destination="AgA-aW-sns" id="Hvv-3K-TOg"/>
                         <outlet property="startButton" destination="Nd7-fb-nb2" id="jOh-aq-6xQ"/>
                         <outlet property="switchToPhoto" destination="YEw-ME-DKh" id="p8X-eb-B1H"/>

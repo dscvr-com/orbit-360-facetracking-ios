@@ -27,11 +27,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var isInMovieMode = true
     var isRecording = false
     var useFront = true
-    var face: CGRect! = nil
     var firstRun = true
     var firstRunMeta = true
-    var timer: NSTimer!
 
+    @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet var switchToPhoto: UISwipeGestureRecognizer!
     @IBOutlet var switchToVideo: UISwipeGestureRecognizer!
@@ -52,9 +51,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var audioWriterInput: AVAssetWriterInput!
     var audioOutput = AVCaptureAudioDataOutput()
     var imageOutput = AVCaptureStillImageOutput()
+    var captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
 
-    let focalLengthOld = 2.139
-    var pixelFocalLength: Double!
     let fps: Int32 = 30
     var lastMovementTime = CFAbsoluteTimeGetCurrent()
 
@@ -103,26 +101,23 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         UIApplication.sharedApplication().idleTimerDisabled = true
         initializeProcessing()
         setupCameraSession()
-        //liveSession = VCSimpleSession(videoSize: CGSize(width: 1280, height: 720), frameRate: 30, bitrate: 400000, useInterfaceOrientation: false)
-        //view.addSubview(liveSession.previewView)
-        //liveSession.previewView.frame = view.bounds
-        //liveSession.delegate = self
-        super.viewDidLoad()
+//        liveSession = VCSimpleSession(videoSize: CGSize(width: 1280, height: 720), frameRate: 30, bitrate: 400000, useInterfaceOrientation: false)
+//        view.addSubview(liveSession.previewView)
+//        liveSession.previewView.frame = view.bounds
+//        liveSession.delegate = self
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        view.layer.addSublayer(previewLayer)
+//        view.layer.addSublayer(previewLayer)
+        previewView.layer.addSublayer(previewLayer)
         cameraSession.startRunning()
         view.bringSubviewToFront(controlBar)
         view.bringSubviewToFront(navBar)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
 
     @IBAction func switchTracking(sender: AnyObject) {
@@ -162,16 +157,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
 
-    func startMovie() {
-        if (isRecording) {
-            stopRecording()
-            startButton.setBackgroundImage(UIImage(named:"start")!, forState: .Normal)
-        } else {
-            startRecording()
-            startButton.setBackgroundImage(UIImage(named:"stop")!, forState: .Normal)
-        }
-    }
-
     @IBAction func toggleCamera(sender: AnyObject) {
         if (useFront == true) {
             useFront = false
@@ -192,82 +177,42 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
 
-    func startFBLive() {
-        if FBSDKAccessToken.currentAccessToken() != nil {
-            FBLiveAPI.shared.startLive(livePrivacy) { result in
-                guard let streamUrlString = (result as? NSDictionary)?.valueForKey("stream_url") as? String else {
-                    return
-                }
-                let streamUrl = NSURL(string: streamUrlString)
-
-                guard let lastPathComponent = streamUrl?.lastPathComponent,
-                    let query = streamUrl?.query else {
-                        return
-                }
-                self.liveSession.startRtmpSessionWithURL(
-                    "rtmp://rtmp-api.facebook.com:80/rtmp/",
-                    andStreamKey: "\(lastPathComponent)?\(query)"
-                )
-            }
+    func startMovie() {
+        if (isRecording) {
+            stopRecording()
+            startButton.setBackgroundImage(UIImage(named:"start")!, forState: .Normal)
         } else {
-            fbLogin()
+            startRecording()
+            startButton.setBackgroundImage(UIImage(named:"stop")!, forState: .Normal)
         }
     }
 
-    func endFBLive() {
-        if FBSDKAccessToken.currentAccessToken() != nil {
-            FBLiveAPI.shared.endLive { _ in
-                self.liveSession.endRtmpSession()
-            }
-        } else {
-            fbLogin()
-        }
-    }
-
-    func fbLogin() {
-        let loginManager = FBSDKLoginManager()
-        loginManager.logInWithPublishPermissions(["publish_actions"], fromViewController: self) { (result, error) in
-            if error != nil {
-                print("Error")
-            } else if result?.isCancelled == true {
-                print("Cancelled")
-            } else {
-                print("Logged in")
-            }
-        }
-    }
-
-    private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
-        layer.videoOrientation = orientation
-        previewLayer.frame = self.view.bounds
-    }
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        coordinator.animateAlongsideTransition(
+            { (UIViewControllerTransitionCoordinatorContext) in
+                let deltaTransform = coordinator.targetTransform()
+                let deltaAngle = atan2f(Float(deltaTransform.b), Float(deltaTransform.a))
+                var currentRotation : Float = (self.previewView!.layer.valueForKeyPath("transform.rotation.z")?.floatValue)!
+                // Adding a small value to the rotation angle forces the animation to occur in a the desired direction, preventing an issue where the view would appear to rotate 2PI radians during a rotation from LandscapeRight -> LandscapeLeft.
+                currentRotation += -1 * deltaAngle + 0.0001;
+                self.previewView!.layer.setValue(currentRotation, forKeyPath: "transform.rotation.z")
+                self.previewView!.layer.frame = self.view.bounds
+            },
+            completion:
+            { (UIViewControllerTransitionCoordinatorContext) in
+                // Integralize the transform to undo the extra 0.0001 added to the rotation angle.
+                var currentTransform : CGAffineTransform = self.previewView!.transform
+                currentTransform.a = round(currentTransform.a)
+                currentTransform.b = round(currentTransform.b)
+                currentTransform.c = round(currentTransform.c)
+                currentTransform.d = round(currentTransform.d)
+                self.previewView!.transform = currentTransform
+        })    }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         initializeProcessing()
-
-        if let connection =  self.previewLayer.connection  {
-            let currentDevice: UIDevice = UIDevice.currentDevice()
-            let orientation: UIDeviceOrientation = currentDevice.orientation
-            let previewLayerConnection : AVCaptureConnection = connection
-            if previewLayerConnection.supportsVideoOrientation {
-                switch (orientation) {
-                case .Portrait:
-                    updatePreviewLayer(previewLayerConnection, orientation: .Portrait)
-                    break
-                case .LandscapeRight:
-                    updatePreviewLayer(previewLayerConnection, orientation: .LandscapeLeft)
-                    break
-                case .LandscapeLeft:
-                    updatePreviewLayer(previewLayerConnection, orientation: .LandscapeRight)
-                    break
-                //case .PortraitUpsideDown: updatePreviewLayer(previewLayerConnection, orientation: .PortraitUpsideDown)
-                default:
-                    updatePreviewLayer(previewLayerConnection, orientation: .Portrait)
-                    break
-                }
-            }
-        }
     }
 
     lazy var cameraSession: AVCaptureSession = {
@@ -283,8 +228,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         preview.videoGravity = AVLayerVideoGravityResizeAspectFill
         return preview
     }()
-
-    var captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
 
     func getCamera() {
         if (useFront == true) {
@@ -546,6 +489,53 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     func captureStillImageAsynchronously(from connection: AVCaptureConnection!, completionHandler handler: ((CMSampleBuffer?, NSError?) -> Void)!) {
+    }
+
+    //Facebook Code
+
+    func startFBLive() {
+        if FBSDKAccessToken.currentAccessToken() != nil {
+            FBLiveAPI.shared.startLive(livePrivacy) { result in
+                guard let streamUrlString = (result as? NSDictionary)?.valueForKey("stream_url") as? String else {
+                    return
+                }
+                let streamUrl = NSURL(string: streamUrlString)
+
+                guard let lastPathComponent = streamUrl?.lastPathComponent,
+                    let query = streamUrl?.query else {
+                        return
+                }
+                self.liveSession.startRtmpSessionWithURL(
+                    "rtmp://rtmp-api.facebook.com:80/rtmp/",
+                    andStreamKey: "\(lastPathComponent)?\(query)"
+                )
+            }
+        } else {
+            fbLogin()
+        }
+    }
+
+    func endFBLive() {
+        if FBSDKAccessToken.currentAccessToken() != nil {
+            FBLiveAPI.shared.endLive { _ in
+                self.liveSession.endRtmpSession()
+            }
+        } else {
+            fbLogin()
+        }
+    }
+
+    func fbLogin() {
+        let loginManager = FBSDKLoginManager()
+        loginManager.logInWithPublishPermissions(["publish_actions"], fromViewController: self) { (result, error) in
+            if error != nil {
+                print("Error")
+            } else if result?.isCancelled == true {
+                print("Cancelled")
+            } else {
+                print("Logged in")
+            }
+        }
     }
 
     // MARK: VCSessionDelegate
