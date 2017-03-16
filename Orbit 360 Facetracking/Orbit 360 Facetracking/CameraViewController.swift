@@ -74,6 +74,14 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         return true
     }
 
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return [.LandscapeLeft, .LandscapeRight, .Portrait]
+    }
+
+    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
+        return .Portrait
+    }
+
     func initializeProcessing() {
         let orientation = UIDevice.currentDevice().orientation
         switch (orientation) {

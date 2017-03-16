@@ -33,6 +33,18 @@ class ConnectViewController: UIViewController {
         return true
     }
 
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return .Portrait
+    }
+
+    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
+        return .Portrait
+    }
+
     func onDeviceFound(device: CBPeripheral, name: NSString) {
         self.btDevices = self.btDevices + [device]
         bt.connectPeripheral(btDevices[0])
