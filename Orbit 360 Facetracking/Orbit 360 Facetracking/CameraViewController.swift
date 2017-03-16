@@ -31,6 +31,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var firstRunMeta = true
 
     @IBOutlet weak var previewView: UIView!
+    @IBOutlet weak var countdown: UILabel!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet var switchToPhoto: UISwipeGestureRecognizer!
     @IBOutlet var switchToVideo: UISwipeGestureRecognizer!
@@ -52,9 +53,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var audioOutput = AVCaptureAudioDataOutput()
     var imageOutput = AVCaptureStillImageOutput()
     var captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) as AVCaptureDevice
+    var assetWriterTransform = CGFloat(M_PI * 90 / 180.0)
 
     let fps: Int32 = 30
     var lastMovementTime = CFAbsoluteTimeGetCurrent()
+    var counter = 3
 
     var toCorrectOrientation: GenericTransform!
     var toUnitSpace: CameraToUnitSpaceCoordinateConversion!
@@ -78,11 +81,21 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 toCorrectOrientation = GenericTransform(m11: 1, m12: 0, m21: 0, m22: -1)
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
                 controlTarget = Point(x: 0.5, y: 0.66) // Target to the upper third.
+                if useFront {
+                    assetWriterTransform = CGFloat(M_PI * 180 / 180.0)
+                } else {
+                    assetWriterTransform = CGFloat(M_PI * 0 / 180.0)
+                }
                 break
             case .LandscapeRight:
                 toCorrectOrientation = GenericTransform(m11: -1, m12: 0, m21: 0, m22: 1)
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
                 controlTarget = Point(x: 0.5, y: 0.33) // Target to the upper third.
+                if useFront {
+                    assetWriterTransform = CGFloat(M_PI * 0 / 180.0)
+                } else {
+                    assetWriterTransform = CGFloat(M_PI * 180 / 180.0)
+                }
                 break
             case .PortraitUpsideDown:
                 /*toCorrectOrientation = GenericTransform(m11: 0, m12: -1, m21: 1, m22: 0)
@@ -94,6 +107,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 toCorrectOrientation = GenericTransform(m11: 0, m12: 1, m21: 1, m22: 0)
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
                 controlTarget = Point(x: 0.33, y: 0.5) // Target to the upper third.
+                assetWriterTransform = CGFloat(M_PI * 90 / 180.0)
                 break
         }
         toAngle = UnitToMotorSpaceCoordinateConversion(unitFocalLength: Float(focalLen))
@@ -333,7 +347,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             fatalError("Negative : Can't apply the Output settings...")
         }
         videoWriterInput = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: outputSettings)
-        videoWriterInput.transform = CGAffineTransformMakeRotation(CGFloat(M_PI * 90 / 180.0))
+        videoWriterInput.transform = CGAffineTransformMakeRotation(assetWriterTransform)
         if videoWriter.canAddInput(videoWriterInput) {
             videoWriter.addInput(videoWriterInput)
         }
@@ -366,18 +380,33 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     func startTimer() {
-        var label = UILabel(frame: CGRectMake(0, outputSize.height / 2, outputSize.width, 50))
-        label.center = CGPointMake(100, 100)
-        label.textAlignment = NSTextAlignment.Center
-        label.text = "3"
-        label.backgroundColor = UIColor.blackColor()
-        label.textColor = UIColor.whiteColor()
-//        self.view.addSubview(label)
-        var timer = NSTimer.scheduledTimerWithTimeInterval(0, target: self, selector: #selector(CameraViewController.takePhoto), userInfo: nil, repeats: false)
+        _ = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(CameraViewController.takePhoto), userInfo: nil, repeats: false)
+        _ = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(CameraViewController.updateCountdown), userInfo: nil, repeats: false)
+        _ = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(CameraViewController.updateCountdown), userInfo: nil, repeats: false)
+        _ = NSTimer.scheduledTimerWithTimeInterval(0, target: self, selector: #selector(CameraViewController.updateCountdown), userInfo: nil, repeats: false)
+    }
+
+    func updateCountdown() {
+        switch (counter) {
+        case 3:
+            countdown.text = "3"
+            counter -= 1
+            break
+        case 2:
+            countdown.text = "2"
+            counter -= 1
+            break
+        case 1:
+            countdown.text = "1"
+            counter = 3
+            break
+        default: break
+        }
     }
 
     func takePhoto() {
 //        cameraSession.sessionPreset = AVCaptureSessionPresetPhoto
+        countdown.text = ""
         let connection = self.imageOutput.connectionWithMediaType(AVMediaTypeVideo)
         connection.videoOrientation = AVCaptureVideoOrientation(rawValue: UIDevice.currentDevice().orientation.rawValue)!
 
