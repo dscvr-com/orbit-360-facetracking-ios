@@ -25,11 +25,11 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="K67-Ku-Jdf" id="btB-aA-BnV">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Bluetoothdevice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RZW-8y-21X">
-                                            <rect key="frame" x="15" y="0.0" width="345" height="59.5"/>
+                                            <rect key="frame" x="15" y="0.0" width="345" height="59"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -67,14 +67,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DEX-b2-UJM" userLabel="previewView">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DEX-b2-UJM" userLabel="previewView">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CyB-SP-lmh" userLabel="countdown">
-                                <rect key="frame" x="0.0" y="265" width="375" height="137"/>
+                                <rect key="frame" x="0.0" y="266" width="375" height="137"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="137" id="JwH-iN-bgs"/>
+                                    <constraint firstAttribute="height" constant="137" id="4Wl-U3-v9g"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="130"/>
                                 <nil key="textColor"/>
@@ -94,7 +95,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nd7-fb-nb2">
-                                        <rect key="frame" x="162" y="40" width="50" height="50"/>
+                                        <rect key="frame" x="163" y="40" width="50" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="MMW-qP-kez"/>
                                             <constraint firstAttribute="height" constant="50" id="xE3-Q0-JhA"/>
@@ -105,7 +106,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PHOTO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XBQ-bz-x0h">
-                                        <rect key="frame" x="220" y="11" width="58" height="21"/>
+                                        <rect key="frame" x="221" y="11" width="58" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="58" id="K3K-GV-KVd"/>
                                             <constraint firstAttribute="height" constant="21" id="ZCy-Sm-g28"/>
@@ -115,7 +116,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VIDEO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UCh-uQ-Mad">
-                                        <rect key="frame" x="162" y="11" width="50" height="21"/>
+                                        <rect key="frame" x="163" y="11" width="50" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="QkJ-ay-HR5"/>
                                             <constraint firstAttribute="height" constant="21" id="R3s-jo-T3a"/>
@@ -183,19 +184,15 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="CyB-SP-lmh" firstAttribute="leading" secondItem="HVm-uA-EGL" secondAttribute="leading" id="2Dg-tv-blr"/>
                             <constraint firstItem="HVm-uA-EGL" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="5B3-hn-a91"/>
                             <constraint firstAttribute="trailing" secondItem="72o-5b-zWh" secondAttribute="trailing" id="6wI-OX-VCN"/>
-                            <constraint firstItem="DEX-b2-UJM" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="8o8-jF-gPA"/>
+                            <constraint firstItem="CyB-SP-lmh" firstAttribute="leading" secondItem="72o-5b-zWh" secondAttribute="leading" id="9jm-G0-Xwz"/>
                             <constraint firstItem="HVm-uA-EGL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="JeI-Ol-E0w"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="DEX-b2-UJM" secondAttribute="bottom" id="Mgd-3u-ZNe"/>
                             <constraint firstItem="72o-5b-zWh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="O6D-4j-nNR"/>
-                            <constraint firstAttribute="trailing" secondItem="DEX-b2-UJM" secondAttribute="trailing" id="Upu-qF-RIw"/>
-                            <constraint firstItem="CyB-SP-lmh" firstAttribute="trailing" secondItem="HVm-uA-EGL" secondAttribute="trailing" id="cvh-he-mUs"/>
-                            <constraint firstItem="CyB-SP-lmh" firstAttribute="centerY" secondItem="DEX-b2-UJM" secondAttribute="centerY" id="m9a-rz-EhP"/>
+                            <constraint firstItem="CyB-SP-lmh" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="266" id="fr1-nz-koa"/>
                             <constraint firstAttribute="trailing" secondItem="HVm-uA-EGL" secondAttribute="trailing" id="pul-DK-Hag"/>
-                            <constraint firstItem="DEX-b2-UJM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="tH4-wS-a1L"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="72o-5b-zWh" secondAttribute="bottom" id="vIR-hl-ZkL"/>
+                            <constraint firstItem="CyB-SP-lmh" firstAttribute="trailing" secondItem="72o-5b-zWh" secondAttribute="trailing" id="zMc-b6-rP0"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="Sc4-5b-D2v" appends="YES" id="WbJ-ax-J1C"/>
@@ -254,7 +251,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ORBIT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yf6-Dt-WTY">
-                                <rect key="frame" x="125" y="425" width="125" height="34"/>
+                                <rect key="frame" x="126" y="425" width="125" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="125" id="oOR-gh-nP1"/>
                                 </constraints>
