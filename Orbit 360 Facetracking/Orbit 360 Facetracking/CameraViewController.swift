@@ -90,9 +90,15 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let orientation = UIDevice.currentDevice().orientation
         switch (orientation) {
             case .LandscapeLeft:
-                toCorrectOrientation = GenericTransform(m11: 1, m12: 0, m21: 0, m22: -1)
-                toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
-                controlTarget = Point(x: 0.5, y: 0.66) // Target to the upper third.
+                if (useFront) {
+                    toCorrectOrientation = GenericTransform(m11: 1, m12: 0, m21: 0, m22: -1)
+                    toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
+                    controlTarget = Point(x: 0.5, y: 0.66) // Target to the upper third.
+                } else {
+                    toCorrectOrientation = GenericTransform(m11: 1, m12: 0, m21: 0, m22: -1)
+                    toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
+                    controlTarget = Point(x: 0.5, y: 0.66) // Target to the upper third.
+                }
                 if interfacePosition == .Portrait && !isInMovieMode {
                     _ = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(CameraViewController.moveLeft), userInfo: nil, repeats: false)
                 }
@@ -105,9 +111,15 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 countdown.frame = view.frame
                 break
             case .LandscapeRight:
-                toCorrectOrientation = GenericTransform(m11: -1, m12: 0, m21: 0, m22: 1)
-                toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
-                controlTarget = Point(x: 0.5, y: 0.33) // Target to the upper third.
+                if (useFront) {
+                    toCorrectOrientation = GenericTransform(m11: -1, m12: 0, m21: 0, m22: 1)
+                    toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
+                    controlTarget = Point(x: 0.5, y: 0.33) // Target to the upper third.
+                } else {
+                    toCorrectOrientation = GenericTransform(m11: -1, m12: 0, m21: 0, m22: 1)
+                    toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
+                    controlTarget = Point(x: 0.5, y: 0.33) // Target to the upper third.
+                }
                 if interfacePosition == .Portrait && !isInMovieMode {
                     _ = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(CameraViewController.moveLeft), userInfo: nil, repeats: false)
                 }
@@ -119,20 +131,21 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 }
                 countdown.frame = view.frame
                 break
-//            case .PortraitUpsideDown:
-//                toCorrectOrientation = GenericTransform(m11: 0, m12: -1, m21: 1, m22: 0)
-//                toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
-//                controlTarget = Point(x: 0.33, y: 0.5) // Target to the upper third.
-//                break
             default:
                 // Portrait case
                 if interfacePosition != .Portrait && !isInMovieMode {
                     _ = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(CameraViewController.moveLeft), userInfo: nil, repeats: false)
                 }
                 interfacePosition = .Portrait
-                toCorrectOrientation = GenericTransform(m11: 0, m12: 1, m21: 1, m22: 0)
-                toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
-                controlTarget = Point(x: 0.33, y: 0.5) // Target to the upper third.
+                if (useFront) {
+                    toCorrectOrientation = GenericTransform(m11: 0, m12: 1, m21: 1, m22: 0)
+                    toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
+                    controlTarget = Point(x: 0.33, y: 0.5) // Target to the upper third.
+                } else {
+                    toCorrectOrientation = GenericTransform(m11: 0, m12: 1, m21: 1, m22: 0)
+                    toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
+                    controlTarget = Point(x: 0.33, y: 0.5) // Target to the upper third.
+                }
                 assetWriterTransform = CGFloat(M_PI * 90 / 180.0)
                 countdown.frame = view.frame
                 break
@@ -154,7 +167,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-//        view.layer.addSublayer(previewLayer)
         previewView.layer.addSublayer(previewLayer)
         cameraSession.startRunning()
         view.bringSubviewToFront(controlBar)
@@ -223,6 +235,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             useFront = true
             setupCameraSession()
         }
+        initializeProcessing()
     }
 
     @IBAction func goLive(sender: AnyObject) {
@@ -418,9 +431,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     func stopRecording() {
-        /*
-         Finished video recording and export to photo roll.
-         */
+//        Finished video recording and export to photo roll.
         recordTimer.invalidate()
         recordingTimeLabel.text! = "00:00:00"
         isRecording = false
@@ -433,7 +444,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let hours = Int(floor((currentTime - recordingTimeCounter) / 3600))
         let minutes = Int(floor(((currentTime - recordingTimeCounter) - Double(hours * 3600)) / 60))
         let seconds = Int((currentTime - recordingTimeCounter) - Double(hours * 3600) - Double(minutes * 60))
-//        let time = String(format: "%0.0f:%0.0f:%0.0f",hours, minutes, seconds)
         recordingTimeLabel.text! = "\(hours.format("02")):\(minutes.format("02")):\(seconds.format("02"))"
     }
 
@@ -463,7 +473,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     func takePhoto() {
-//        cameraSession.sessionPreset = AVCaptureSessionPresetPhoto
         countdown.text = ""
         let connection = self.imageOutput.connectionWithMediaType(AVMediaTypeVideo)
         connection.videoOrientation = AVCaptureVideoOrientation(rawValue: UIDevice.currentDevice().orientation.rawValue)!
@@ -471,8 +480,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         self.imageOutput.captureStillImageAsynchronouslyFromConnection(connection) {
             (imageDataSampleBuffer, error) -> Void in
             if error == nil {
-                // if the session preset .Photo is used, or if explicitly set in the device's outputSettings
-                // we get the data already compressed as JPEG
                 let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
 
                 if let image = UIImage(data: imageData) {
@@ -483,7 +490,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 NSLog("error while capturing still image: \(error)")
             }
         }
-
     }
     
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
@@ -520,7 +526,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     func captureOutput(captureOutput: AVCaptureOutput!, didDropSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
-        // Here you can count how many frames are dopped
     }
 
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
@@ -578,7 +583,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func captureStillImageAsynchronously(from connection: AVCaptureConnection!, completionHandler handler: ((CMSampleBuffer?, NSError?) -> Void)!) {
     }
 
-    //Facebook Code
+    //MARK: Facebook Code
 
     func startFBLive() {
         if FBSDKAccessToken.currentAccessToken() != nil {
