@@ -29,6 +29,7 @@
 		E844FAAF1E748B8500082DA2 /* signal_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = E844FAAC1E748B8500082DA2 /* signal_grey.png */; };
 		E844FAB11E748E6500082DA2 /* ConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E844FAB01E748E6500082DA2 /* ConnectViewController.swift */; };
 		E880ADFF1E74872C00E41ADB /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E880ADFD1E74872C00E41ADB /* Launch Screen.storyboard */; };
+		E88B105C1E7C29D300794DAD /* startPhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = E88B105B1E7C29D300794DAD /* startPhoto.png */; };
 		E88EF6CB1DA6DE070009E99D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6CA1DA6DE070009E99D /* AppDelegate.swift */; };
 		E88EF6D01DA6DE070009E99D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E88EF6CE1DA6DE070009E99D /* Main.storyboard */; };
 		E88EF6D21DA6DE070009E99D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E88EF6D11DA6DE070009E99D /* Assets.xcassets */; };
@@ -90,6 +91,7 @@
 		E844FAAC1E748B8500082DA2 /* signal_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = signal_grey.png; path = ressources/signal_grey.png; sourceTree = "<group>"; };
 		E844FAB01E748E6500082DA2 /* ConnectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectViewController.swift; sourceTree = "<group>"; };
 		E880ADFE1E74872C00E41ADB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
+		E88B105B1E7C29D300794DAD /* startPhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = startPhoto.png; path = ressources/startPhoto.png; sourceTree = "<group>"; };
 		E88EF6C71DA6DE070009E99D /* Orbit 360 Facetracking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Orbit 360 Facetracking.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E88EF6CA1DA6DE070009E99D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E88EF6CF1DA6DE070009E99D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 				E80E5FFA1E744B38004EF2DE /* haarcascade_frontalface_alt.xml */,
 				E80E60021E745269004EF2DE /* Loadingscreen.png */,
 				E80E60061E746ADA004EF2DE /* start.png */,
+				E88B105B1E7C29D300794DAD /* startPhoto.png */,
 				E80E60071E746ADA004EF2DE /* stop.png */,
 				E80E60041E745C1A004EF2DE /* cameraicon.png */,
 				E844FAAA1E748B8500082DA2 /* signal_blue.png */,
@@ -434,6 +437,7 @@
 				E81EC93A1DDDFA11005330F0 /* AsyncStream.hpp in Resources */,
 				E844FAAD1E748B8500082DA2 /* signal_blue.png in Resources */,
 				E88EF6D21DA6DE070009E99D /* Assets.xcassets in Resources */,
+				E88B105C1E7C29D300794DAD /* startPhoto.png in Resources */,
 				E880ADFF1E74872C00E41ADB /* Launch Screen.storyboard in Resources */,
 				E80E5FFE1E744B38004EF2DE /* gradient.jpg in Resources */,
 				E88EF6D01DA6DE070009E99D /* Main.storyboard in Resources */,

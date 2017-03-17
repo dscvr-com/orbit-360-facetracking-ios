@@ -184,6 +184,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         switchToPhoto.enabled = true
         isInMovieMode = true
         moveRight()
+        recordingTimeLabel.text = "00:00:00"
+        startButton.setBackgroundImage(UIImage(named:"start")!, forState: .Normal)
     }
 
     @IBAction func switchToPhotoMode(sender: AnyObject) {
@@ -191,6 +193,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         switchToPhoto.enabled = false
         isInMovieMode = false
         moveLeft()
+        recordingTimeLabel.text = ""
+        startButton.setBackgroundImage(UIImage(named:"startPhoto")!, forState: .Normal)
     }
 
     func moveLeft() {
