@@ -30,6 +30,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var firstRun = true
     var firstRunMeta = true
 
+    @IBOutlet weak var recordingTimeLabel: UILabel!
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet var switchToPhoto: UISwipeGestureRecognizer!
@@ -59,6 +60,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var lastMovementTime = CFAbsoluteTimeGetCurrent()
     var counter = 3
     var interfacePosition: UIInterfaceOrientation = .Portrait
+    var recordingTimeCounter = CFAbsoluteTimeGetCurrent()
+    var recordTimer: NSTimer!
 
     var toCorrectOrientation: GenericTransform!
     var toUnitSpace: CameraToUnitSpaceCoordinateConversion!
@@ -405,15 +408,29 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         videoWriter.startWriting()
         videoWriter.startSessionAtSourceTime(timeStamp)
         isRecording = true
+        recordingTimeCounter = CFAbsoluteTimeGetCurrent()
+        recordTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(CameraViewController.updateRecordingTimeCounter), userInfo: nil, repeats: true)
+
     }
 
     func stopRecording() {
         /*
          Finished video recording and export to photo roll.
          */
+        recordTimer.invalidate()
+        recordingTimeLabel.text! = "00:00:00"
         isRecording = false
         videoWriter.finishWritingWithCompletionHandler({})
         UISaveVideoAtPathToSavedPhotosAlbum(videoOutputURL.path!, nil, nil, nil)
+    }
+
+    func updateRecordingTimeCounter() {
+        let currentTime = CFAbsoluteTimeGetCurrent()
+        let hours = Int(floor((currentTime - recordingTimeCounter) / 3600))
+        let minutes = Int(floor(((currentTime - recordingTimeCounter) - Double(hours * 3600)) / 60))
+        let seconds = Int((currentTime - recordingTimeCounter) - Double(hours * 3600) - Double(minutes * 60))
+//        let time = String(format: "%0.0f:%0.0f:%0.0f",hours, minutes, seconds)
+        recordingTimeLabel.text! = "\(hours.format("02")):\(minutes.format("02")):\(seconds.format("02"))"
     }
 
     func startTimer() {

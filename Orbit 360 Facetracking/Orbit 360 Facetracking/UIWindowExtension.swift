@@ -25,3 +25,10 @@ public extension UIWindow {
         }
     }
 }
+
+public extension Int {
+    func format(f: String) -> String {
+        return String(format: "%\(f)d", self)
+    }
+}
+

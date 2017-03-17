@@ -159,12 +159,21 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PUH-ga-c5Y">
+                                        <rect key="frame" x="151.5" y="22" width="72" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.78881316489999997" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="AgA-aW-sns" firstAttribute="leading" secondItem="HVm-uA-EGL" secondAttribute="leading" constant="8" id="10F-BW-Q7M"/>
+                                    <constraint firstAttribute="bottom" secondItem="PUH-ga-c5Y" secondAttribute="bottom" constant="21" id="4Gf-PK-Q7h"/>
+                                    <constraint firstItem="PUH-ga-c5Y" firstAttribute="top" secondItem="HVm-uA-EGL" secondAttribute="top" constant="22" id="7iC-L8-cEE"/>
                                     <constraint firstAttribute="height" constant="64" id="B4B-u3-IzD"/>
                                     <constraint firstItem="TKf-Gg-gnF" firstAttribute="top" secondItem="HVm-uA-EGL" secondAttribute="top" constant="5" id="Gyl-7u-5jq"/>
+                                    <constraint firstItem="PUH-ga-c5Y" firstAttribute="centerX" secondItem="HVm-uA-EGL" secondAttribute="centerX" id="Hey-Tm-gzd"/>
                                     <constraint firstItem="TKf-Gg-gnF" firstAttribute="leading" secondItem="HVm-uA-EGL" secondAttribute="leading" constant="8" id="Mtv-Rs-esn"/>
                                     <constraint firstItem="AgA-aW-sns" firstAttribute="top" secondItem="HVm-uA-EGL" secondAttribute="top" constant="25" id="QLe-LM-Zs8"/>
                                     <constraint firstAttribute="bottom" secondItem="TKf-Gg-gnF" secondAttribute="bottom" constant="38" id="ScO-Z7-5DB"/>
@@ -192,6 +201,7 @@
                         <outlet property="navBar" destination="HVm-uA-EGL" id="TE2-3m-gnT"/>
                         <outlet property="photo" destination="XBQ-bz-x0h" id="ngl-Hb-Cpy"/>
                         <outlet property="previewView" destination="DEX-b2-UJM" id="9Gg-kM-1YH"/>
+                        <outlet property="recordingTimeLabel" destination="PUH-ga-c5Y" id="ahZ-tV-lmf"/>
                         <outlet property="segmentedControl" destination="AgA-aW-sns" id="Hvv-3K-TOg"/>
                         <outlet property="startButton" destination="Nd7-fb-nb2" id="jOh-aq-6xQ"/>
                         <outlet property="switchToPhoto" destination="YEw-ME-DKh" id="p8X-eb-B1H"/>
