@@ -31,7 +31,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var firstRunMeta = true
 
     @IBOutlet weak var previewView: UIView!
-    @IBOutlet weak var countdown: UILabel!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet var switchToPhoto: UISwipeGestureRecognizer!
     @IBOutlet var switchToVideo: UISwipeGestureRecognizer!
@@ -41,6 +40,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var navBar: UIView!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var liveButton: UIButton!
+    var countdown = UILabel()
 
     var outputSize: CGSize!
     var timeStamp: CMTime!
@@ -99,6 +99,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 } else {
                     assetWriterTransform = CGFloat(M_PI * 0 / 180.0)
                 }
+                countdown.frame = view.frame
                 break
             case .LandscapeRight:
                 toCorrectOrientation = GenericTransform(m11: -1, m12: 0, m21: 0, m22: 1)
@@ -113,6 +114,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 } else {
                     assetWriterTransform = CGFloat(M_PI * 180 / 180.0)
                 }
+                countdown.frame = view.frame
                 break
 //            case .PortraitUpsideDown:
 //                toCorrectOrientation = GenericTransform(m11: 0, m12: -1, m21: 1, m22: 0)
@@ -129,6 +131,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
                 controlTarget = Point(x: 0.33, y: 0.5) // Target to the upper third.
                 assetWriterTransform = CGFloat(M_PI * 90 / 180.0)
+                countdown.frame = view.frame
                 break
         }
         toAngle = UnitToMotorSpaceCoordinateConversion(unitFocalLength: Float(focalLen))
@@ -153,6 +156,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         cameraSession.startRunning()
         view.bringSubviewToFront(controlBar)
         view.bringSubviewToFront(navBar)
+        countdown.frame = view.frame
+        countdown.textAlignment = .Center
+        countdown.textColor = UIColor.whiteColor()
+        countdown.font = countdown.font.fontWithSize(130)
+        self.view!.addSubview(countdown)
+
     }
 
     @IBAction func switchTracking(sender: AnyObject) {
