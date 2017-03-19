@@ -23,12 +23,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var liveSession: VCSimpleSession!
     var livePrivacy: FBLivePrivacy = .closed
 
-    var isTracking = true
     var isInMovieMode = true
     var isRecording = false
     var useFront = true
     var firstRun = true
     var firstRunMeta = true
+    var isTracking = true
 
     @IBOutlet weak var recordingTimeLabel: UILabel!
     @IBOutlet weak var previewView: UIView!
