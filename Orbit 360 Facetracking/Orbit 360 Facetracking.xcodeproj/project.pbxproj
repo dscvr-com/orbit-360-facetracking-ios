@@ -35,8 +35,6 @@
 		E88EF6E01DA6DE080009E99D /* Orbit_360_FacetrackingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6DF1DA6DE080009E99D /* Orbit_360_FacetrackingTests.swift */; };
 		E88EF6EB1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6EA1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift */; };
 		E8A7D4761E76F6440096FAB7 /* UIWindowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A7D4751E76F6440096FAB7 /* UIWindowExtension.swift */; };
-		E8F545C41DB7E42300ED5EFE /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F545C31DB7E42300ED5EFE /* TableViewController.swift */; };
-		E8F545C61DB7F2DF00ED5EFE /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F545C51DB7F2DF00ED5EFE /* TableViewCell.swift */; };
 		E8F545CB1DB8CC0900ED5EFE /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F545CA1DB8CC0900ED5EFE /* CameraViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -98,8 +96,6 @@
 		E88EF6EA1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orbit_360_FacetrackingUITests.swift; sourceTree = "<group>"; };
 		E88EF6EC1DA6DE080009E99D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8A7D4751E76F6440096FAB7 /* UIWindowExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWindowExtension.swift; sourceTree = "<group>"; };
-		E8F545C31DB7E42300ED5EFE /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		E8F545C51DB7F2DF00ED5EFE /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		E8F545CA1DB8CC0900ED5EFE /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -233,8 +229,6 @@
 		E8DDB3561DB92CC300131B76 /* BLE */ = {
 			isa = PBXGroup;
 			children = (
-				E8F545C31DB7E42300ED5EFE /* TableViewController.swift */,
-				E8F545C51DB7F2DF00ED5EFE /* TableViewCell.swift */,
 				E844FAB01E748E6500082DA2 /* ConnectViewController.swift */,
 			);
 			name = BLE;
@@ -585,11 +579,9 @@
 				E843FE4B1DBDB83F00C0B855 /* MotorControl.swift in Sources */,
 				E81EC93C1DE348F0005330F0 /* IPhoneModel.swift in Sources */,
 				E827BA171DB517DC005257CB /* BLEService.swift in Sources */,
-				E8F545C61DB7F2DF00ED5EFE /* TableViewCell.swift in Sources */,
 				A5831FA81E57275500A50103 /* CoordinateConversion.swift in Sources */,
 				A5831FAA1E57298800A50103 /* Point.swift in Sources */,
 				E8F545CB1DB8CC0900ED5EFE /* CameraViewController.swift in Sources */,
-				E8F545C41DB7E42300ED5EFE /* TableViewController.swift in Sources */,
 				E88EF6CB1DA6DE070009E99D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
