@@ -92,10 +92,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             case .LandscapeLeft:
                 if (useFront) {
                     toCorrectOrientation = GenericTransform(m11: 1, m12: 0, m21: 0, m22: -1)
-                    controlTarget = Point(x: 0.5, y: 0.66) // Target to the upper third.
+                    controlTarget = Point(x: 0.5, y: 0.75) // Target to the upper third.
                 } else {
                     toCorrectOrientation = GenericTransform(m11: -1, m12: 0, m21: 0, m22: -1)
-                    controlTarget = Point(x: 0.5, y: 0.33) // Target to the upper third.
+                    controlTarget = Point(x: 0.5, y: 0.25) // Target to the upper third.
                 }
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
                 if interfacePosition == .Portrait && !isInMovieMode {
@@ -112,10 +112,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             case .LandscapeRight:
                 if (useFront) {
                     toCorrectOrientation = GenericTransform(m11: -1, m12: 0, m21: 0, m22: 1)
-                    controlTarget = Point(x: 0.5, y: 0.33) // Target to the upper third.
+                    controlTarget = Point(x: 0.5, y: 0.25) // Target to the upper third.
                 } else {
                     toCorrectOrientation = GenericTransform(m11: 1, m12: 0, m21: 0, m22: 1)
-                    controlTarget = Point(x: 0.5, y: 0.66) // Target to the upper third.
+                    controlTarget = Point(x: 0.5, y: 0.75) // Target to the upper third.
                 }
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
                 if interfacePosition == .Portrait && !isInMovieMode {
@@ -137,7 +137,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     toCorrectOrientation = GenericTransform(m11: 0, m12: 1, m21: -1, m22: 0)
                 }
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
-                controlTarget = Point(x: 0.33, y: 0.5) // Target to the upper third.
+                controlTarget = Point(x: 0.25, y: 0.5) // Target to the upper third.
                 if interfacePosition != .Portrait && !isInMovieMode {
                     _ = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(CameraViewController.moveLeft), userInfo: nil, repeats: false)
                 }
@@ -232,6 +232,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             setupCameraSession()
         }
         initializeProcessing()
+        isTracking = false
+        segmentedControl.selectedSegmentIndex = 0
+        self.service.moveX(Int32(motorStepsX/2), speed: 1000)
     }
 
     @IBAction func goLive(sender: AnyObject) {
