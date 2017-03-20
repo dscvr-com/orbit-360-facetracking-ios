@@ -17,11 +17,8 @@ let aspectLandscape = Float(1280) / Float(720)
 let motorStepsX = 5111
 let motorStepsY = 17820
 
-class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureMetadataOutputObjectsDelegate, VCSessionDelegate{
+class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureMetadataOutputObjectsDelegate {
     var service: MotorControl!
-
-    var liveSession: VCSimpleSession!
-    var livePrivacy: FBLivePrivacy = .closed
 
     var isInMovieMode = true
     var isRecording = false
@@ -232,19 +229,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             setupCameraSession()
         }
         initializeProcessing()
-        isTracking = false
-        segmentedControl.selectedSegmentIndex = 0
+//        isTracking = false
+//        segmentedControl.selectedSegmentIndex = 0
         self.service.moveX(Int32(motorStepsX/2), speed: 1000)
-    }
-
-    @IBAction func goLive(sender: AnyObject) {
-        switch liveSession.rtmpSessionState {
-        case .None, .PreviewStarted, .Ended, .Error:
-            startFBLive()
-        default:
-            endFBLive()
-            break
-        }
     }
 
     func startMovie() {
@@ -581,68 +568,4 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     func captureStillImageAsynchronously(from connection: AVCaptureConnection!, completionHandler handler: ((CMSampleBuffer?, NSError?) -> Void)!) {
     }
-
-    //MARK: Facebook Code
-
-    func startFBLive() {
-        if FBSDKAccessToken.currentAccessToken() != nil {
-            FBLiveAPI.shared.startLive(livePrivacy) { result in
-                guard let streamUrlString = (result as? NSDictionary)?.valueForKey("stream_url") as? String else {
-                    return
-                }
-                let streamUrl = NSURL(string: streamUrlString)
-
-                guard let lastPathComponent = streamUrl?.lastPathComponent,
-                    let query = streamUrl?.query else {
-                        return
-                }
-                self.liveSession.startRtmpSessionWithURL(
-                    "rtmp://rtmp-api.facebook.com:80/rtmp/",
-                    andStreamKey: "\(lastPathComponent)?\(query)"
-                )
-            }
-        } else {
-            fbLogin()
-        }
-    }
-
-    func endFBLive() {
-        if FBSDKAccessToken.currentAccessToken() != nil {
-            FBLiveAPI.shared.endLive { _ in
-                self.liveSession.endRtmpSession()
-            }
-        } else {
-            fbLogin()
-        }
-    }
-
-    func fbLogin() {
-        let loginManager = FBSDKLoginManager()
-        loginManager.logInWithPublishPermissions(["publish_actions"], fromViewController: self) { (result, error) in
-            if error != nil {
-                print("Error")
-            } else if result?.isCancelled == true {
-                print("Cancelled")
-            } else {
-                print("Logged in")
-            }
-        }
-    }
-
-    // MARK: VCSessionDelegate
-
-    func connectionStatusChanged(sessionState: VCSessionState) {
-        switch liveSession.rtmpSessionState {
-        case .Starting:
-            liveButton.setTitle("Connecting", forState: .Normal)
-            //liveButton.backgroundColor = UIColor.orangeColor()
-        case .Started:
-            liveButton.setTitle("Disconnect", forState: .Normal)
-            //liveButton.backgroundColor = UIColor.redColor()
-        default:
-            liveButton.setTitle("Go Live", forState: .Normal)
-            //liveButton.backgroundColor = UIColor.greenColor()
-        }
-    }
-
 }

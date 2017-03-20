@@ -3,11 +3,6 @@
 
 target 'Orbit 360 Facetracking' do
 
-	pod 'OpenCV'
-	pod 'FBSDKShareKit'
-	pod 'FBSDKLoginKit'
-	pod 'VideoCore', :git => 'https://github.com/jgh-/VideoCore', :branch => 'master'
-
 end
 
 target 'Orbit 360 FacetrackingTests' do

@@ -19,7 +19,6 @@
 		E80E60051E745C1A004EF2DE /* cameraicon.png in Resources */ = {isa = PBXBuildFile; fileRef = E80E60041E745C1A004EF2DE /* cameraicon.png */; };
 		E80E60081E746ADA004EF2DE /* start.png in Resources */ = {isa = PBXBuildFile; fileRef = E80E60061E746ADA004EF2DE /* start.png */; };
 		E80E60091E746ADA004EF2DE /* stop.png in Resources */ = {isa = PBXBuildFile; fileRef = E80E60071E746ADA004EF2DE /* stop.png */; };
-		E81EC93A1DDDFA11005330F0 /* AsyncStream.hpp in Resources */ = {isa = PBXBuildFile; fileRef = E81EC9391DDDFA11005330F0 /* AsyncStream.hpp */; };
 		E81EC93C1DE348F0005330F0 /* IPhoneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81EC93B1DE348EF005330F0 /* IPhoneModel.swift */; };
 		E827BA151DB5171C005257CB /* BLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E827BA141DB5171C005257CB /* BLEDiscovery.swift */; };
 		E827BA171DB517DC005257CB /* BLEService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E827BA161DB517DC005257CB /* BLEService.swift */; };
@@ -36,9 +35,6 @@
 		E88EF6E01DA6DE080009E99D /* Orbit_360_FacetrackingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6DF1DA6DE080009E99D /* Orbit_360_FacetrackingTests.swift */; };
 		E88EF6EB1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6EA1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift */; };
 		E8A7D4761E76F6440096FAB7 /* UIWindowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A7D4751E76F6440096FAB7 /* UIWindowExtension.swift */; };
-		E8D887D21DF5C57700A13F66 /* FaceDetection.mm in Sources */ = {isa = PBXBuildFile; fileRef = E8D887D11DF5C57700A13F66 /* FaceDetection.mm */; };
-		E8D887D51DF5CC0D00A13F66 /* Tracker.mm in Sources */ = {isa = PBXBuildFile; fileRef = E8D887D41DF5CC0D00A13F66 /* Tracker.mm */; };
-		E8EFEB2C1E6489E20088F663 /* FBLiveAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EFEB2B1E6489E20088F663 /* FBLiveAPI.swift */; };
 		E8F545C41DB7E42300ED5EFE /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F545C31DB7E42300ED5EFE /* TableViewController.swift */; };
 		E8F545C61DB7F2DF00ED5EFE /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F545C51DB7F2DF00ED5EFE /* TableViewCell.swift */; };
 		E8F545CB1DB8CC0900ED5EFE /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F545CA1DB8CC0900ED5EFE /* CameraViewController.swift */; };
@@ -80,12 +76,10 @@
 		E80E60041E745C1A004EF2DE /* cameraicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cameraicon.png; path = ressources/cameraicon.png; sourceTree = "<group>"; };
 		E80E60061E746ADA004EF2DE /* start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = start.png; path = ressources/start.png; sourceTree = "<group>"; };
 		E80E60071E746ADA004EF2DE /* stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stop.png; path = ressources/stop.png; sourceTree = "<group>"; };
-		E81EC9391DDDFA11005330F0 /* AsyncStream.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AsyncStream.hpp; sourceTree = "<group>"; };
 		E81EC93B1DE348EF005330F0 /* IPhoneModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPhoneModel.swift; sourceTree = "<group>"; };
 		E827BA141DB5171C005257CB /* BLEDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEDiscovery.swift; sourceTree = "<group>"; };
 		E827BA161DB517DC005257CB /* BLEService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEService.swift; sourceTree = "<group>"; };
 		E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotorControl.swift; sourceTree = "<group>"; };
-		E843FE4C1DBE32A600C0B855 /* Orbit 360 Facetracking-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Orbit 360 Facetracking-Bridging-Header.h"; sourceTree = "<group>"; };
 		E844FAAA1E748B8500082DA2 /* signal_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = signal_blue.png; path = ressources/signal_blue.png; sourceTree = "<group>"; };
 		E844FAAB1E748B8500082DA2 /* signal_dark_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = signal_dark_blue.png; path = ressources/signal_dark_blue.png; sourceTree = "<group>"; };
 		E844FAAC1E748B8500082DA2 /* signal_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = signal_grey.png; path = ressources/signal_grey.png; sourceTree = "<group>"; };
@@ -104,11 +98,6 @@
 		E88EF6EA1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orbit_360_FacetrackingUITests.swift; sourceTree = "<group>"; };
 		E88EF6EC1DA6DE080009E99D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8A7D4751E76F6440096FAB7 /* UIWindowExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWindowExtension.swift; sourceTree = "<group>"; };
-		E8D887D01DF5C39500A13F66 /* FaceDetection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FaceDetection.h; sourceTree = "<group>"; };
-		E8D887D11DF5C57700A13F66 /* FaceDetection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FaceDetection.mm; sourceTree = "<group>"; };
-		E8D887D31DF5CAF400A13F66 /* Tracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tracker.h; sourceTree = "<group>"; };
-		E8D887D41DF5CC0D00A13F66 /* Tracker.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Tracker.mm; sourceTree = "<group>"; };
-		E8EFEB2B1E6489E20088F663 /* FBLiveAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBLiveAPI.swift; sourceTree = "<group>"; };
 		E8F545C31DB7E42300ED5EFE /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		E8F545C51DB7F2DF00ED5EFE /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		E8F545CA1DB8CC0900ED5EFE /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
@@ -217,7 +206,6 @@
 				E88EF6D11DA6DE070009E99D /* Assets.xcassets */,
 				E88EF6D61DA6DE070009E99D /* Info.plist */,
 				E827BA131DB516F7005257CB /* BLE */,
-				E8FC40BE1DBD51ED00C9202A /* OpenCV */,
 				E8F545C71DB7F2EF00ED5EFE /* UI */,
 				E8F545CC1DB8CD5400ED5EFE /* MotorControl */,
 			);
@@ -256,7 +244,6 @@
 			isa = PBXGroup;
 			children = (
 				E8F545CA1DB8CC0900ED5EFE /* CameraViewController.swift */,
-				E8EFEB2B1E6489E20088F663 /* FBLiveAPI.swift */,
 				E81EC93B1DE348EF005330F0 /* IPhoneModel.swift */,
 			);
 			name = Camera;
@@ -295,20 +282,6 @@
 				E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */,
 			);
 			name = MotorControl;
-			sourceTree = "<group>";
-		};
-		E8FC40BE1DBD51ED00C9202A /* OpenCV */ = {
-			isa = PBXGroup;
-			children = (
-				E81EC9391DDDFA11005330F0 /* AsyncStream.hpp */,
-				E843FE4C1DBE32A600C0B855 /* Orbit 360 Facetracking-Bridging-Header.h */,
-				E8D887D01DF5C39500A13F66 /* FaceDetection.h */,
-				E8D887D11DF5C57700A13F66 /* FaceDetection.mm */,
-				E8D887D31DF5CAF400A13F66 /* Tracker.h */,
-				E8D887D41DF5CC0D00A13F66 /* Tracker.mm */,
-			);
-			name = OpenCV;
-			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -434,7 +407,6 @@
 				E80E60031E745269004EF2DE /* Loadingscreen.png in Resources */,
 				E80E60091E746ADA004EF2DE /* stop.png in Resources */,
 				E80E60081E746ADA004EF2DE /* start.png in Resources */,
-				E81EC93A1DDDFA11005330F0 /* AsyncStream.hpp in Resources */,
 				E844FAAD1E748B8500082DA2 /* signal_blue.png in Resources */,
 				E88EF6D21DA6DE070009E99D /* Assets.xcassets in Resources */,
 				E88B105C1E7C29D300794DAD /* startPhoto.png in Resources */,
@@ -607,16 +579,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				E844FAB11E748E6500082DA2 /* ConnectViewController.swift in Sources */,
-				E8D887D21DF5C57700A13F66 /* FaceDetection.mm in Sources */,
 				A5831FAC1E5732A800A50103 /* Control.swift in Sources */,
 				E827BA151DB5171C005257CB /* BLEDiscovery.swift in Sources */,
-				E8D887D51DF5CC0D00A13F66 /* Tracker.mm in Sources */,
 				E8A7D4761E76F6440096FAB7 /* UIWindowExtension.swift in Sources */,
 				E843FE4B1DBDB83F00C0B855 /* MotorControl.swift in Sources */,
 				E81EC93C1DE348F0005330F0 /* IPhoneModel.swift in Sources */,
 				E827BA171DB517DC005257CB /* BLEService.swift in Sources */,
 				E8F545C61DB7F2DF00ED5EFE /* TableViewCell.swift in Sources */,
-				E8EFEB2C1E6489E20088F663 /* FBLiveAPI.swift in Sources */,
 				A5831FA81E57275500A50103 /* CoordinateConversion.swift in Sources */,
 				A5831FAA1E57298800A50103 /* Point.swift in Sources */,
 				E8F545CB1DB8CC0900ED5EFE /* CameraViewController.swift in Sources */,
@@ -785,7 +754,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Meyer.Orbit-360-Facetracking";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Orbit 360 Facetracking-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 2.3;
 			};
@@ -809,7 +777,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Meyer.Orbit-360-Facetracking";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Orbit 360 Facetracking-Bridging-Header.h";
 				SWIFT_VERSION = 2.3;
 			};
 			name = Release;

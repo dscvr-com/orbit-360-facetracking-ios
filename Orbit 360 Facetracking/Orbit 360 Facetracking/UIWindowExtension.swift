@@ -6,6 +6,8 @@
 //  Copyright © 2017 Philipp Meyer. All rights reserved.
 //
 
+import UIKit
+
 public extension UIWindow {
     public var visibleViewController: UIViewController? {
         return UIWindow.getVisibleViewControllerFrom(self.rootViewController)

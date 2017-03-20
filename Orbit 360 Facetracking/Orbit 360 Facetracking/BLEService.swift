@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreBluetooth
+import UIKit
 
 // Services & Characteristics UUIDs
 // TODO EJ - pass from outside via constructor 
