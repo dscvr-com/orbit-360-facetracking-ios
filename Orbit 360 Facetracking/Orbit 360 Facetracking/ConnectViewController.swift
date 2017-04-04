@@ -51,7 +51,7 @@ class ConnectViewController: UIViewController {
     }
 
     func onDeviceConnected(device: CBPeripheral) {
-        btService = BLEService(initWithPeripheral: device, onServiceConnected: onServiceConnected, bleService: MotorControl.BLEServiceUUID, bleCharacteristic: MotorControl.BLECharacteristicUUID)
+        btService = BLEService(initWithPeripheral: device, onServiceConnected: onServiceConnected, bleService: MotorControl.BLEServiceUUID, bleCharacteristic: [MotorControl.BLECharacteristicUUID, MotorControl.BLECharacteristicResponseUUID])
         btService?.startDiscoveringServices()
     }
 

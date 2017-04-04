@@ -23,6 +23,8 @@ class MotorControl: NSObject, CBPeripheralDelegate {
     static let BLEServiceUUID =                CBUUID(string: "69400001-B5A3-F393-E0A9-E50E24DCCA99")
     static let BLECharacteristicUUID =         CBUUID(string: "69400002-B5A3-F393-E0A9-E50E24DCCA99")
     static let BLECharacteristicResponseUUID = CBUUID(string: "69400003-B5A3-F393-E0A9-E50E24DCCA99")
+    let topButton =    "FE01080108FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+    let bottomButton = "FE01080007FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
     
     init(s: CBService, p: CBPeripheral, allowCommandInterrupt: Bool) {
         self.service = s
@@ -124,8 +126,7 @@ class MotorControl: NSObject, CBPeripheralDelegate {
         if characteristic.UUID.isEqual(MotorControl.BLECharacteristicResponseUUID) {
             let data = characteristic.value
             let numberOfBytes = data?.length
-            
-            // TODO: Check if this is actually the move command. 
+
             if (numberOfBytes != 20) {
                 print("Error on BLE notification: Received \(numberOfBytes) bytes instead of 20.")
                 return
@@ -133,7 +134,18 @@ class MotorControl: NSObject, CBPeripheralDelegate {
             
             var byteArray = [UInt8](count: numberOfBytes!, repeatedValue: 0)
             data?.getBytes(&byteArray, length: numberOfBytes!)
-            
+            let str = byteArray.reduce("", combine: { $0 + String(format: "%02x", $1)})
+            print(str)
+
+            if (str.uppercaseString == topButton) {
+                print("top")
+                return
+            }
+            if (str.uppercaseString == bottomButton) {
+                print("bottom")
+                return
+            }
+
             motorPositionX = fromByteArray([byteArray[10], byteArray[9], byteArray[8], byteArray[7]], Int.self)
             motorPositionY = fromByteArray([byteArray[6], byteArray[5], byteArray[4], byteArray[3]], Int.self)
             

@@ -152,10 +152,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         UIApplication.sharedApplication().idleTimerDisabled = true
         initializeProcessing()
         setupCameraSession()
-//        liveSession = VCSimpleSession(videoSize: CGSize(width: 1280, height: 720), frameRate: 30, bitrate: 400000, useInterfaceOrientation: false)
-//        view.addSubview(liveSession.previewView)
-//        liveSession.previewView.frame = view.bounds
-//        liveSession.delegate = self
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -169,7 +165,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         countdown.textColor = UIColor.whiteColor()
         countdown.font = countdown.font.fontWithSize(130)
         self.view!.addSubview(countdown)
-
     }
 
     @IBAction func switchTracking(sender: AnyObject) {
