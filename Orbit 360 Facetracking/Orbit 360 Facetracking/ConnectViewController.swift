@@ -12,8 +12,8 @@ import CoreBluetooth
 
 class ConnectViewController: UIViewController {
 
-    private var bt: BTDiscovery!
-    var btService : BTService?
+    private var bt: BLEDiscovery!
+    var btService : BLEService?
     var btMotorControl : MotorControl?
     var btDevices = [CBPeripheral]()
     @IBOutlet weak var signal: UIImageView!
@@ -21,7 +21,7 @@ class ConnectViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        bt = BTDiscovery(onDeviceFound: onDeviceFound, onDeviceConnected: onDeviceConnected)
+        bt = BLEDiscovery(onDeviceFound: onDeviceFound, onDeviceConnected: onDeviceConnected, services: [MotorControl.BLEServiceUUID])
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,12 +51,12 @@ class ConnectViewController: UIViewController {
     }
 
     func onDeviceConnected(device: CBPeripheral) {
-        btService = BTService(initWithPeripheral: device, onServiceConnected: onServiceConnected)
+        btService = BLEService(initWithPeripheral: device, onServiceConnected: onServiceConnected, bleService: MotorControl.BLEServiceUUID, bleCharacteristic: MotorControl.BLECharacteristicUUID)
         btService?.startDiscoveringServices()
     }
 
     func onServiceConnected(service: CBService) {
-        btMotorControl = MotorControl(s: service, p: btService!.peripheral!)
+        btMotorControl = MotorControl(s: service, p: service.peripheral, allowCommandInterrupt: true)
         signal.image = UIImage(named:"signal_blue")!
         status.text = "CONNECTED"
         _ = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(ConnectViewController.performSegue), userInfo: nil, repeats: false)

@@ -9,15 +9,17 @@
 import Foundation
 import CoreBluetooth
 
-class BTDiscovery: NSObject, CBCentralManagerDelegate {
+class BLEDiscovery: NSObject, CBCentralManagerDelegate {
 
     private var centralManager: CBCentralManager!
-    private var onDeviceFound: (CBPeripheral, NSString) -> Void
-    private var onDeviceConnected: (CBPeripheral) -> Void
+    private let onDeviceFound: (CBPeripheral, NSString) -> Void
+    private let onDeviceConnected: (CBPeripheral) -> Void
+    private let services: [CBUUID]
     
-    init(onDeviceFound: (CBPeripheral, NSString) -> Void, onDeviceConnected: (CBPeripheral) -> Void) {
+    init(onDeviceFound: (CBPeripheral, NSString) -> Void, onDeviceConnected: (CBPeripheral) -> Void, services: [CBUUID]) {
         self.onDeviceFound = onDeviceFound
         self.onDeviceConnected = onDeviceConnected
+        self.services = services
         
         super.init()
         
@@ -25,19 +27,10 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
     }
     
     func startScanning() {
-        centralManager.scanForPeripheralsWithServices(nil, options: nil)
+        centralManager.scanForPeripheralsWithServices(services, options: nil)
         print("Searching for BLE Devices")
         
     }
-    
-    var bleService: BTService? {
-        didSet {
-            if let service = self.bleService {
-                service.startDiscoveringServices()
-            }
-        }
-    }
-
     
     func centralManagerDidUpdateState(central: CBCentralManager) {
         switch (central.state) {
