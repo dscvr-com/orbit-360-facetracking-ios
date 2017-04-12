@@ -563,4 +563,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     func captureStillImageAsynchronously(from connection: AVCaptureConnection!, completionHandler handler: ((CMSampleBuffer?, NSError?) -> Void)!) {
     }
+
+    func moveToVertical() {
+        let steps = Float(motorStepsY) * (40 / 360)
+        service.moveY(Int32(steps), speed: 1000)
+    }
 }

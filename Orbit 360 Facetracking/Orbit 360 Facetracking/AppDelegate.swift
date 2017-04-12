@@ -23,8 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-//        let cameraViewController = self.window?.visibleViewController as! CameraViewController
-//        cameraViewController.service.moveY(Int32(-steps), speed: 1000)
+        guard let cameraViewController = self.window?.visibleViewController as? CameraViewController else {
+            return
+        }
+        let steps = Double(motorStepsY) * (135 / 360)
+        cameraViewController.service.moveY(Int32(steps), speed: 1000)
+        _ = NSTimer.scheduledTimerWithTimeInterval(steps / 1000, target: self, selector: #selector(cameraViewController.moveToVertical), userInfo: nil, repeats: false)
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
