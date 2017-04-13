@@ -172,9 +172,21 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         switch segmentedControl.selectedSegmentIndex
         {
         case 0:
-            isTracking = false
+            if sender.isEqual("motor") {
+                segmentedControl.selectedSegmentIndex = 1
+                isTracking = true
+            } else {
+                segmentedControl.selectedSegmentIndex = 0
+                isTracking = false
+            }
         case 1:
-            isTracking = true
+            if sender.isEqual("motor") {
+                segmentedControl.selectedSegmentIndex = 0
+                isTracking = false
+            } else {
+                segmentedControl.selectedSegmentIndex = 1
+                isTracking = true
+            }
         default:
             break; 
         }

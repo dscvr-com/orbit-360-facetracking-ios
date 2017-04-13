@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreBluetooth
+import UIKit
 
 class MotorControl: NSObject, CBPeripheralDelegate {
     var service : CBService
@@ -137,12 +138,17 @@ class MotorControl: NSObject, CBPeripheralDelegate {
             let str = byteArray.reduce("", combine: { $0 + String(format: "%02x", $1)})
             print(str)
 
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let cameraViewController = appDelegate.window?.visibleViewController as! CameraViewController
+
             if (str.uppercaseString == topButton) {
                 print("top")
+                cameraViewController.switchTracking("motor")
                 return
             }
             if (str.uppercaseString == bottomButton) {
                 print("bottom")
+                cameraViewController.startButtonclicked(self)
                 return
             }
 
