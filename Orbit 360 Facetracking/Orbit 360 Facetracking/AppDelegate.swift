@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         let steps = Double(motorStepsY) * (135 / 360)
         cameraViewController.service.moveY(Int32(steps), speed: 1000)
-        _ = NSTimer.scheduledTimerWithTimeInterval(steps / 1000, target: self, selector: #selector(cameraViewController.moveToVertical), userInfo: nil, repeats: false)
+        cameraViewController.callMoveToVertical(steps)
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
@@ -47,7 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
 
 }
 

@@ -19,6 +19,7 @@ let motorStepsY = 17820
 
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureMetadataOutputObjectsDelegate {
     var service: MotorControl!
+    var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
 
     var isInMovieMode = true
     var isRecording = false
@@ -564,8 +565,34 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func captureStillImageAsynchronously(from connection: AVCaptureConnection!, completionHandler handler: ((CMSampleBuffer?, NSError?) -> Void)!) {
     }
 
+    func callMoveToVertical(steps: Double) {
+        registerBackgroundTask()
+        let triggerTime = (Int64(NSEC_PER_SEC) * Int64(steps) / 1000)
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, triggerTime), dispatch_get_main_queue(), { () -> Void in
+            self.moveToVertical()
+        })
+    }
+
     func moveToVertical() {
         let steps = Float(motorStepsY) * (40 / 360)
-        service.moveY(Int32(steps), speed: 1000)
+        print(steps)
+        service.moveY(Int32(-steps), speed: 1000)
+        if backgroundTask != UIBackgroundTaskInvalid {
+            endBackgroundTask()
+        }
     }
+
+    func registerBackgroundTask() {
+        backgroundTask = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler { [weak self] in
+            self?.endBackgroundTask()
+        }
+        assert(backgroundTask != UIBackgroundTaskInvalid)
+    }
+
+    func endBackgroundTask() {
+        print("Background task ended.")
+        UIApplication.sharedApplication().endBackgroundTask(backgroundTask)
+        backgroundTask = UIBackgroundTaskInvalid
+    }
+
 }
