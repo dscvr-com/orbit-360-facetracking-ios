@@ -5,60 +5,51 @@
 //  Created by Philipp Meyer on 14.04.17.
 //  Copyright © 2017 Philipp Meyer. All rights reserved.
 //
-//
-//  TutorialViewController.swift
-//  UIPageViewController Post
-//
-//  Created by Jeffrey Burt on 2/3/16.
-//  Copyright © 2016 Seven Even. All rights reserved.
-//
 
 import UIKit
 
-class TutorialViewController: UIViewController {
+class ContainerViewController: UIViewController {
 
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var containerView: UIView!
 
-    var tutorialPageViewController: TutorialPageViewController? {
+    var pageViewController: PageViewController? {
         didSet {
-            tutorialPageViewController?.tutorialDelegate = self
+            pageViewController?.cDelegate = self
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        pageControl.addTarget(self, action: #selector(TutorialViewController.didChangePageControlValue), forControlEvents: .ValueChanged)
+        pageControl.addTarget(self, action: #selector(ContainerViewController.didChangePageControlValue), forControlEvents: .ValueChanged)
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let tutorialPageViewController = segue.destinationViewController as? TutorialPageViewController {
-            self.tutorialPageViewController = tutorialPageViewController
+        if let pageViewController = segue.destinationViewController as? PageViewController {
+            self.pageViewController = pageViewController
         }
     }
 
     @IBAction func didTapNextButton(sender: UIButton) {
-        tutorialPageViewController?.scrollToNextViewController()
+        pageViewController?.scrollToNextViewController()
     }
 
     /**
      Fired when the user taps on the pageControl to change its current page.
      */
     func didChangePageControlValue() {
-        tutorialPageViewController?.scrollToViewController(index: pageControl.currentPage)
+        pageViewController?.scrollToViewController(index: pageControl.currentPage)
     }
 }
 
-extension TutorialViewController: TutorialPageViewControllerDelegate {
+extension ContainerViewController: PageViewControllerDelegate {
 
-    func tutorialPageViewController(tutorialPageViewController: TutorialPageViewController,
-                                    didUpdatePageCount count: Int) {
+    func pageViewController(pageViewController: PageViewController, didUpdatePageCount count: Int) {
         pageControl.numberOfPages = count
     }
 
-    func tutorialPageViewController(tutorialPageViewController: TutorialPageViewController,
-                                    didUpdatePageIndex index: Int) {
+    func pageViewController(pageViewController: PageViewController, didUpdatePageIndex index: Int) {
         pageControl.currentPage = index
     }
     

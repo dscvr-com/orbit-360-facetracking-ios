@@ -180,10 +180,10 @@
             </objects>
             <point key="canvasLocation" x="1252" y="457"/>
         </scene>
-        <!--Tutorial Page View Controller-->
+        <!--Page View Controller-->
         <scene sceneID="Ugp-cX-FxE">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="VoC-h6-6u9" customClass="TutorialPageViewController" customModule="Orbit_360" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="VoC-h6-6u9" customClass="PageViewController" customModule="Orbit_360" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fem-CF-W9L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1118" y="457"/>
@@ -327,10 +327,10 @@
             </objects>
             <point key="canvasLocation" x="4" y="456.52173913043481"/>
         </scene>
-        <!--Tutorial View Controller-->
+        <!--Container View Controller-->
         <scene sceneID="oGM-gf-7UU">
             <objects>
-                <viewController id="yeM-C8-GpF" customClass="TutorialViewController" customModule="Orbit_360" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="yeM-C8-GpF" customClass="ContainerViewController" customModule="Orbit_360" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wOp-cl-GsY"/>
                         <viewControllerLayoutGuide type="bottom" id="WQO-ZR-hIZ"/>
