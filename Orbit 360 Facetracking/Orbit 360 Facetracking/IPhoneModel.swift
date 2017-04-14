@@ -52,7 +52,7 @@ public enum DeviceType:String {
     case simulator      = "simulator"
 }
 
-func parseDeviceType(_ identifier: String) -> DeviceType {
+func parseDeviceType(identifier: String) -> DeviceType {
 
     if identifier == "i386" || identifier == "x86_64" {
         return .simulator

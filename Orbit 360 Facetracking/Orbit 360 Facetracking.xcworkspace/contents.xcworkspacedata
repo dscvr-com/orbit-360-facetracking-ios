@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Orbit 360 Facetracking.xcodeproj">
+      location = "group:/Users/PhilippMeyer/Projects/Xcode/Orbit360/Orbit360Facetracking/Orbit 360 Facetracking/Orbit 360.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

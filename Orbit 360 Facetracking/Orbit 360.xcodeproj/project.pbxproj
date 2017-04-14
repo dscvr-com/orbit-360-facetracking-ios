@@ -35,6 +35,8 @@
 		E88EF6E01DA6DE080009E99D /* Orbit_360_FacetrackingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6DF1DA6DE080009E99D /* Orbit_360_FacetrackingTests.swift */; };
 		E88EF6EB1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6EA1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift */; };
 		E8A7D4761E76F6440096FAB7 /* UIWindowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A7D4751E76F6440096FAB7 /* UIWindowExtension.swift */; };
+		E8DA83491EA0DC650023FF04 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8DA83481EA0DC650023FF04 /* PageViewController.swift */; };
+		E8DA834B1EA0E7F50023FF04 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8DA834A1EA0E7F50023FF04 /* ContainerViewController.swift */; };
 		E8F545CB1DB8CC0900ED5EFE /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F545CA1DB8CC0900ED5EFE /* CameraViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -84,18 +86,20 @@
 		E844FAB01E748E6500082DA2 /* ConnectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectViewController.swift; sourceTree = "<group>"; };
 		E880ADFE1E74872C00E41ADB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
 		E88B105B1E7C29D300794DAD /* startPhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = startPhoto.png; path = ressources/startPhoto.png; sourceTree = "<group>"; };
-		E88EF6C71DA6DE070009E99D /* Orbit 360 Facetracking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Orbit 360 Facetracking.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E88EF6C71DA6DE070009E99D /* Orbit 360.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Orbit 360.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E88EF6CA1DA6DE070009E99D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E88EF6CF1DA6DE070009E99D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E88EF6D11DA6DE070009E99D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E88EF6D61DA6DE070009E99D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E88EF6DB1DA6DE080009E99D /* Orbit 360 FacetrackingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Orbit 360 FacetrackingTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E88EF6DB1DA6DE080009E99D /* Orbit 360Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Orbit 360Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E88EF6DF1DA6DE080009E99D /* Orbit_360_FacetrackingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orbit_360_FacetrackingTests.swift; sourceTree = "<group>"; };
 		E88EF6E11DA6DE080009E99D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E88EF6E61DA6DE080009E99D /* Orbit 360 FacetrackingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Orbit 360 FacetrackingUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E88EF6E61DA6DE080009E99D /* Orbit 360UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Orbit 360UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E88EF6EA1DA6DE080009E99D /* Orbit_360_FacetrackingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orbit_360_FacetrackingUITests.swift; sourceTree = "<group>"; };
 		E88EF6EC1DA6DE080009E99D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8A7D4751E76F6440096FAB7 /* UIWindowExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWindowExtension.swift; sourceTree = "<group>"; };
+		E8DA83481EA0DC650023FF04 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PageViewController.swift; path = "Orbit 360 Facetracking/PageViewController.swift"; sourceTree = "<group>"; };
+		E8DA834A1EA0E7F50023FF04 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		E8F545CA1DB8CC0900ED5EFE /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -184,9 +188,9 @@
 		E88EF6C81DA6DE070009E99D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E88EF6C71DA6DE070009E99D /* Orbit 360 Facetracking.app */,
-				E88EF6DB1DA6DE080009E99D /* Orbit 360 FacetrackingTests.xctest */,
-				E88EF6E61DA6DE080009E99D /* Orbit 360 FacetrackingUITests.xctest */,
+				E88EF6C71DA6DE070009E99D /* Orbit 360.app */,
+				E88EF6DB1DA6DE080009E99D /* Orbit 360Tests.xctest */,
+				E88EF6E61DA6DE080009E99D /* Orbit 360UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -224,6 +228,16 @@
 				E88EF6EC1DA6DE080009E99D /* Info.plist */,
 			);
 			path = "Orbit 360 FacetrackingUITests";
+			sourceTree = "<group>";
+		};
+		E8DA83441EA0DBD40023FF04 /* UserGuide */ = {
+			isa = PBXGroup;
+			children = (
+				E8DA83481EA0DC650023FF04 /* PageViewController.swift */,
+				E8DA834A1EA0E7F50023FF04 /* ContainerViewController.swift */,
+			);
+			name = UserGuide;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		E8DDB3561DB92CC300131B76 /* BLE */ = {
@@ -264,6 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				A5831FA61E57271400A50103 /* Tracking */,
+				E8DA83441EA0DBD40023FF04 /* UserGuide */,
 				E8DDB3561DB92CC300131B76 /* BLE */,
 				E8DDB3571DB92CCE00131B76 /* Camera */,
 			);
@@ -281,9 +296,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E88EF6C61DA6DE070009E99D /* Orbit 360 Facetracking */ = {
+		E88EF6C61DA6DE070009E99D /* Orbit 360 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E88EF6EF1DA6DE080009E99D /* Build configuration list for PBXNativeTarget "Orbit 360 Facetracking" */;
+			buildConfigurationList = E88EF6EF1DA6DE080009E99D /* Build configuration list for PBXNativeTarget "Orbit 360" */;
 			buildPhases = (
 				761F6B0AC7BAA792BA27260F /* [CP] Check Pods Manifest.lock */,
 				E88EF6C31DA6DE070009E99D /* Sources */,
@@ -296,14 +311,14 @@
 			);
 			dependencies = (
 			);
-			name = "Orbit 360 Facetracking";
+			name = "Orbit 360";
 			productName = "Orbit 360 Facetracking";
-			productReference = E88EF6C71DA6DE070009E99D /* Orbit 360 Facetracking.app */;
+			productReference = E88EF6C71DA6DE070009E99D /* Orbit 360.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E88EF6DA1DA6DE080009E99D /* Orbit 360 FacetrackingTests */ = {
+		E88EF6DA1DA6DE080009E99D /* Orbit 360Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E88EF6F21DA6DE080009E99D /* Build configuration list for PBXNativeTarget "Orbit 360 FacetrackingTests" */;
+			buildConfigurationList = E88EF6F21DA6DE080009E99D /* Build configuration list for PBXNativeTarget "Orbit 360Tests" */;
 			buildPhases = (
 				F14F045D89B64A03C770D741 /* [CP] Check Pods Manifest.lock */,
 				E88EF6D71DA6DE080009E99D /* Sources */,
@@ -317,14 +332,14 @@
 			dependencies = (
 				E88EF6DD1DA6DE080009E99D /* PBXTargetDependency */,
 			);
-			name = "Orbit 360 FacetrackingTests";
+			name = "Orbit 360Tests";
 			productName = "Orbit 360 FacetrackingTests";
-			productReference = E88EF6DB1DA6DE080009E99D /* Orbit 360 FacetrackingTests.xctest */;
+			productReference = E88EF6DB1DA6DE080009E99D /* Orbit 360Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		E88EF6E51DA6DE080009E99D /* Orbit 360 FacetrackingUITests */ = {
+		E88EF6E51DA6DE080009E99D /* Orbit 360UITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E88EF6F51DA6DE080009E99D /* Build configuration list for PBXNativeTarget "Orbit 360 FacetrackingUITests" */;
+			buildConfigurationList = E88EF6F51DA6DE080009E99D /* Build configuration list for PBXNativeTarget "Orbit 360UITests" */;
 			buildPhases = (
 				AB2B8170596A09FF4F2659B9 /* [CP] Check Pods Manifest.lock */,
 				E88EF6E21DA6DE080009E99D /* Sources */,
@@ -338,9 +353,9 @@
 			dependencies = (
 				E88EF6E81DA6DE080009E99D /* PBXTargetDependency */,
 			);
-			name = "Orbit 360 FacetrackingUITests";
+			name = "Orbit 360UITests";
 			productName = "Orbit 360 FacetrackingUITests";
-			productReference = E88EF6E61DA6DE080009E99D /* Orbit 360 FacetrackingUITests.xctest */;
+			productReference = E88EF6E61DA6DE080009E99D /* Orbit 360UITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -372,7 +387,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E88EF6C21DA6DE070009E99D /* Build configuration list for PBXProject "Orbit 360 Facetracking" */;
+			buildConfigurationList = E88EF6C21DA6DE070009E99D /* Build configuration list for PBXProject "Orbit 360" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -385,9 +400,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E88EF6C61DA6DE070009E99D /* Orbit 360 Facetracking */,
-				E88EF6DA1DA6DE080009E99D /* Orbit 360 FacetrackingTests */,
-				E88EF6E51DA6DE080009E99D /* Orbit 360 FacetrackingUITests */,
+				E88EF6C61DA6DE070009E99D /* Orbit 360 */,
+				E88EF6DA1DA6DE080009E99D /* Orbit 360Tests */,
+				E88EF6E51DA6DE080009E99D /* Orbit 360UITests */,
 			);
 		};
 /* End PBXProject section */
@@ -574,7 +589,9 @@
 			files = (
 				E844FAB11E748E6500082DA2 /* ConnectViewController.swift in Sources */,
 				A5831FAC1E5732A800A50103 /* Control.swift in Sources */,
+				E8DA834B1EA0E7F50023FF04 /* ContainerViewController.swift in Sources */,
 				E827BA151DB5171C005257CB /* BLEDiscovery.swift in Sources */,
+				E8DA83491EA0DC650023FF04 /* PageViewController.swift in Sources */,
 				E8A7D4761E76F6440096FAB7 /* UIWindowExtension.swift in Sources */,
 				E843FE4B1DBDB83F00C0B855 /* MotorControl.swift in Sources */,
 				E81EC93C1DE348F0005330F0 /* IPhoneModel.swift in Sources */,
@@ -607,12 +624,12 @@
 /* Begin PBXTargetDependency section */
 		E88EF6DD1DA6DE080009E99D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E88EF6C61DA6DE070009E99D /* Orbit 360 Facetracking */;
+			target = E88EF6C61DA6DE070009E99D /* Orbit 360 */;
 			targetProxy = E88EF6DC1DA6DE080009E99D /* PBXContainerItemProxy */;
 		};
 		E88EF6E81DA6DE080009E99D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E88EF6C61DA6DE070009E99D /* Orbit 360 Facetracking */;
+			target = E88EF6C61DA6DE070009E99D /* Orbit 360 */;
 			targetProxy = E88EF6E71DA6DE080009E99D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -783,7 +800,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Meyer.Orbit-360-FacetrackingTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 2.3;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Orbit 360 Facetracking.app/Orbit 360 Facetracking";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Orbit 360.app/Orbit 360";
 			};
 			name = Debug;
 		};
@@ -797,7 +814,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Meyer.Orbit-360-FacetrackingTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 2.3;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Orbit 360 Facetracking.app/Orbit 360 Facetracking";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Orbit 360.app/Orbit 360";
 			};
 			name = Release;
 		};
@@ -830,7 +847,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E88EF6C21DA6DE070009E99D /* Build configuration list for PBXProject "Orbit 360 Facetracking" */ = {
+		E88EF6C21DA6DE070009E99D /* Build configuration list for PBXProject "Orbit 360" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E88EF6ED1DA6DE080009E99D /* Debug */,
@@ -839,7 +856,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E88EF6EF1DA6DE080009E99D /* Build configuration list for PBXNativeTarget "Orbit 360 Facetracking" */ = {
+		E88EF6EF1DA6DE080009E99D /* Build configuration list for PBXNativeTarget "Orbit 360" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E88EF6F01DA6DE080009E99D /* Debug */,
@@ -848,7 +865,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E88EF6F21DA6DE080009E99D /* Build configuration list for PBXNativeTarget "Orbit 360 FacetrackingTests" */ = {
+		E88EF6F21DA6DE080009E99D /* Build configuration list for PBXNativeTarget "Orbit 360Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E88EF6F31DA6DE080009E99D /* Debug */,
@@ -857,7 +874,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E88EF6F51DA6DE080009E99D /* Build configuration list for PBXNativeTarget "Orbit 360 FacetrackingUITests" */ = {
+		E88EF6F51DA6DE080009E99D /* Build configuration list for PBXNativeTarget "Orbit 360UITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E88EF6F61DA6DE080009E99D /* Debug */,
