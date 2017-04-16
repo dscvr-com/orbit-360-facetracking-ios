@@ -41,9 +41,19 @@ class ContainerViewController: UIViewController {
     }
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-
         pageControl.addTarget(self, action: #selector(ContainerViewController.didChangePageControlValue), forControlEvents: .ValueChanged)
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(true)
+        let firstRunKey = "firstRun"
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let firstRun = defaults.boolForKey(firstRunKey)
+        if firstRun {
+            self.performSegueWithIdentifier("cancelGuideSegue", sender: self)
+            return
+        }
+        defaults.setBool(true, forKey: firstRunKey)
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
