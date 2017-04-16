@@ -26,6 +26,8 @@
 		E840AFB11EA21AA300408FDC /* USER_Guide_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E840AFAF1EA21AA300408FDC /* USER_Guide_1.png */; };
 		E840AFB41EA21C4400408FDC /* USER_Guide_2.png in Resources */ = {isa = PBXBuildFile; fileRef = E840AFB21EA21C4400408FDC /* USER_Guide_2.png */; };
 		E840AFB51EA21C4400408FDC /* USER_Guide_3.png in Resources */ = {isa = PBXBuildFile; fileRef = E840AFB31EA21C4400408FDC /* USER_Guide_3.png */; };
+		E840AFB71EA2225700408FDC /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = E840AFB61EA2225700408FDC /* arrow.png */; };
+		E840AFB91EA3639E00408FDC /* cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = E840AFB81EA3639E00408FDC /* cancel.png */; };
 		E843FE4B1DBDB83F00C0B855 /* MotorControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */; };
 		E844FAAD1E748B8500082DA2 /* signal_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = E844FAAA1E748B8500082DA2 /* signal_blue.png */; };
 		E844FAAE1E748B8500082DA2 /* signal_dark_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = E844FAAB1E748B8500082DA2 /* signal_dark_blue.png */; };
@@ -89,6 +91,8 @@
 		E840AFAF1EA21AA300408FDC /* USER_Guide_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = USER_Guide_1.png; sourceTree = "<group>"; };
 		E840AFB21EA21C4400408FDC /* USER_Guide_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = USER_Guide_2.png; sourceTree = "<group>"; };
 		E840AFB31EA21C4400408FDC /* USER_Guide_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = USER_Guide_3.png; sourceTree = "<group>"; };
+		E840AFB61EA2225700408FDC /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
+		E840AFB81EA3639E00408FDC /* cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel.png; sourceTree = "<group>"; };
 		E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotorControl.swift; sourceTree = "<group>"; };
 		E844FAAA1E748B8500082DA2 /* signal_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = signal_blue.png; path = ressources/signal_blue.png; sourceTree = "<group>"; };
 		E844FAAB1E748B8500082DA2 /* signal_dark_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = signal_dark_blue.png; path = ressources/signal_dark_blue.png; sourceTree = "<group>"; };
@@ -245,6 +249,8 @@
 		E8CAA1141EA111D1008670C6 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				E840AFB81EA3639E00408FDC /* cancel.png */,
+				E840AFB61EA2225700408FDC /* arrow.png */,
 				E840AFAF1EA21AA300408FDC /* USER_Guide_1.png */,
 				E840AFB21EA21C4400408FDC /* USER_Guide_2.png */,
 				E840AFB31EA21C4400408FDC /* USER_Guide_3.png */,
@@ -259,8 +265,8 @@
 		E8DA83441EA0DBD40023FF04 /* UserGuide */ = {
 			isa = PBXGroup;
 			children = (
-				E8DA83481EA0DC650023FF04 /* PageViewController.swift */,
 				E8DA834A1EA0E7F50023FF04 /* ContainerViewController.swift */,
+				E8DA83481EA0DC650023FF04 /* PageViewController.swift */,
 			);
 			name = UserGuide;
 			path = ..;
@@ -442,11 +448,13 @@
 				E844FAAF1E748B8500082DA2 /* signal_grey.png in Resources */,
 				E80E60031E745269004EF2DE /* Loadingscreen.png in Resources */,
 				E80E60091E746ADA004EF2DE /* stop.png in Resources */,
+				E840AFB71EA2225700408FDC /* arrow.png in Resources */,
 				E80E60081E746ADA004EF2DE /* start.png in Resources */,
 				E844FAAD1E748B8500082DA2 /* signal_blue.png in Resources */,
 				E8CAA1181EA111D1008670C6 /* 02.png in Resources */,
 				E840AFB11EA21AA300408FDC /* USER_Guide_1.png in Resources */,
 				E88EF6D21DA6DE070009E99D /* Assets.xcassets in Resources */,
+				E840AFB91EA3639E00408FDC /* cancel.png in Resources */,
 				E8CAA1171EA111D1008670C6 /* 01.png in Resources */,
 				E88B105C1E7C29D300794DAD /* startPhoto.png in Resources */,
 				E880ADFF1E74872C00E41ADB /* Launch Screen.storyboard in Resources */,

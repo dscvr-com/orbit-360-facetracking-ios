@@ -411,27 +411,58 @@ Button 2: Toggles Start / Stop Video Recording</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4WZ-ca-7WZ">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <connections>
                                     <segue destination="VoC-h6-6u9" kind="embed" id="zvg-1l-Ocw"/>
                                 </connections>
                             </containerView>
-                            <button opaque="NO" alpha="0.40000000596046448" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jRh-6r-s7h">
-                                <rect key="frame" x="303" y="609" width="52" height="38"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
-                                <state key="normal" title="Next">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="didTapNextButton:" destination="yeM-C8-GpF" eventType="touchUpInside" id="4Wb-TT-6o9"/>
-                                </connections>
-                            </button>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="N0x-99-iyl">
                                 <rect key="frame" x="168" y="609" width="39" height="37"/>
                                 <color key="pageIndicatorTintColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="currentPageIndicatorTintColor" red="0.96470588235294119" green="0.65098039215686276" blue="0.13725490196078433" alpha="1" colorSpace="calibratedRGB"/>
                             </pageControl>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AiU-wO-v2V">
+                                <rect key="frame" x="302" y="624" width="57" height="23"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N4R-cD-LnC">
+                                        <rect key="frame" x="0.0" y="0.0" width="37" height="23"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="cXk-Og-cJm">
+                                        <rect key="frame" x="37" y="0.0" width="13" height="23"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstItem="N4R-cD-LnC" firstAttribute="top" secondItem="AiU-wO-v2V" secondAttribute="top" id="FgQ-NC-e9W"/>
+                                    <constraint firstAttribute="trailing" secondItem="cXk-Og-cJm" secondAttribute="trailing" constant="7" id="JJV-vC-Y0Q"/>
+                                    <constraint firstAttribute="bottom" secondItem="N4R-cD-LnC" secondAttribute="bottom" id="Jh6-so-tAM"/>
+                                    <constraint firstItem="N4R-cD-LnC" firstAttribute="leading" secondItem="AiU-wO-v2V" secondAttribute="leading" id="RFy-fe-cZB"/>
+                                    <constraint firstItem="cXk-Og-cJm" firstAttribute="leading" secondItem="N4R-cD-LnC" secondAttribute="trailing" id="RSJ-LH-5Xq"/>
+                                    <constraint firstItem="cXk-Og-cJm" firstAttribute="top" secondItem="AiU-wO-v2V" secondAttribute="top" id="UTA-K9-C0I"/>
+                                    <constraint firstAttribute="bottom" secondItem="cXk-Og-cJm" secondAttribute="bottom" id="Xcy-Jp-ynW"/>
+                                    <constraint firstAttribute="width" constant="57" id="arq-Ef-4aF"/>
+                                    <constraint firstItem="cXk-Og-cJm" firstAttribute="leading" secondItem="AiU-wO-v2V" secondAttribute="leading" constant="37" id="rw2-dp-RmC"/>
+                                    <constraint firstAttribute="height" constant="23" id="tTg-W6-A4b"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="S5e-sU-Ys0" appends="YES" id="ArN-WY-6sV"/>
+                                </connections>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9dp-1E-ZIx">
+                                <rect key="frame" x="334" y="20" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="25" id="WKt-9x-kMP"/>
+                                    <constraint firstAttribute="height" constant="25" id="xGQ-aD-dZF"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="cancel.png"/>
+                                <connections>
+                                    <action selector="didTapCancelButton:" destination="yeM-C8-GpF" eventType="touchUpInside" id="dzE-eB-ZIP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -439,20 +470,28 @@ Button 2: Toggles Start / Stop Video Recording</string>
                             <constraint firstItem="WQO-ZR-hIZ" firstAttribute="top" secondItem="N0x-99-iyl" secondAttribute="bottom" constant="21" id="7dl-oq-SAa"/>
                             <constraint firstItem="WQO-ZR-hIZ" firstAttribute="top" secondItem="4WZ-ca-7WZ" secondAttribute="bottom" id="F3q-2M-Soz"/>
                             <constraint firstAttribute="trailing" secondItem="4WZ-ca-7WZ" secondAttribute="trailing" id="N5r-Zb-fck"/>
-                            <constraint firstItem="4WZ-ca-7WZ" firstAttribute="top" secondItem="wOp-cl-GsY" secondAttribute="bottom" id="caq-lx-SwJ"/>
-                            <constraint firstItem="WQO-ZR-hIZ" firstAttribute="top" secondItem="jRh-6r-s7h" secondAttribute="bottom" constant="20" id="nQ2-5u-pHO"/>
+                            <constraint firstItem="WQO-ZR-hIZ" firstAttribute="top" secondItem="AiU-wO-v2V" secondAttribute="bottom" constant="20" id="NJw-o6-mge"/>
+                            <constraint firstItem="4WZ-ca-7WZ" firstAttribute="top" secondItem="CNR-y4-iZm" secondAttribute="top" id="WYL-A4-6cI"/>
+                            <constraint firstItem="AiU-wO-v2V" firstAttribute="trailing" secondItem="CNR-y4-iZm" secondAttribute="trailingMargin" id="hjl-fJ-UfO"/>
+                            <constraint firstItem="9dp-1E-ZIx" firstAttribute="top" secondItem="CNR-y4-iZm" secondAttribute="topMargin" constant="20" id="kyl-nf-5Dp"/>
+                            <constraint firstItem="9dp-1E-ZIx" firstAttribute="trailing" secondItem="CNR-y4-iZm" secondAttribute="trailingMargin" id="mm5-CB-NgB"/>
                             <constraint firstItem="4WZ-ca-7WZ" firstAttribute="leading" secondItem="CNR-y4-iZm" secondAttribute="leading" id="vXa-kE-3eD"/>
-                            <constraint firstAttribute="trailing" secondItem="jRh-6r-s7h" secondAttribute="trailing" constant="20" id="vh4-Dz-A54"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="containerView" destination="4WZ-ca-7WZ" id="4A8-H7-nxL"/>
                         <outlet property="pageControl" destination="N0x-99-iyl" id="W8i-bb-k7b"/>
+                        <segue destination="W8B-Wd-hSk" kind="presentation" identifier="cancelGuideSegue" id="2Pk-Y7-7oe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wlt-od-C6x" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="S5e-sU-Ys0">
+                    <connections>
+                        <action selector="didTapNextButton:" destination="yeM-C8-GpF" id="Sah-UX-pwO"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-1119" y="-301"/>
+            <point key="canvasLocation" x="-1119.2" y="-301.79910044977515"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="YxY-cl-I27">
@@ -517,10 +556,12 @@ Button 2: Toggles Start / Stop Video Recording</string>
         <image name=" " width="16" height="16"/>
         <image name="01.png" width="186" height="170"/>
         <image name="02.png" width="190" height="216"/>
-        <image name="USER_Guide_1.png" width="750" height="1334"/>
-        <image name="USER_Guide_2.png" width="750" height="1334"/>
-        <image name="USER_Guide_3.png" width="750" height="1334"/>
+        <image name="USER_Guide_1.png" width="1500" height="2668"/>
+        <image name="USER_Guide_2.png" width="1500" height="2668"/>
+        <image name="USER_Guide_3.png" width="1500" height="2668"/>
+        <image name="arrow.png" width="50" height="85"/>
         <image name="cameraicon.png" width="1656" height="1226"/>
+        <image name="cancel.png" width="128" height="128"/>
         <image name="signal_grey.png" width="1766" height="1258"/>
         <image name="start.png" width="1050" height="1050"/>
     </resources>

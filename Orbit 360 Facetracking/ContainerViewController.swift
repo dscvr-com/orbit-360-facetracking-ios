@@ -19,6 +19,27 @@ class ContainerViewController: UIViewController {
         }
     }
 
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return .Portrait
+    }
+
+    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
+        return .Portrait
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,7 +52,11 @@ class ContainerViewController: UIViewController {
         }
     }
 
-    @IBAction func didTapNextButton(sender: UIButton) {
+    @IBAction func didTapCancelButton(sender: AnyObject) {
+        self.performSegueWithIdentifier("cancelGuideSegue", sender: self)
+    }
+
+    @IBAction func didTapNextButton(sender: AnyObject) {
         pageViewController?.scrollToNextViewController()
     }
 
