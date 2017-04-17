@@ -57,8 +57,7 @@ class PageViewController: UIPageViewController {
     }
 
     private func newViewController(number: String) -> UIViewController {
-        return UIStoryboard(name: "Main", bundle: nil) .
-            instantiateViewControllerWithIdentifier("UserGuide\(number)")
+        return UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("UserGuide\(number)")
     }
 
     /**
@@ -85,6 +84,15 @@ class PageViewController: UIPageViewController {
         if let firstViewController = viewControllers?.first,
             let index = orderedViewControllers.indexOf(firstViewController) {
             cDelegate?.pageViewController(self, didUpdatePageIndex: index)
+        }
+        guard let root = UIApplication.sharedApplication().keyWindow?.rootViewController as? ContainerViewController else {
+            return
+        }
+        print(root)
+        if root.pageControl.currentPage == 2 {
+            root.nextButton.hidden = true
+        } else {
+            root.nextButton.hidden = false
         }
     }
 

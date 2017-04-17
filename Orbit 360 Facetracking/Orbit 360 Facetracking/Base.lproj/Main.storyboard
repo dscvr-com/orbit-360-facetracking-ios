@@ -480,6 +480,7 @@ Button 2: Toggles Start / Stop Video Recording</string>
                     </view>
                     <connections>
                         <outlet property="containerView" destination="4WZ-ca-7WZ" id="4A8-H7-nxL"/>
+                        <outlet property="nextButton" destination="AiU-wO-v2V" id="KFT-wQ-Vr0"/>
                         <outlet property="pageControl" destination="N0x-99-iyl" id="W8i-bb-k7b"/>
                         <segue destination="W8B-Wd-hSk" kind="presentation" identifier="cancelGuideSegue" id="2Pk-Y7-7oe"/>
                     </connections>

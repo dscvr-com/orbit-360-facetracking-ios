@@ -12,6 +12,7 @@ class ContainerViewController: UIViewController {
 
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var nextButton: UIView!
 
     var pageViewController: PageViewController? {
         didSet {
