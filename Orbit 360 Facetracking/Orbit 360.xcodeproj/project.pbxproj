@@ -27,6 +27,7 @@
 		E809B8B91EA4EFE9004C6905 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = E809B8B41EA4EFE9004C6905 /* settings.png */; };
 		E809B8BA1EA4EFE9004C6905 /* tracking_off.png in Resources */ = {isa = PBXBuildFile; fileRef = E809B8B51EA4EFE9004C6905 /* tracking_off.png */; };
 		E809B8BB1EA4EFE9004C6905 /* tracking_on.png in Resources */ = {isa = PBXBuildFile; fileRef = E809B8B61EA4EFE9004C6905 /* tracking_on.png */; };
+		E809B8BD1EA502E6004C6905 /* GIFextension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E809B8BC1EA502E6004C6905 /* GIFextension.swift */; };
 		E80E5FFE1E744B38004EF2DE /* gradient.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E80E5FF91E744B38004EF2DE /* gradient.jpg */; };
 		E80E5FFF1E744B38004EF2DE /* haarcascade_frontalface_alt.xml in Resources */ = {isa = PBXBuildFile; fileRef = E80E5FFA1E744B38004EF2DE /* haarcascade_frontalface_alt.xml */; };
 		E80E60031E745269004EF2DE /* Loadingscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = E80E60021E745269004EF2DE /* Loadingscreen.png */; };
@@ -100,6 +101,7 @@
 		E809B8B41EA4EFE9004C6905 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = settings.png; path = ressources/icons/settings.png; sourceTree = "<group>"; };
 		E809B8B51EA4EFE9004C6905 /* tracking_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tracking_off.png; path = ressources/icons/tracking_off.png; sourceTree = "<group>"; };
 		E809B8B61EA4EFE9004C6905 /* tracking_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tracking_on.png; path = ressources/icons/tracking_on.png; sourceTree = "<group>"; };
+		E809B8BC1EA502E6004C6905 /* GIFextension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFextension.swift; sourceTree = "<group>"; };
 		E80E5FF91E744B38004EF2DE /* gradient.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = gradient.jpg; path = ressources/gradient.jpg; sourceTree = "<group>"; };
 		E80E5FFA1E744B38004EF2DE /* haarcascade_frontalface_alt.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = haarcascade_frontalface_alt.xml; path = ressources/haarcascade_frontalface_alt.xml; sourceTree = "<group>"; };
 		E80E60021E745269004EF2DE /* Loadingscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Loadingscreen.png; path = ressources/Loadingscreen.png; sourceTree = "<group>"; };
@@ -237,6 +239,16 @@
 			name = cameraviewcontroller;
 			sourceTree = "<group>";
 		};
+		E809B8BE1EA502FB004C6905 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E81EC93B1DE348EF005330F0 /* IPhoneModel.swift */,
+				E809B8BC1EA502E6004C6905 /* GIFextension.swift */,
+				E8A7D4751E76F6440096FAB7 /* UIWindowExtension.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		E827BA131DB516F7005257CB /* BLE */ = {
 			isa = PBXGroup;
 			children = (
@@ -273,12 +285,12 @@
 			children = (
 				E8EFEB2A1E6485280088F663 /* Ressources */,
 				E88EF6CA1DA6DE070009E99D /* AppDelegate.swift */,
-				E8A7D4751E76F6440096FAB7 /* UIWindowExtension.swift */,
 				E88EF6CE1DA6DE070009E99D /* Main.storyboard */,
 				E880ADFD1E74872C00E41ADB /* Launch Screen.storyboard */,
 				E809B8041EA4484F004C6905 /* LoadingScreenViewcontroller.swift */,
 				E88EF6D11DA6DE070009E99D /* Assets.xcassets */,
 				E88EF6D61DA6DE070009E99D /* Info.plist */,
+				E809B8BE1EA502FB004C6905 /* Extensions */,
 				E827BA131DB516F7005257CB /* BLE */,
 				E8F545C71DB7F2EF00ED5EFE /* UI */,
 				E8F545CC1DB8CD5400ED5EFE /* MotorControl */,
@@ -339,7 +351,6 @@
 			isa = PBXGroup;
 			children = (
 				E8F545CA1DB8CC0900ED5EFE /* CameraViewController.swift */,
-				E81EC93B1DE348EF005330F0 /* IPhoneModel.swift */,
 			);
 			name = Camera;
 			sourceTree = "<group>";
@@ -693,6 +704,7 @@
 				E843FE4B1DBDB83F00C0B855 /* MotorControl.swift in Sources */,
 				E809B8051EA4484F004C6905 /* LoadingScreenViewcontroller.swift in Sources */,
 				E81EC93C1DE348F0005330F0 /* IPhoneModel.swift in Sources */,
+				E809B8BD1EA502E6004C6905 /* GIFextension.swift in Sources */,
 				E827BA171DB517DC005257CB /* BLEService.swift in Sources */,
 				A5831FA81E57275500A50103 /* CoordinateConversion.swift in Sources */,
 				A5831FAA1E57298800A50103 /* Point.swift in Sources */,

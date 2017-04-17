@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="yeM-C8-GpF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="sBK-LP-bP0">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -386,7 +386,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-1119.2" y="-301.79910044977515"/>
+            <point key="canvasLocation" x="-1119" y="-385"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="YxY-cl-I27">
@@ -449,7 +449,7 @@
         <!--Loading Screen View Controller-->
         <scene sceneID="3cC-YV-9nR">
             <objects>
-                <viewController id="sBK-LP-bP0" customClass="loadingScreenViewController" customModule="Orbit_360" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="sBK-LP-bP0" customClass="LoadingScreenViewController" customModule="Orbit_360" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3tC-MW-OKh"/>
                         <viewControllerLayoutGuide type="bottom" id="cJq-86-rVL"/>
@@ -496,7 +496,8 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="logo" destination="Yls-1S-HXY" id="a0w-pi-VtO"/>
+                        <segue destination="yeM-C8-GpF" kind="presentation" identifier="returnFromSplashScreen" id="ePX-Pk-9rJ"/>
+                        <segue destination="W8B-Wd-hSk" kind="presentation" identifier="jumpGuide" id="ldX-OY-0Ln"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Io8-0x-5rn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -521,4 +522,7 @@
         <image name="start.png" width="220" height="220"/>
         <image name="tracking_on.png" width="108" height="108"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="ldX-OY-0Ln"/>
+    </inferredMetricsTieBreakers>
 </document>

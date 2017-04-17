@@ -24,7 +24,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="tdb-9U-puD">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tracker-circle-logo_01.gif" translatesAutoresizingMaskIntoConstraints="NO" id="k0r-1t-4nq">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k0r-1t-4nq">
                                 <rect key="frame" x="0.0" y="255" width="375" height="157"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="157" id="1Ep-gX-192"/>
@@ -66,6 +66,5 @@
     </scenes>
     <resources>
         <image name="gradient.jpg" width="2160" height="3840"/>
-        <image name="tracker-circle-logo_01.gif" width="1000" height="1000"/>
     </resources>
 </document>
