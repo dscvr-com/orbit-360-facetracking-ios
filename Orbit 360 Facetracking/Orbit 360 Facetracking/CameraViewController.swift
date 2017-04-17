@@ -72,6 +72,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let xThresh = 10
     let yThresh = 10
 
+    @IBAction func myUnwindAction(unwindSegue: UIStoryboardSegue) {
+    }
+
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
@@ -182,6 +185,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     @IBAction func openSettings(sender: AnyObject) {
+        isTracking = false
+        trackingButton.setBackgroundImage(UIImage(named:"tracking_off")!, forState: .Normal)
+        self.performSegueWithIdentifier("showSettings", sender: self)
     }
 
     @IBAction func switchToVideoMode(sender: AnyObject) {

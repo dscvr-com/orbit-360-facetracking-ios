@@ -10,9 +10,12 @@ import UIKit
 
 class ContainerViewController: UIViewController {
 
+    var fromSettings = false
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var nextButton: UIView!
+    @IBOutlet weak var unwindButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
 
     var pageViewController: PageViewController? {
         didSet {
@@ -43,15 +46,30 @@ class ContainerViewController: UIViewController {
 
     override func viewDidLoad() {
         pageControl.addTarget(self, action: #selector(ContainerViewController.didChangePageControlValue), forControlEvents: .ValueChanged)
+        UIApplication.sharedApplication().delegate!.window!!.rootViewController! = self
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(true)
+        if fromSettings {
+            unwindButton.hidden = false
+            cancelButton.hidden = true
+            cancelButton.enabled = false
+        }
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let pageViewController = segue.destinationViewController as? PageViewController {
             self.pageViewController = pageViewController
         }
+        if (fromSettings) {
+            unwindButton.hidden = false
+            cancelButton.hidden = true
+        }
     }
 
     @IBAction func didTapCancelButton(sender: AnyObject) {
+        fromSettings = true
         self.performSegueWithIdentifier("cancelGuideSegue", sender: self)
     }
 
