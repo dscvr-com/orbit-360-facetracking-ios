@@ -249,6 +249,14 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		E809B8BF1EA5183A004C6905 /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				E809B8041EA4484F004C6905 /* LoadingScreenViewcontroller.swift */,
+			);
+			name = Loading;
+			sourceTree = "<group>";
+		};
 		E827BA131DB516F7005257CB /* BLE */ = {
 			isa = PBXGroup;
 			children = (
@@ -287,7 +295,6 @@
 				E88EF6CA1DA6DE070009E99D /* AppDelegate.swift */,
 				E88EF6CE1DA6DE070009E99D /* Main.storyboard */,
 				E880ADFD1E74872C00E41ADB /* Launch Screen.storyboard */,
-				E809B8041EA4484F004C6905 /* LoadingScreenViewcontroller.swift */,
 				E88EF6D11DA6DE070009E99D /* Assets.xcassets */,
 				E88EF6D61DA6DE070009E99D /* Info.plist */,
 				E809B8BE1EA502FB004C6905 /* Extensions */,
@@ -370,6 +377,7 @@
 		E8F545C71DB7F2EF00ED5EFE /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				E809B8BF1EA5183A004C6905 /* Loading */,
 				E8DA83441EA0DBD40023FF04 /* UserGuide */,
 				E8DDB3561DB92CC300131B76 /* BLE */,
 				A5831FA61E57271400A50103 /* Tracking */,
