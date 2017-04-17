@@ -30,7 +30,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     @IBOutlet weak var recordingTimeLabel: UILabel!
     @IBOutlet weak var previewView: UIView!
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var trackingButton: UIButton!
+    @IBOutlet weak var pointButton: UIButton!
     @IBOutlet var switchToPhoto: UISwipeGestureRecognizer!
     @IBOutlet var switchToVideo: UISwipeGestureRecognizer!
     @IBOutlet weak var video: UILabel!
@@ -38,7 +39,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var controlBar: UIView!
     @IBOutlet weak var navBar: UIView!
     @IBOutlet weak var startButton: UIButton!
-    @IBOutlet weak var liveButton: UIButton!
     var countdown = UILabel()
 
     var outputSize: CGSize!
@@ -169,27 +169,19 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     @IBAction func switchTracking(sender: AnyObject) {
-        switch segmentedControl.selectedSegmentIndex
-        {
-        case 0:
-            if sender.isEqual("motor") {
-                segmentedControl.selectedSegmentIndex = 1
-                isTracking = true
-            } else {
-                segmentedControl.selectedSegmentIndex = 0
-                isTracking = false
-            }
-        case 1:
-            if sender.isEqual("motor") {
-                segmentedControl.selectedSegmentIndex = 0
-                isTracking = false
-            } else {
-                segmentedControl.selectedSegmentIndex = 1
-                isTracking = true
-            }
-        default:
-            break; 
+        if isTracking {
+            trackingButton.setBackgroundImage(UIImage(named:"tracking_off")!, forState: .Normal)
+            isTracking = false
+        } else {
+            trackingButton.setBackgroundImage(UIImage(named:"tracking_on")!, forState: .Normal)
+            isTracking = true
         }
+    }
+
+    @IBAction func showPoints(sender: AnyObject) {
+    }
+
+    @IBAction func openSettings(sender: AnyObject) {
     }
 
     @IBAction func switchToVideoMode(sender: AnyObject) {
@@ -237,19 +229,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             setupCameraSession()
         }
         initializeProcessing()
-//        isTracking = false
-//        segmentedControl.selectedSegmentIndex = 0
         self.service.moveX(Int32(motorStepsX/2), speed: 1000)
-    }
-
-    func startMovie() {
-        if (isRecording) {
-            stopRecording()
-            startButton.setBackgroundImage(UIImage(named:"start")!, forState: .Normal)
-        } else {
-            startRecording()
-            startButton.setBackgroundImage(UIImage(named:"stop")!, forState: .Normal)
-        }
     }
 
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -280,6 +260,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         initializeProcessing()
     }
 
+    //MARK: CameraSession
     lazy var cameraSession: AVCaptureSession = {
         let s = AVCaptureSession()
         s.sessionPreset = AVCaptureSessionPresetHigh
@@ -369,6 +350,17 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
 
+    //MARK: take Video
+    func startMovie() {
+        if (isRecording) {
+            stopRecording()
+            startButton.setBackgroundImage(UIImage(named:"start")!, forState: .Normal)
+        } else {
+            startRecording()
+            startButton.setBackgroundImage(UIImage(named:"stop")!, forState: .Normal)
+        }
+    }
+
     func startRecording() {
         /*
          Get path to the Outputfile in the DocumentDirectory of the App and delete previously created files.
@@ -441,6 +433,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         recordingTimeLabel.text! = "\(hours.format("02")):\(minutes.format("02")):\(seconds.format("02"))"
     }
 
+    //MARK: take Photo
     func startTimer() {
         _ = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(CameraViewController.takePhoto), userInfo: nil, repeats: false)
         _ = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(CameraViewController.updateCountdown), userInfo: nil, repeats: false)
@@ -485,7 +478,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
         }
     }
-    
+
+    //MARK: Output Delegates
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         
         timeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
@@ -577,6 +571,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func captureStillImageAsynchronously(from connection: AVCaptureConnection!, completionHandler handler: ((CMSampleBuffer?, NSError?) -> Void)!) {
     }
 
+    //MARK: Backgroundfunctonality
     func callMoveToVertical(steps: Double) {
         registerBackgroundTask()
         let triggerTime = (Int64(NSEC_PER_SEC) * Int64(steps) / 1000)
