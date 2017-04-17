@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -24,20 +24,36 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="tdb-9U-puD">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Loadingscreen.png" translatesAutoresizingMaskIntoConstraints="NO" id="k0r-1t-4nq">
-                                <rect key="frame" x="0.0" y="220" width="375" height="227"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tracker-circle-logo_01.gif" translatesAutoresizingMaskIntoConstraints="NO" id="k0r-1t-4nq">
+                                <rect key="frame" x="0.0" y="255" width="375" height="157"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="227" id="1Ep-gX-192"/>
+                                    <constraint firstAttribute="height" constant="157" id="1Ep-gX-192"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DSCVR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2hx-Uc-fiM">
+                                <rect key="frame" x="128" y="197.5" width="118" height="49.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-UltraLight" family="Avenir Next" pointSize="36"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TRACKER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OSD-Xy-HR2">
+                                <rect key="frame" x="114.5" y="420" width="145" height="46"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-UltraLight" family="Avenir Next" pointSize="34"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="tdb-9U-puD" secondAttribute="bottom" id="BE7-zS-728"/>
+                            <constraint firstItem="OSD-Xy-HR2" firstAttribute="top" secondItem="k0r-1t-4nq" secondAttribute="bottom" constant="8" id="BjG-oE-rSt"/>
                             <constraint firstAttribute="trailing" secondItem="k0r-1t-4nq" secondAttribute="trailing" id="CFN-MN-zHc"/>
                             <constraint firstItem="tdb-9U-puD" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="MIs-bF-7P6"/>
                             <constraint firstItem="tdb-9U-puD" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="UPg-vp-o3A"/>
                             <constraint firstItem="k0r-1t-4nq" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="VMZ-5R-kgC"/>
+                            <constraint firstItem="k0r-1t-4nq" firstAttribute="top" secondItem="2hx-Uc-fiM" secondAttribute="bottom" constant="8" id="XpO-M8-yKv"/>
+                            <constraint firstItem="2hx-Uc-fiM" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="aNc-aP-Paw"/>
+                            <constraint firstItem="OSD-Xy-HR2" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="jE8-5P-d1V"/>
                             <constraint firstItem="k0r-1t-4nq" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="mfi-e4-h1d"/>
                             <constraint firstAttribute="trailing" secondItem="tdb-9U-puD" secondAttribute="trailing" id="tKu-15-0e7"/>
                         </constraints>
@@ -49,7 +65,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Loadingscreen.png" width="3515" height="3456"/>
         <image name="gradient.jpg" width="2160" height="3840"/>
+        <image name="tracker-circle-logo_01.gif" width="1000" height="1000"/>
     </resources>
 </document>

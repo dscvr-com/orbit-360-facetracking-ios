@@ -352,45 +352,52 @@ Button 2: Toggles Start / Stop Video Recording</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CONNECTING" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AJ7-kg-aYe">
-                                <rect key="frame" x="79" y="199" width="217" height="51"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ORBIT 360" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yf6-Dt-WTY">
+                                <rect key="frame" x="125" y="184" width="125" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="4D3-Wv-9bF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="signal_grey.png" highlightedImage=" " translatesAutoresizingMaskIntoConstraints="NO" id="GcH-xW-Lau">
-                                <rect key="frame" x="0.0" y="282" width="375" height="103"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IAC.png" translatesAutoresizingMaskIntoConstraints="NO" id="gd2-NK-32O">
+                                <rect key="frame" x="16" y="45" width="343" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="103" id="KDQ-ly-cpr"/>
+                                    <constraint firstAttribute="height" constant="50" id="81r-cb-95m"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ORBIT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yf6-Dt-WTY">
-                                <rect key="frame" x="125" y="425" width="125" height="34"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ORBIT_grey.png" highlightedImage=" " translatesAutoresizingMaskIntoConstraints="NO" id="GcH-xW-Lau">
+                                <rect key="frame" x="0.0" y="262" width="375" height="219"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="125" id="oOR-gh-nP1"/>
+                                    <constraint firstAttribute="height" constant="219" id="7B2-CG-v5T"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bluettoth_searching.png" translatesAutoresizingMaskIntoConstraints="NO" id="s1i-OR-gpy">
+                                <rect key="frame" x="47" y="522" width="281" height="125"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="125" id="pMD-CG-mIC"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="eR9-IA-gHT" firstAttribute="top" secondItem="Yf6-Dt-WTY" secondAttribute="bottom" constant="208" id="0QJ-CL-5HH"/>
-                            <constraint firstAttribute="trailing" secondItem="GcH-xW-Lau" secondAttribute="trailing" id="4ER-rL-exD"/>
-                            <constraint firstItem="AJ7-kg-aYe" firstAttribute="top" secondItem="Odd-T9-D0Q" secondAttribute="bottom" constant="179" id="763-LN-POK"/>
-                            <constraint firstItem="GcH-xW-Lau" firstAttribute="top" secondItem="AJ7-kg-aYe" secondAttribute="bottom" constant="32" id="JtN-1C-E3k"/>
-                            <constraint firstItem="AJ7-kg-aYe" firstAttribute="centerX" secondItem="GcH-xW-Lau" secondAttribute="centerX" id="JuK-Zc-u5o"/>
-                            <constraint firstItem="GcH-xW-Lau" firstAttribute="leading" secondItem="hLG-te-kbU" secondAttribute="leading" id="Of4-BN-KZk"/>
-                            <constraint firstItem="GcH-xW-Lau" firstAttribute="centerY" secondItem="hLG-te-kbU" secondAttribute="centerY" id="Oz0-bG-glR"/>
-                            <constraint firstItem="Yf6-Dt-WTY" firstAttribute="centerX" secondItem="GcH-xW-Lau" secondAttribute="centerX" id="ZPu-P0-VQs"/>
-                            <constraint firstItem="Yf6-Dt-WTY" firstAttribute="top" secondItem="GcH-xW-Lau" secondAttribute="bottom" constant="40" id="ZSo-oI-SgV"/>
-                            <constraint firstItem="AJ7-kg-aYe" firstAttribute="leading" secondItem="hLG-te-kbU" secondAttribute="leadingMargin" constant="63" id="oKu-zk-2n9"/>
+                            <constraint firstItem="s1i-OR-gpy" firstAttribute="leading" secondItem="hLG-te-kbU" secondAttribute="leadingMargin" constant="31" id="H4g-HS-4Ev"/>
+                            <constraint firstItem="GcH-xW-Lau" firstAttribute="leading" secondItem="hLG-te-kbU" secondAttribute="leading" id="aj4-pq-CdP"/>
+                            <constraint firstItem="gd2-NK-32O" firstAttribute="leading" secondItem="hLG-te-kbU" secondAttribute="leadingMargin" id="amX-3D-pby"/>
+                            <constraint firstItem="gd2-NK-32O" firstAttribute="centerX" secondItem="Yf6-Dt-WTY" secondAttribute="centerX" id="b8D-S7-mo9"/>
+                            <constraint firstAttribute="trailing" secondItem="GcH-xW-Lau" secondAttribute="trailing" id="bmS-DA-axZ"/>
+                            <constraint firstAttribute="bottom" secondItem="s1i-OR-gpy" secondAttribute="bottom" constant="20" symbolic="YES" id="mG4-k5-hcH"/>
+                            <constraint firstItem="gd2-NK-32O" firstAttribute="top" secondItem="Odd-T9-D0Q" secondAttribute="bottom" constant="25" id="mQQ-cV-Mgs"/>
+                            <constraint firstItem="s1i-OR-gpy" firstAttribute="top" secondItem="GcH-xW-Lau" secondAttribute="bottom" constant="41" id="n78-0Q-cun"/>
+                            <constraint firstItem="Yf6-Dt-WTY" firstAttribute="centerX" secondItem="GcH-xW-Lau" secondAttribute="centerX" id="xLu-m0-EzL"/>
+                            <constraint firstItem="GcH-xW-Lau" firstAttribute="centerX" secondItem="s1i-OR-gpy" secondAttribute="centerX" id="zeo-EN-hpz"/>
+                            <constraint firstItem="GcH-xW-Lau" firstAttribute="top" secondItem="Yf6-Dt-WTY" secondAttribute="bottom" constant="44" id="zqw-GL-pNB"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="signal" destination="GcH-xW-Lau" id="4DP-O8-Ghq"/>
-                        <outlet property="status" destination="AJ7-kg-aYe" id="TG4-Ie-Ejp"/>
+                        <outlet property="status" destination="s1i-OR-gpy" id="UKO-IQ-Ndo"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="simpleSegue" id="fGR-n4-zFK"/>
                     </connections>
                 </viewController>
@@ -552,18 +559,78 @@ Button 2: Toggles Start / Stop Video Recording</string>
             </objects>
             <point key="canvasLocation" x="-366" y="1254"/>
         </scene>
+        <!--Loading Screen View Controller-->
+        <scene sceneID="3cC-YV-9nR">
+            <objects>
+                <viewController id="sBK-LP-bP0" customClass="loadingScreenViewController" customModule="Orbit_360" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3tC-MW-OKh"/>
+                        <viewControllerLayoutGuide type="bottom" id="cJq-86-rVL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1ay-qL-vKt">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="gzZ-93-lgX">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yls-1S-HXY">
+                                <rect key="frame" x="0.0" y="255" width="375" height="157"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="157" id="koy-fP-GmU"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DSCVR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LbT-M5-Lrb">
+                                <rect key="frame" x="128" y="197" width="118" height="50"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-UltraLight" family="Avenir Next" pointSize="36"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TRACKER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5G7-e8-Dck">
+                                <rect key="frame" x="115" y="420" width="145" height="47"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-UltraLight" family="Avenir Next" pointSize="34"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="5G7-e8-Dck" firstAttribute="top" secondItem="Yls-1S-HXY" secondAttribute="bottom" constant="8" id="5kp-F3-UEZ"/>
+                            <constraint firstItem="gzZ-93-lgX" firstAttribute="top" secondItem="1ay-qL-vKt" secondAttribute="top" id="67a-RL-ixl"/>
+                            <constraint firstItem="Yls-1S-HXY" firstAttribute="leading" secondItem="1ay-qL-vKt" secondAttribute="leading" id="G9X-DR-u8U"/>
+                            <constraint firstItem="cJq-86-rVL" firstAttribute="top" secondItem="gzZ-93-lgX" secondAttribute="bottom" id="HUw-SE-x0P"/>
+                            <constraint firstItem="Yls-1S-HXY" firstAttribute="top" secondItem="LbT-M5-Lrb" secondAttribute="bottom" constant="8" id="Lsf-Mg-bju"/>
+                            <constraint firstItem="Yls-1S-HXY" firstAttribute="centerY" secondItem="1ay-qL-vKt" secondAttribute="centerY" id="QW1-uU-j0l"/>
+                            <constraint firstItem="LbT-M5-Lrb" firstAttribute="centerX" secondItem="1ay-qL-vKt" secondAttribute="centerX" id="njE-YX-xSe"/>
+                            <constraint firstItem="gzZ-93-lgX" firstAttribute="leading" secondItem="1ay-qL-vKt" secondAttribute="leading" id="srz-jl-OZg"/>
+                            <constraint firstItem="5G7-e8-Dck" firstAttribute="centerX" secondItem="1ay-qL-vKt" secondAttribute="centerX" id="xVc-Ce-Mkk"/>
+                            <constraint firstAttribute="trailing" secondItem="Yls-1S-HXY" secondAttribute="trailing" id="zAy-IE-4YW"/>
+                            <constraint firstAttribute="trailing" secondItem="gzZ-93-lgX" secondAttribute="trailing" id="zpf-Su-TDZ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="logo" destination="Yls-1S-HXY" id="a0w-pi-VtO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Io8-0x-5rn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1978" y="-302"/>
+        </scene>
     </scenes>
     <resources>
         <image name=" " width="16" height="16"/>
         <image name="01.png" width="186" height="170"/>
         <image name="02.png" width="190" height="216"/>
+        <image name="IAC.png" width="500" height="148"/>
+        <image name="ORBIT_grey.png" width="916" height="840"/>
         <image name="USER_Guide_1.png" width="1500" height="2668"/>
         <image name="USER_Guide_2.png" width="1500" height="2668"/>
         <image name="USER_Guide_3.png" width="1500" height="2668"/>
         <image name="arrow.png" width="50" height="85"/>
+        <image name="bluettoth_searching.png" width="1176" height="512"/>
         <image name="cameraicon.png" width="1656" height="1226"/>
         <image name="cancel.png" width="128" height="128"/>
-        <image name="signal_grey.png" width="1766" height="1258"/>
+        <image name="gradient.jpg" width="2160" height="3840"/>
         <image name="start.png" width="1050" height="1050"/>
     </resources>
 </document>

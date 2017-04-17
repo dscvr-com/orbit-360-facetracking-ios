@@ -17,11 +17,13 @@ class ConnectViewController: UIViewController {
     var btMotorControl : MotorControl?
     var btDevices = [CBPeripheral]()
     @IBOutlet weak var signal: UIImageView!
-    @IBOutlet weak var status: UILabel!
+    @IBOutlet weak var status: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         bt = BLEDiscovery(onDeviceFound: onDeviceFound, onDeviceConnected: onDeviceConnected, services: [MotorControl.BLEServiceUUID])
+        _ = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: #selector(ConnectViewController.orbitNotFound), userInfo: nil, repeats: false)
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,9 +59,14 @@ class ConnectViewController: UIViewController {
 
     func onServiceConnected(service: CBService) {
         btMotorControl = MotorControl(s: service, p: service.peripheral, allowCommandInterrupt: true)
-        signal.image = UIImage(named:"signal_blue")!
-        status.text = "CONNECTED"
+        signal.image = UIImage(named:"ORBIT_color")!
+        status.image = UIImage(named:"bluetooth_connected")!
         _ = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(ConnectViewController.performSegue), userInfo: nil, repeats: false)
+    }
+
+    func orbitNotFound() {
+        signal.image = UIImage(named:"ORBIT_black")!
+        status.image = UIImage(named:"bluetooth_alert")!
     }
 
     func performSegue() {
