@@ -62,11 +62,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var recordingTimeCounter = CFAbsoluteTimeGetCurrent()
     var recordTimer: NSTimer!
 
-    var toCorrectOrientation: GenericTransform!
-    var toUnitSpace: CameraToUnitSpaceCoordinateConversion!
+    var toCorrectOrientation: GenericTransform! = GenericTransform(m11: 0, m12: 1, m21: 1, m22: 0)
+    var toUnitSpace: CameraToUnitSpaceCoordinateConversion! = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
     var toAngle: UnitToMotorSpaceCoordinateConversion!
     var toSteps: MotorSpaceToStepsConversion!
-    var controlTarget: Point!
+    var controlTarget: Point! = Point(x: 0.25, y: 0.5)
     let controlLogic = PControl<Point>(p: 0.5) // Emulate I-control, since motor does integrating
     let speedFactorX: Float = 0.5
     let speedFactorY: Float = 0.5
@@ -89,9 +89,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     func initializeProcessing() {
-        let orientation = UIDevice.currentDevice().orientation
-        print(interfacePosition.rawValue)
-        print(orientation.rawValue)
         switch (UIDevice.currentDevice().orientation) {
             case .LandscapeLeft:
                 if (useFront) {
@@ -154,8 +151,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             default:
                 break
         }
-        print(interfacePosition.rawValue)
-        print("")
         toAngle = UnitToMotorSpaceCoordinateConversion(unitFocalLength: Float(focalLen))
         toSteps = MotorSpaceToStepsConversion(fullStepsX: Float(motorStepsX), fullStepsY: Float(motorStepsY))
     }
