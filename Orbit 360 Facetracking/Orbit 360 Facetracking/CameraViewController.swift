@@ -28,6 +28,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var firstRunMeta = true
     var isTracking = true
 
+    @IBOutlet weak var switchCameraButton: UIButton!
     @IBOutlet weak var recordingTimeLabel: UILabel!
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var trackingButton: UIButton!
@@ -80,7 +81,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return [.LandscapeLeft, .LandscapeRight, .Portrait]
+        return [/*.LandscapeLeft, .LandscapeRight,*/ .Portrait]
     }
 
     override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
@@ -89,7 +90,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     func initializeProcessing() {
         let orientation = UIDevice.currentDevice().orientation
-        switch (orientation) {
+        print(interfacePosition.rawValue)
+        print(orientation.rawValue)
+        switch (UIDevice.currentDevice().orientation) {
             case .LandscapeLeft:
                 if (useFront) {
                     toCorrectOrientation = GenericTransform(m11: 1, m12: 0, m21: 0, m22: -1)
@@ -102,13 +105,14 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 if interfacePosition == .Portrait && !isInMovieMode {
                     _ = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(CameraViewController.moveLeft), userInfo: nil, repeats: false)
                 }
-                interfacePosition = .LandscapeLeft
                 if useFront {
                     assetWriterTransform = CGFloat(M_PI * 180 / 180.0)
                 } else {
                     assetWriterTransform = CGFloat(M_PI * 0 / 180.0)
                 }
+                rotateButtons(M_PI / 2)
                 countdown.frame = view.frame
+                interfacePosition = .LandscapeLeft
                 break
             case .LandscapeRight:
                 if (useFront) {
@@ -122,16 +126,16 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 if interfacePosition == .Portrait && !isInMovieMode {
                     _ = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(CameraViewController.moveLeft), userInfo: nil, repeats: false)
                 }
-                interfacePosition = .LandscapeRight
                 if useFront {
                     assetWriterTransform = CGFloat(M_PI * 0 / 180.0)
                 } else {
                     assetWriterTransform = CGFloat(M_PI * 180 / 180.0)
                 }
+                rotateButtons(-M_PI / 2)
                 countdown.frame = view.frame
+                interfacePosition = .LandscapeRight
                 break
-            default:
-                // Portrait case
+            case .Portrait:
                 if (useFront) {
                     toCorrectOrientation = GenericTransform(m11: 0, m12: 1, m21: 1, m22: 0)
                 } else {
@@ -142,13 +146,24 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 if interfacePosition != .Portrait && !isInMovieMode {
                     _ = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(CameraViewController.moveLeft), userInfo: nil, repeats: false)
                 }
-                interfacePosition = .Portrait
                 assetWriterTransform = CGFloat(M_PI * 90 / 180.0)
+                rotateButtons(0)
                 countdown.frame = view.frame
+                interfacePosition = .Portrait
+                break
+            default:
                 break
         }
+        print(interfacePosition.rawValue)
+        print("")
         toAngle = UnitToMotorSpaceCoordinateConversion(unitFocalLength: Float(focalLen))
         toSteps = MotorSpaceToStepsConversion(fullStepsX: Float(motorStepsX), fullStepsY: Float(motorStepsY))
+    }
+
+    func rotateButtons(value: Double) {
+        trackingButton.transform = CGAffineTransformMakeRotation(CGFloat(value))
+        pointButton.transform = CGAffineTransformMakeRotation(CGFloat(value))
+        switchCameraButton.transform = CGAffineTransformMakeRotation(CGFloat(value))
     }
 
     override func viewDidLoad() {
@@ -234,35 +249,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             useFront = true
             setupCameraSession()
         }
-        initializeProcessing()
-        self.service.moveX(Int32(motorStepsX/2), speed: 1000)
-    }
-
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-        coordinator.animateAlongsideTransition(
-            { (UIViewControllerTransitionCoordinatorContext) in
-                let deltaTransform = coordinator.targetTransform()
-                let deltaAngle = atan2f(Float(deltaTransform.b), Float(deltaTransform.a))
-                var currentRotation : Float = (self.previewView!.layer.valueForKeyPath("transform.rotation.z")?.floatValue)!
-                // Adding a small value to the rotation angle forces the animation to occur in a the desired direction, preventing an issue where the view would appear to rotate 2PI radians during a rotation from LandscapeRight -> LandscapeLeft.
-                currentRotation += -1 * deltaAngle + 0.0001;
-                self.previewView!.layer.setValue(currentRotation, forKeyPath: "transform.rotation.z")
-                self.previewView!.layer.frame = self.view.bounds
-            },
-            completion:
-            { (UIViewControllerTransitionCoordinatorContext) in
-                // Integralize the transform to undo the extra 0.0001 added to the rotation angle.
-                var currentTransform : CGAffineTransform = self.previewView!.transform
-                currentTransform.a = round(currentTransform.a)
-                currentTransform.b = round(currentTransform.b)
-                currentTransform.c = round(currentTransform.c)
-                currentTransform.d = round(currentTransform.d)
-                self.previewView!.transform = currentTransform
-        })    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
         initializeProcessing()
     }
 
@@ -559,8 +545,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             var speed = abs(steps / Float(dt))
             speed = Point(x: speed.x * speedFactorX, y: speed.y * speedFactorY)
             
-            print("X: \(Int(steps.x)), Y: \(Int(steps.y)), SX: \(Int(speed.x)), SY: \(Int(speed.y))")
-            
+//            print("X: \(Int(steps.x)), Y: \(Int(steps.y)), SX: \(Int(speed.x)), SY: \(Int(speed.y))")
+
             speed = min(speed, b: Point(x: 1000, y: 1000))
             speed = max(speed, b: Point(x: 250, y: 250))
 

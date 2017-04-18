@@ -62,14 +62,9 @@ class ContainerViewController: UIViewController {
         if let pageViewController = segue.destinationViewController as? PageViewController {
             self.pageViewController = pageViewController
         }
-        if (fromSettings) {
-            unwindButton.hidden = false
-            cancelButton.hidden = true
-        }
     }
 
     @IBAction func didTapCancelButton(sender: AnyObject) {
-        fromSettings = true
         self.performSegueWithIdentifier("cancelGuideSegue", sender: self)
     }
 
