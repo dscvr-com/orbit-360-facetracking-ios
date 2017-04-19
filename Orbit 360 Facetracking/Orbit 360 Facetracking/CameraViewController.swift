@@ -503,6 +503,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         case 3:
             countdown.text = "3"
             counter -= 1
+            switchTracking("takePoto")
             break
         case 2:
             countdown.text = "2"
@@ -534,6 +535,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 NSLog("error while capturing still image: \(error)")
             }
         }
+        switchTracking("takePoto")
     }
 
     //MARK: Output Delegates
