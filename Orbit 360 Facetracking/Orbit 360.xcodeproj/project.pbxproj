@@ -48,6 +48,12 @@
 		E843FE4B1DBDB83F00C0B855 /* MotorControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */; };
 		E844FAB11E748E6500082DA2 /* ConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E844FAB01E748E6500082DA2 /* ConnectViewController.swift */; };
 		E880ADFF1E74872C00E41ADB /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E880ADFD1E74872C00E41ADB /* Launch Screen.storyboard */; };
+		E88A8ECD1EA75C7A002AB050 /* bl1.png in Resources */ = {isa = PBXBuildFile; fileRef = E88A8EC71EA75C7A002AB050 /* bl1.png */; };
+		E88A8ECE1EA75C7A002AB050 /* bl2.png in Resources */ = {isa = PBXBuildFile; fileRef = E88A8EC81EA75C7A002AB050 /* bl2.png */; };
+		E88A8ECF1EA75C7A002AB050 /* bl3.png in Resources */ = {isa = PBXBuildFile; fileRef = E88A8EC91EA75C7A002AB050 /* bl3.png */; };
+		E88A8ED01EA75C7A002AB050 /* bp1.png in Resources */ = {isa = PBXBuildFile; fileRef = E88A8ECA1EA75C7A002AB050 /* bp1.png */; };
+		E88A8ED11EA75C7A002AB050 /* bp2.png in Resources */ = {isa = PBXBuildFile; fileRef = E88A8ECB1EA75C7A002AB050 /* bp2.png */; };
+		E88A8ED21EA75C7A002AB050 /* bp3.png in Resources */ = {isa = PBXBuildFile; fileRef = E88A8ECC1EA75C7A002AB050 /* bp3.png */; };
 		E88B105C1E7C29D300794DAD /* startPhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = E88B105B1E7C29D300794DAD /* startPhoto.png */; };
 		E88EF6CB1DA6DE070009E99D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EF6CA1DA6DE070009E99D /* AppDelegate.swift */; };
 		E88EF6D01DA6DE070009E99D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E88EF6CE1DA6DE070009E99D /* Main.storyboard */; };
@@ -125,6 +131,12 @@
 		E843FE4A1DBDB83F00C0B855 /* MotorControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotorControl.swift; sourceTree = "<group>"; };
 		E844FAB01E748E6500082DA2 /* ConnectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectViewController.swift; sourceTree = "<group>"; };
 		E880ADFE1E74872C00E41ADB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
+		E88A8EC71EA75C7A002AB050 /* bl1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bl1.png; path = ressources/icons/bl1.png; sourceTree = "<group>"; };
+		E88A8EC81EA75C7A002AB050 /* bl2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bl2.png; path = ressources/icons/bl2.png; sourceTree = "<group>"; };
+		E88A8EC91EA75C7A002AB050 /* bl3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bl3.png; path = ressources/icons/bl3.png; sourceTree = "<group>"; };
+		E88A8ECA1EA75C7A002AB050 /* bp1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bp1.png; path = ressources/icons/bp1.png; sourceTree = "<group>"; };
+		E88A8ECB1EA75C7A002AB050 /* bp2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bp2.png; path = ressources/icons/bp2.png; sourceTree = "<group>"; };
+		E88A8ECC1EA75C7A002AB050 /* bp3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bp3.png; path = ressources/icons/bp3.png; sourceTree = "<group>"; };
 		E88B105B1E7C29D300794DAD /* startPhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = startPhoto.png; path = ressources/startPhoto.png; sourceTree = "<group>"; };
 		E88EF6C71DA6DE070009E99D /* Orbit 360.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Orbit 360.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E88EF6CA1DA6DE070009E99D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -272,6 +284,28 @@
 			name = BLE;
 			sourceTree = "<group>";
 		};
+		E88A8EC61EA75C63002AB050 /* settings */ = {
+			isa = PBXGroup;
+			children = (
+				E809B8C01EA5295C004C6905 /* BackButton.png */,
+				E809B8C21EA52B23004C6905 /* orbitButton.png */,
+			);
+			name = settings;
+			sourceTree = "<group>";
+		};
+		E88A8ED31EA75C81002AB050 /* flip phone */ = {
+			isa = PBXGroup;
+			children = (
+				E88A8EC71EA75C7A002AB050 /* bl1.png */,
+				E88A8EC81EA75C7A002AB050 /* bl2.png */,
+				E88A8EC91EA75C7A002AB050 /* bl3.png */,
+				E88A8ECA1EA75C7A002AB050 /* bp1.png */,
+				E88A8ECB1EA75C7A002AB050 /* bp2.png */,
+				E88A8ECC1EA75C7A002AB050 /* bp3.png */,
+			);
+			name = "flip phone";
+			sourceTree = "<group>";
+		};
 		E88EF6BE1DA6DE070009E99D = {
 			isa = PBXGroup;
 			children = (
@@ -377,8 +411,8 @@
 				E8CAA1141EA111D1008670C6 /* userguide */,
 				E809B8AE1EA4B9D9004C6905 /* bluetooth */,
 				E809B8B11EA4EFBA004C6905 /* cameraviewcontroller */,
-				E809B8C01EA5295C004C6905 /* BackButton.png */,
-				E809B8C21EA52B23004C6905 /* orbitButton.png */,
+				E88A8ED31EA75C81002AB050 /* flip phone */,
+				E88A8EC61EA75C63002AB050 /* settings */,
 				E80E5FFA1E744B38004EF2DE /* haarcascade_frontalface_alt.xml */,
 			);
 			name = Ressources;
@@ -522,6 +556,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E88A8ED11EA75C7A002AB050 /* bp2.png in Resources */,
 				E809B8A01EA4B5FD004C6905 /* IAC.png in Resources */,
 				E80E60031E745269004EF2DE /* Loadingscreen.png in Resources */,
 				E80E60091E746ADA004EF2DE /* stop.png in Resources */,
@@ -530,12 +565,14 @@
 				E809B8BA1EA4EFE9004C6905 /* tracking_off.png in Resources */,
 				E809B8B81EA4EFE9004C6905 /* points_on.png in Resources */,
 				E80E60081E746ADA004EF2DE /* start.png in Resources */,
+				E88A8ECD1EA75C7A002AB050 /* bl1.png in Resources */,
 				E809B8AB1EA4B99E004C6905 /* ORBIT_color.png in Resources */,
 				E809B8031EA44609004C6905 /* tracker-circle-logo_01.gif in Resources */,
 				E809B8B71EA4EFE9004C6905 /* points_off.png in Resources */,
 				E809B8B91EA4EFE9004C6905 /* settings.png in Resources */,
 				E809B8A91EA4B99E004C6905 /* bluetooth_connected.png in Resources */,
 				E809B8A21EA4B681004C6905 /* ORBIT_grey.png in Resources */,
+				E88A8ECF1EA75C7A002AB050 /* bl3.png in Resources */,
 				E809B8AC1EA4B99E004C6905 /* ORBIT_black.png in Resources */,
 				E840AFB11EA21AA300408FDC /* USER_Guide_1.png in Resources */,
 				E88EF6D21DA6DE070009E99D /* Assets.xcassets in Resources */,
@@ -546,12 +583,15 @@
 				E880ADFF1E74872C00E41ADB /* Launch Screen.storyboard in Resources */,
 				E809B8C31EA52B23004C6905 /* orbitButton.png in Resources */,
 				E80E5FFE1E744B38004EF2DE /* gradient.jpg in Resources */,
+				E88A8ED21EA75C7A002AB050 /* bp3.png in Resources */,
 				E840AFB51EA21C4400408FDC /* USER_Guide_3.png in Resources */,
+				E88A8ECE1EA75C7A002AB050 /* bl2.png in Resources */,
 				E88EF6D01DA6DE070009E99D /* Main.storyboard in Resources */,
 				E80E5FFF1E744B38004EF2DE /* haarcascade_frontalface_alt.xml in Resources */,
 				E840AFB41EA21C4400408FDC /* USER_Guide_2.png in Resources */,
 				E809B8C11EA5295C004C6905 /* BackButton.png in Resources */,
 				E80E60051E745C1A004EF2DE /* cameraicon.png in Resources */,
+				E88A8ED01EA75C7A002AB050 /* bp1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
