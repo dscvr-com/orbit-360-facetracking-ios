@@ -40,7 +40,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var controlBar: UIView!
     @IBOutlet weak var navBar: UIView!
     @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var settingsButton: UIButton!
     var countdown = UILabel()
+    let cancelButton = UIButton()
+    var backgroundImageView: UIImageView?
+    var updateBackgroundImageTimer: NSTimer!
+    var updateBackgroundImagesCounter = 1
 
     var outputSize: CGSize!
     var timeStamp: CMTime!
@@ -239,12 +244,77 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBAction func toggleCamera(sender: AnyObject) {
         if (useFront == true) {
             useFront = false
+            updateBackgroundImageTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(self.updateImages), userInfo: nil, repeats: true)
+            cancelButton.setBackgroundImage(UIImage.init(named: "cancel"), forState: .Normal)
+            cancelButton.frame = CGRect(x: self.view.frame.size.width - 50, y: 20, width: 30, height: 30)
+            cancelButton.addTarget(self, action: #selector(self.cancelFlipView), forControlEvents: .TouchUpInside)
+            view.addSubview(cancelButton)
+            updateImages()
+            cancelButton.hidden = false
+            if isTracking {
+                switchTracking("backCamSwitch")
+            }
+            startButton.enabled = false
+            pointButton.enabled = false
+            switchCameraButton.enabled = false
+            trackingButton.enabled = false
+            settingsButton.enabled = false
             setupCameraSession()
         } else {
             useFront = true
             setupCameraSession()
         }
         initializeProcessing()
+    }
+
+    func cancelFlipView() {
+        updateImages()
+        updateBackgroundImagesCounter = -1
+        startButton.enabled = true
+        pointButton.enabled = true
+        switchCameraButton.enabled = true
+        trackingButton.enabled = true
+        settingsButton.enabled = true
+    }
+
+    func updateImages() {
+        if backgroundImageView != nil {
+            backgroundImageView!.removeFromSuperview()
+        }
+        var image = UIImage.init(named: "bp\(updateBackgroundImagesCounter)")
+        switch (UIDevice.currentDevice().orientation) {
+        case .LandscapeLeft:
+            image = UIImage.init(named: "bl\(updateBackgroundImagesCounter)")
+            backgroundImageView = UIImageView(image: image)
+            backgroundImageView?.transform = CGAffineTransformMakeRotation(CGFloat(M_PI / 2))
+            backgroundImageView!.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+            cancelButton.frame = CGRect(x: self.view.frame.size.width - 50, y: self.view.frame.size.height - 50, width: 30, height: 30)
+            break
+        case .LandscapeRight:
+            image = UIImage.init(named: "bl\(updateBackgroundImagesCounter)")
+            backgroundImageView = UIImageView(image: image)
+            backgroundImageView?.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI / 2))
+            backgroundImageView!.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+            cancelButton.frame = CGRect(x: 20, y: 20, width: 30, height: 30)
+            break
+        default:
+            backgroundImageView = UIImageView(image: image)
+            backgroundImageView!.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+            cancelButton.frame = CGRect(x: self.view.frame.size.width - 50, y: 20, width: 30, height: 30)
+        }
+        if (updateBackgroundImagesCounter == -1) {
+            updateBackgroundImageTimer.invalidate()
+            cancelButton.hidden = true
+            backgroundImageView!.removeFromSuperview()
+            updateBackgroundImagesCounter = 1
+            return
+        }
+        view.addSubview(backgroundImageView!)
+        view.bringSubviewToFront(cancelButton)
+        updateBackgroundImagesCounter += 1
+        if (updateBackgroundImagesCounter == 4) {
+            updateBackgroundImagesCounter = 1
+        }
     }
 
     //MARK: CameraSession

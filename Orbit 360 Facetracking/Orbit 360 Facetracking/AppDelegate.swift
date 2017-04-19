@@ -50,7 +50,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func rotated() {
-
         guard let cameraViewController = self.window?.visibleViewController as? CameraViewController else {
             return
         }

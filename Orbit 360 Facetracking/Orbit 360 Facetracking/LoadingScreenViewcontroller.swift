@@ -11,6 +11,22 @@ import UIKit
 
 class LoadingScreenViewController: UIViewController {
 
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return .Portrait
+    }
+
+    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
+        return .Portrait
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
