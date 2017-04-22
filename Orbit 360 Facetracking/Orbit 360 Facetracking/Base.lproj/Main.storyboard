@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="sBK-LP-bP0">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -28,6 +28,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="Tx9-3X-GEZ" appends="YES" id="c0N-0L-WLk"/>
+                                </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="72o-5b-zWh">
                                 <rect key="frame" x="0.0" y="567" width="375" height="100"/>
@@ -169,6 +173,7 @@
                         <outlet property="pointButton" destination="nmF-1k-0X4" id="Rqb-Rk-xlK"/>
                         <outlet property="previewView" destination="DEX-b2-UJM" id="9Gg-kM-1YH"/>
                         <outlet property="recordingTimeLabel" destination="PUH-ga-c5Y" id="ahZ-tV-lmf"/>
+                        <outlet property="setTrackingPointRecognizer" destination="Tx9-3X-GEZ" id="v7K-YW-cVQ"/>
                         <outlet property="settingsButton" destination="FDD-Yn-z9c" id="wwg-KC-9Rh"/>
                         <outlet property="startButton" destination="Nd7-fb-nb2" id="jOh-aq-6xQ"/>
                         <outlet property="switchCameraButton" destination="vvK-uz-RHD" id="suw-hf-5h7"/>
@@ -190,6 +195,11 @@
                         <action selector="switchToPhotoMode:" destination="BYZ-38-t0r" id="yiK-aE-Qq7"/>
                     </connections>
                 </swipeGestureRecognizer>
+                <tapGestureRecognizer enabled="NO" id="Tx9-3X-GEZ">
+                    <connections>
+                        <action selector="setTrackingPoint:" destination="BYZ-38-t0r" id="bwi-IS-F8c"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1265" y="457"/>
         </scene>

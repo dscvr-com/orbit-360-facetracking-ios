@@ -36,6 +36,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var pointButton: UIButton!
     @IBOutlet var switchToPhoto: UISwipeGestureRecognizer!
     @IBOutlet var switchToVideo: UISwipeGestureRecognizer!
+    @IBOutlet var setTrackingPointRecognizer: UITapGestureRecognizer!
     @IBOutlet weak var video: UILabel!
     @IBOutlet weak var photo: UILabel!
     @IBOutlet weak var controlBar: UIView!
@@ -68,6 +69,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var interfacePosition: UIInterfaceOrientation = .Portrait
     var recordingTimeCounter = CFAbsoluteTimeGetCurrent()
     var recordTimer: NSTimer!
+    var trackPoint = CGPoint(x: 0.33, y: 0.5) //target upper third
 
     var toCorrectOrientation: GenericTransform! = GenericTransform(m11: 0, m12: 1, m21: 1, m22: 0)
     var toUnitSpace: CameraToUnitSpaceCoordinateConversion! = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
@@ -100,10 +102,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             case .LandscapeLeft:
                 if (useFront) {
                     toCorrectOrientation = GenericTransform(m11: 1, m12: 0, m21: 0, m22: -1)
-                    controlTarget = Point(x: 0.5, y: 0.75) // Target to the upper third.
+                    controlTarget = Point(x: Float(trackPoint.y), y: Float(trackPoint.x))
                 } else {
                     toCorrectOrientation = GenericTransform(m11: -1, m12: 0, m21: 0, m22: -1)
-                    controlTarget = Point(x: 0.5, y: 0.25) // Target to the upper third.
+                    controlTarget = Point(x: Float(trackPoint.y), y: Float(1 - trackPoint.x))
                 }
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
                 if useFront {
@@ -118,10 +120,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             case .LandscapeRight:
                 if (useFront) {
                     toCorrectOrientation = GenericTransform(m11: -1, m12: 0, m21: 0, m22: 1)
-                    controlTarget = Point(x: 0.5, y: 0.25) // Target to the upper third.
+                    controlTarget = Point(x: Float(trackPoint.y), y: Float(trackPoint.x))
                 } else {
                     toCorrectOrientation = GenericTransform(m11: 1, m12: 0, m21: 0, m22: 1)
-                    controlTarget = Point(x: 0.5, y: 0.75) // Target to the upper third.
+                    controlTarget = Point(x: Float(trackPoint.y), y: Float(1 - trackPoint.x))
                 }
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
                 if useFront {
@@ -140,7 +142,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     toCorrectOrientation = GenericTransform(m11: 0, m12: 1, m21: -1, m22: 0)
                 }
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
-                controlTarget = Point(x: 0.25, y: 0.5) // Target to the upper third.
+                controlTarget = Point(x: Float(trackPoint.y), y: Float(trackPoint.x))
                 assetWriterTransform = CGFloat(M_PI * 90 / 180.0)
                 rotateButtons(0)
                 countdown.frame = view.frame
@@ -193,6 +195,22 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     @IBAction func showPoints(sender: AnyObject) {
+        if !setTrackingPointRecognizer.enabled {
+            setTrackingPointRecognizer.enabled = true
+            pointButton.setBackgroundImage(UIImage(named:"points_on")!, forState: .Normal)
+        } else {
+            setTrackingPointRecognizer.enabled = false
+            pointButton.setBackgroundImage(UIImage(named:"points_off")!, forState: .Normal)
+        }
+    }
+
+    @IBAction func setTrackingPoint(sender: AnyObject) {
+        let tap = sender as! UITapGestureRecognizer
+        let tapPoint = tap.locationInView(self.view)
+        trackPoint.x = tapPoint.x / self.view.bounds.width
+        trackPoint.y = tapPoint.y / self.view.bounds.height
+        print("TP set \(trackPoint)")
+        initializeProcessing()
     }
 
     @IBAction func openSettings(sender: AnyObject) {
@@ -609,7 +627,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     let faceObject = self.previewLayer.transformedMetadataObjectForMetadataObject(candidate as! AVMetadataFaceObject) as! AVMetadataFaceObject
                     let face = faceObject.bounds
                     self.faceFrameView.frame = CGRect(x: face.midX - face.width / 2, y: face.midY - face.height / 2, width: face.width, height: face.height)
-                    print(self.faceFrameView.frame)
+//                    print(self.faceFrameView.frame)
                 })
             }
         }
@@ -626,7 +644,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             var speed = abs(steps / Float(dt))
             speed = Point(x: speed.x * speedFactorX, y: speed.y * speedFactorY)
             
-//            print("X: \(Int(steps.x)), Y: \(Int(steps.y)), SX: \(Int(speed.x)), SY: \(Int(speed.y))")
+            print("X: \(Int(steps.x)), Y: \(Int(steps.y)), SX: \(Int(speed.x)), SY: \(Int(speed.y))")
 
             speed = min(speed, b: Point(x: 1000, y: 1000))
             speed = max(speed, b: Point(x: 250, y: 250))

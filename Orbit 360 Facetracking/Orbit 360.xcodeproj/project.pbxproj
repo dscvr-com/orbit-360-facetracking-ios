@@ -40,6 +40,7 @@
 		E81EC93C1DE348F0005330F0 /* IPhoneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81EC93B1DE348EF005330F0 /* IPhoneModel.swift */; };
 		E827BA151DB5171C005257CB /* BLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E827BA141DB5171C005257CB /* BLEDiscovery.swift */; };
 		E827BA171DB517DC005257CB /* BLEService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E827BA161DB517DC005257CB /* BLEService.swift */; };
+		E840A9401EAC0C2E00E4C144 /* track_points_grid.png in Resources */ = {isa = PBXBuildFile; fileRef = E840A93F1EAC0C2E00E4C144 /* track_points_grid.png */; };
 		E840AFB11EA21AA300408FDC /* USER_Guide_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E840AFAF1EA21AA300408FDC /* USER_Guide_1.png */; };
 		E840AFB41EA21C4400408FDC /* USER_Guide_2.png in Resources */ = {isa = PBXBuildFile; fileRef = E840AFB21EA21C4400408FDC /* USER_Guide_2.png */; };
 		E840AFB51EA21C4400408FDC /* USER_Guide_3.png in Resources */ = {isa = PBXBuildFile; fileRef = E840AFB31EA21C4400408FDC /* USER_Guide_3.png */; };
@@ -123,6 +124,7 @@
 		E81EC93B1DE348EF005330F0 /* IPhoneModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPhoneModel.swift; sourceTree = "<group>"; };
 		E827BA141DB5171C005257CB /* BLEDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEDiscovery.swift; sourceTree = "<group>"; };
 		E827BA161DB517DC005257CB /* BLEService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEService.swift; sourceTree = "<group>"; };
+		E840A93F1EAC0C2E00E4C144 /* track_points_grid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = track_points_grid.png; path = ressources/icons/track_points_grid.png; sourceTree = "<group>"; };
 		E840AFAF1EA21AA300408FDC /* USER_Guide_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = USER_Guide_1.png; sourceTree = "<group>"; };
 		E840AFB21EA21C4400408FDC /* USER_Guide_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = USER_Guide_2.png; sourceTree = "<group>"; };
 		E840AFB31EA21C4400408FDC /* USER_Guide_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = USER_Guide_3.png; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 		E809B8B11EA4EFBA004C6905 /* cameraviewcontroller */ = {
 			isa = PBXGroup;
 			children = (
+				E840A93F1EAC0C2E00E4C144 /* track_points_grid.png */,
 				E809B8B21EA4EFE9004C6905 /* points_off.png */,
 				E809B8B31EA4EFE9004C6905 /* points_on.png */,
 				E809B8B41EA4EFE9004C6905 /* settings.png */,
@@ -586,6 +589,7 @@
 				E88A8ED21EA75C7A002AB050 /* bp3.png in Resources */,
 				E840AFB51EA21C4400408FDC /* USER_Guide_3.png in Resources */,
 				E88A8ECE1EA75C7A002AB050 /* bl2.png in Resources */,
+				E840A9401EAC0C2E00E4C144 /* track_points_grid.png in Resources */,
 				E88EF6D01DA6DE070009E99D /* Main.storyboard in Resources */,
 				E80E5FFF1E744B38004EF2DE /* haarcascade_frontalface_alt.xml in Resources */,
 				E840AFB41EA21C4400408FDC /* USER_Guide_2.png in Resources */,
