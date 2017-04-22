@@ -47,6 +47,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var backgroundImageView: UIImageView?
     var updateBackgroundImageTimer: NSTimer!
     var updateBackgroundImagesCounter = 1
+    var faceFrameView = UIView()
 
     var outputSize: CGSize!
     var timeStamp: CMTime!
@@ -176,6 +177,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         countdown.textColor = UIColor.whiteColor()
         countdown.font = countdown.font.fontWithSize(130)
         self.view!.addSubview(countdown)
+        faceFrameView.layer.borderColor = UIColor.init(red: 245/255, green: 166/255, blue: 35/255, alpha: 1.0).CGColor
+        faceFrameView.layer.borderWidth = 3
+        previewView.addSubview(faceFrameView)
     }
 
     @IBAction func switchTracking(sender: AnyObject) {
@@ -585,6 +589,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             return
         }
 
+        if metadataObjects == nil || metadataObjects.count == 0 {
+            dispatch_async(dispatch_get_main_queue(),{
+                self.faceFrameView.frame = CGRectZero
+                })
+        }
+
         var facePos: Point? = nil
 
         for candidate in metadataObjects {
@@ -595,9 +605,15 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 } else {
                     facePos = (curPos + facePos!) / 2
                 }
+                dispatch_async(dispatch_get_main_queue(),{
+                    let faceObject = self.previewLayer.transformedMetadataObjectForMetadataObject(candidate as! AVMetadataFaceObject) as! AVMetadataFaceObject
+                    let face = faceObject.bounds
+                    self.faceFrameView.frame = CGRect(x: face.midX - face.width / 2, y: face.midY - face.height / 2, width: face.width, height: face.height)
+                    print(self.faceFrameView.frame)
+                })
             }
         }
-        
+
         if let facePos = facePos {
             let unitPos = toUnitSpace.convert(toCorrectOrientation.convert(facePos))
             let unitTarget = toUnitSpace.convert(toCorrectOrientation.convert(controlTarget))
