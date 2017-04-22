@@ -27,6 +27,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var firstRun = true
     var firstRunMeta = true
     var isTracking = true
+    var wasTracking = false
 
     @IBOutlet weak var switchCameraButton: UIButton!
     @IBOutlet weak var recordingTimeLabel: UILabel!
@@ -104,9 +105,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     controlTarget = Point(x: 0.5, y: 0.25) // Target to the upper third.
                 }
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
-                if interfacePosition == .Portrait && !isInMovieMode {
-                    _ = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(CameraViewController.moveLeft), userInfo: nil, repeats: false)
-                }
                 if useFront {
                     assetWriterTransform = CGFloat(M_PI * 180 / 180.0)
                 } else {
@@ -125,9 +123,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     controlTarget = Point(x: 0.5, y: 0.75) // Target to the upper third.
                 }
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
-                if interfacePosition == .Portrait && !isInMovieMode {
-                    _ = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(CameraViewController.moveLeft), userInfo: nil, repeats: false)
-                }
                 if useFront {
                     assetWriterTransform = CGFloat(M_PI * 0 / 180.0)
                 } else {
@@ -145,9 +140,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 }
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
                 controlTarget = Point(x: 0.25, y: 0.5) // Target to the upper third.
-                if interfacePosition != .Portrait && !isInMovieMode {
-                    _ = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(CameraViewController.moveLeft), userInfo: nil, repeats: false)
-                }
                 assetWriterTransform = CGFloat(M_PI * 90 / 180.0)
                 rotateButtons(0)
                 countdown.frame = view.frame
@@ -503,7 +495,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         case 3:
             countdown.text = "3"
             counter -= 1
-            switchTracking("takePoto")
+            if isTracking {
+                switchTracking("takePoto")
+                wasTracking = true
+            }
             break
         case 2:
             countdown.text = "2"
@@ -535,7 +530,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 NSLog("error while capturing still image: \(error)")
             }
         }
-        switchTracking("takePoto")
+        if wasTracking {
+            switchTracking("takePoto")
+            wasTracking = false
+        }
     }
 
     //MARK: Output Delegates
