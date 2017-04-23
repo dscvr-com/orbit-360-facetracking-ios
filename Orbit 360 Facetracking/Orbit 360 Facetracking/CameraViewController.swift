@@ -69,7 +69,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var interfacePosition: UIInterfaceOrientation = .Portrait
     var recordingTimeCounter = CFAbsoluteTimeGetCurrent()
     var recordTimer: NSTimer!
-    var trackPoint = CGPoint(x: 0.33, y: 0.5) //target upper third
+    var trackPoint = CGPoint(x: 0.5, y: 0.33) //target upper third
 
     var toCorrectOrientation: GenericTransform! = GenericTransform(m11: 0, m12: 1, m21: 1, m22: 0)
     var toUnitSpace: CameraToUnitSpaceCoordinateConversion! = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)

@@ -54,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let cameraViewController = self.window?.visibleViewController as? CameraViewController else {
             return
         }
+        cameraViewController.trackPoint = CGPoint(x: 0.5, y: 0.5)
         cameraViewController.initializeProcessing()
     }
 
