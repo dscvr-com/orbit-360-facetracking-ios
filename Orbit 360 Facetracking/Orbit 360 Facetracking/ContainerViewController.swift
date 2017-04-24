@@ -46,7 +46,7 @@ class ContainerViewController: UIViewController {
 
     override func viewDidLoad() {
         pageControl.addTarget(self, action: #selector(ContainerViewController.didChangePageControlValue), forControlEvents: .ValueChanged)
-        UIApplication.sharedApplication().delegate!.window!!.rootViewController! = self
+//        UIApplication.sharedApplication().delegate!.window!!.rootViewController! = self
     }
 
     override func viewDidAppear(animated: Bool) {

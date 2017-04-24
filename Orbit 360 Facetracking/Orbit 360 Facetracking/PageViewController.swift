@@ -84,15 +84,14 @@ class PageViewController: UIPageViewController {
         if let firstViewController = viewControllers?.first,
             let index = orderedViewControllers.indexOf(firstViewController) {
             cDelegate?.pageViewController(self, didUpdatePageIndex: index)
-        }
-        guard let root = UIApplication.sharedApplication().keyWindow?.rootViewController as? ContainerViewController else {
-            return
-        }
-        print(root)
-        if root.pageControl.currentPage == 2 {
-            root.nextButton.hidden = true
-        } else {
-            root.nextButton.hidden = false
+            guard let containervc = self.parentViewController as? ContainerViewController else {
+                return
+            }
+            if containervc.pageControl.currentPage == 2 {
+                containervc.nextButton.hidden = true
+            } else {
+                containervc.nextButton.hidden = false
+            }
         }
     }
 
