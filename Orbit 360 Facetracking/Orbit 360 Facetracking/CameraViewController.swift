@@ -104,7 +104,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     toCorrectOrientation = GenericTransform(m11: 1, m12: 0, m21: 0, m22: -1)
                     controlTarget = Point(x: Float(trackPoint.y), y: Float(trackPoint.x))
                 } else {
-                    toCorrectOrientation = GenericTransform(m11: -1, m12: 0, m21: 0, m22: -1)
+                    toCorrectOrientation = GenericTransform(m11: -1, m12: 0, m21: 0, m22: 1)
                     controlTarget = Point(x: Float(trackPoint.y), y: Float(1 - trackPoint.x))
                 }
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
@@ -122,7 +122,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     toCorrectOrientation = GenericTransform(m11: -1, m12: 0, m21: 0, m22: 1)
                     controlTarget = Point(x: Float(trackPoint.y), y: Float(trackPoint.x))
                 } else {
-                    toCorrectOrientation = GenericTransform(m11: 1, m12: 0, m21: 0, m22: 1)
+                    toCorrectOrientation = GenericTransform(m11: 1, m12: 0, m21: 0, m22: -1)
                     controlTarget = Point(x: Float(trackPoint.y), y: Float(1 - trackPoint.x))
                 }
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectLandscape)
@@ -139,7 +139,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 if (useFront) {
                     toCorrectOrientation = GenericTransform(m11: 0, m12: 1, m21: 1, m22: 0)
                 } else {
-                    toCorrectOrientation = GenericTransform(m11: 0, m12: 1, m21: -1, m22: 0)
+                    toCorrectOrientation = GenericTransform(m11: 0, m12: 1, m21: 1, m22: 0)
                 }
                 toUnitSpace = CameraToUnitSpaceCoordinateConversion(cameraWidth: 1, cameraHeight: 1, aspect: aspectPortrait)
                 controlTarget = Point(x: Float(trackPoint.y), y: Float(trackPoint.x))
@@ -256,6 +256,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     @IBAction func toggleCamera(sender: AnyObject) {
+        dispatch_async(dispatch_get_main_queue(),{
+            self.faceFrameView.frame = CGRectZero
+        })
         if (useFront == true) {
             useFront = false
             updateBackgroundImageTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(self.updateImages), userInfo: nil, repeats: true)
@@ -292,43 +295,46 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     func updateImages() {
-        if backgroundImageView != nil {
-            backgroundImageView!.removeFromSuperview()
+        dispatch_async(dispatch_get_main_queue(),{
+        if self.backgroundImageView != nil {
+            self.backgroundImageView!.removeFromSuperview()
         }
-        var image = UIImage.init(named: "bp\(updateBackgroundImagesCounter)")
+        var image = UIImage.init(named: "bp\(self.updateBackgroundImagesCounter)")
         switch (UIDevice.currentDevice().orientation) {
         case .LandscapeLeft:
-            image = UIImage.init(named: "bl\(updateBackgroundImagesCounter)")
-            backgroundImageView = UIImageView(image: image)
-            backgroundImageView?.transform = CGAffineTransformMakeRotation(CGFloat(M_PI / 2))
-            backgroundImageView!.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-            cancelButton.frame = CGRect(x: self.view.frame.size.width - 50, y: self.view.frame.size.height - 50, width: 30, height: 30)
+            image = UIImage.init(named: "bl\(self.updateBackgroundImagesCounter)")
+            self.backgroundImageView = UIImageView(image: image)
+            self.backgroundImageView?.transform = CGAffineTransformMakeRotation(CGFloat(M_PI / 2))
+            self.backgroundImageView!.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+            self.cancelButton.frame = CGRect(x: self.view.frame.size.width - 50, y: self.view.frame.size.height - 50, width: 30, height: 30)
             break
         case .LandscapeRight:
-            image = UIImage.init(named: "bl\(updateBackgroundImagesCounter)")
-            backgroundImageView = UIImageView(image: image)
-            backgroundImageView?.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI / 2))
-            backgroundImageView!.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-            cancelButton.frame = CGRect(x: 20, y: 20, width: 30, height: 30)
+            image = UIImage.init(named: "bl\(self.updateBackgroundImagesCounter)")
+            self.backgroundImageView = UIImageView(image: image)
+            self.backgroundImageView?.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI / 2))
+            self.backgroundImageView!.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+            self.cancelButton.frame = CGRect(x: 20, y: 20, width: 30, height: 30)
             break
         default:
-            backgroundImageView = UIImageView(image: image)
-            backgroundImageView!.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-            cancelButton.frame = CGRect(x: self.view.frame.size.width - 50, y: 20, width: 30, height: 30)
+            self.backgroundImageView = UIImageView(image: image)
+            self.backgroundImageView!.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+            self.cancelButton.frame = CGRect(x: self.view.frame.size.width - 50, y: 20, width: 30, height: 30)
         }
-        if (updateBackgroundImagesCounter == -1) {
-            updateBackgroundImageTimer.invalidate()
-            cancelButton.hidden = true
-            backgroundImageView!.removeFromSuperview()
-            updateBackgroundImagesCounter = 1
+        if (self.updateBackgroundImagesCounter == -1) {
+            self.updateBackgroundImageTimer.invalidate()
+            self.cancelButton.hidden = true
+            self.backgroundImageView!.removeFromSuperview()
+            self.updateBackgroundImagesCounter = 1
             return
         }
-        view.addSubview(backgroundImageView!)
-        view.bringSubviewToFront(cancelButton)
-        updateBackgroundImagesCounter += 1
-        if (updateBackgroundImagesCounter == 4) {
-            updateBackgroundImagesCounter = 1
+        self.view.addSubview(self.backgroundImageView!)
+        self.view.bringSubviewToFront(self.cancelButton)
+        self.updateBackgroundImagesCounter += 1
+        if (self.updateBackgroundImagesCounter == 4) {
+            self.updateBackgroundImagesCounter = 1
         }
+        })
+
     }
 
     //MARK: CameraSession
@@ -623,9 +629,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 } else {
                     facePos = (curPos + facePos!) / 2
                 }
+                let faceObject = previewLayer.transformedMetadataObjectForMetadataObject(candidate as! AVMetadataFaceObject) as! AVMetadataFaceObject
+                let face = faceObject.bounds
                 dispatch_async(dispatch_get_main_queue(),{
-                    let faceObject = self.previewLayer.transformedMetadataObjectForMetadataObject(candidate as! AVMetadataFaceObject) as! AVMetadataFaceObject
-                    let face = faceObject.bounds
                     self.faceFrameView.frame = CGRect(x: face.midX - face.width / 2, y: face.midY - face.height / 2, width: face.width, height: face.height)
 //                    print(self.faceFrameView.frame)
                 })
