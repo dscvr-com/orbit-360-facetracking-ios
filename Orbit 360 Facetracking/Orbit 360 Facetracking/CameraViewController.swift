@@ -159,6 +159,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         trackingButton.transform = CGAffineTransformMakeRotation(CGFloat(value))
         pointButton.transform = CGAffineTransformMakeRotation(CGFloat(value))
         switchCameraButton.transform = CGAffineTransformMakeRotation(CGFloat(value))
+        countdown.transform = CGAffineTransformMakeRotation(CGFloat(value))
     }
 
     override func viewDidLoad() {
@@ -561,6 +562,21 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if wasTracking {
             switchTracking("takePoto")
             wasTracking = false
+        }
+        flashScreen()
+    }
+
+    func flashScreen() {
+        if let wnd = self.view{
+            let v = UIView(frame: wnd.bounds)
+            v.backgroundColor = UIColor.whiteColor()
+            v.alpha = 1
+            wnd.addSubview(v)
+            UIView.animateWithDuration(1, animations: {
+                v.alpha = 0.0
+                }, completion: {(finished:Bool) in
+                    v.removeFromSuperview()
+            })
         }
     }
 
