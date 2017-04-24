@@ -195,12 +195,18 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
 
+    var pointsView: UIImageView!
     @IBAction func showPoints(sender: AnyObject) {
         if !setTrackingPointRecognizer.enabled {
             setTrackingPointRecognizer.enabled = true
             pointButton.setBackgroundImage(UIImage(named:"points_on")!, forState: .Normal)
+            pointsView = UIImageView(image: UIImage(named: "track_points_grid"))
+            pointsView.frame = CGRect(x: 0, y: 50, width: self.view.bounds.width, height: self.view.bounds.height - 150)
+            pointsView.contentMode = UIViewContentMode.ScaleAspectFit
+            view.addSubview(pointsView)
         } else {
             setTrackingPointRecognizer.enabled = false
+            pointsView.removeFromSuperview()
             pointButton.setBackgroundImage(UIImage(named:"points_off")!, forState: .Normal)
         }
     }
@@ -211,6 +217,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         trackPoint.x = tapPoint.x / self.view.bounds.width
         trackPoint.y = tapPoint.y / self.view.bounds.height
         print("TP set \(trackPoint)")
+        showPoints("TPset")
         initializeProcessing()
     }
 
