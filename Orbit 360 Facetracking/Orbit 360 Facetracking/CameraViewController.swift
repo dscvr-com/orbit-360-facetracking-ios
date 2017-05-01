@@ -21,7 +21,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var service: MotorControl!
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
 
-    var isInMovieMode = true
+    var isInDemoMode = false
+    var isInMovieMode = false
     var isRecording = false
     var useFront = true
     var firstRun = true
@@ -48,7 +49,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var backgroundImageView: UIImageView?
     var updateBackgroundImageTimer: NSTimer!
     var updateBackgroundImagesCounter = 1
-    var faceFrameView = UIView()
+    var faceFrameView = [UIView]()
+    var pointsView: UIImageView!
 
     var outputSize: CGSize!
     var timeStamp: CMTime!
@@ -64,11 +66,13 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var assetWriterTransform = CGFloat(M_PI * 90 / 180.0)
 
     let fps: Int32 = 30
+    let maxFacesNumber = 10
     var lastMovementTime = CFAbsoluteTimeGetCurrent()
     var counter = 3
     var interfacePosition: UIInterfaceOrientation = .Portrait
     var recordingTimeCounter = CFAbsoluteTimeGetCurrent()
     var recordTimer: NSTimer!
+    var torchTimer: NSTimer!
     var trackPoint = CGPoint(x: 0.5, y: 0.33) //target upper third
 
     var toCorrectOrientation: GenericTransform! = GenericTransform(m11: 0, m12: 1, m21: 1, m22: 0)
@@ -167,6 +171,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         UIApplication.sharedApplication().idleTimerDisabled = true
         initializeProcessing()
         setupCameraSession()
+        (UIApplication.sharedApplication().delegate as! AppDelegate).rotated()
+        for _ in 1...maxFacesNumber {
+            faceFrameView.append(UIView())
+        }
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -180,9 +188,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         countdown.textColor = UIColor.whiteColor()
         countdown.font = countdown.font.fontWithSize(130)
         self.view!.addSubview(countdown)
-        faceFrameView.layer.borderColor = UIColor.init(red: 245/255, green: 166/255, blue: 35/255, alpha: 1.0).CGColor
-        faceFrameView.layer.borderWidth = 3
-        previewView.addSubview(faceFrameView)
+        for i in 0..<maxFacesNumber {
+            faceFrameView[i].layer.borderColor = UIColor.init(red: 245/255, green: 166/255, blue: 35/255, alpha: 1.0).CGColor
+            faceFrameView[i].layer.borderWidth = 3
+            previewView.addSubview(faceFrameView[i])
+        }
     }
 
     @IBAction func switchTracking(sender: AnyObject) {
@@ -195,7 +205,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
 
-    var pointsView: UIImageView!
     @IBAction func showPoints(sender: AnyObject) {
         if !setTrackingPointRecognizer.enabled {
             setTrackingPointRecognizer.enabled = true
@@ -264,9 +273,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     @IBAction func toggleCamera(sender: AnyObject) {
-        dispatch_async(dispatch_get_main_queue(),{
-            self.faceFrameView.frame = CGRectZero
-        })
         if (useFront == true) {
             useFront = false
             updateBackgroundImageTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(self.updateImages), userInfo: nil, repeats: true)
@@ -290,6 +296,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             setupCameraSession()
         }
         initializeProcessing()
+        dispatch_async(dispatch_get_main_queue(),{
+            for i in 0..<self.maxFacesNumber {
+                self.faceFrameView[i].frame = CGRectZero
+            }
+        })
     }
 
     func cancelFlipView() {
@@ -440,7 +451,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if (isRecording) {
             stopRecording()
             startButton.setBackgroundImage(UIImage(named:"start")!, forState: .Normal)
+            switchToPhoto.enabled = true
         } else {
+            switchToPhoto.enabled = false
             startRecording()
             startButton.setBackgroundImage(UIImage(named:"stop")!, forState: .Normal)
         }
@@ -524,6 +537,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         _ = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(CameraViewController.updateCountdown), userInfo: nil, repeats: false)
         _ = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(CameraViewController.updateCountdown), userInfo: nil, repeats: false)
         _ = NSTimer.scheduledTimerWithTimeInterval(0, target: self, selector: #selector(CameraViewController.updateCountdown), userInfo: nil, repeats: false)
+        if !useFront{
+        torchTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(CameraViewController.toggleFlash), userInfo: nil, repeats: true)
+        }
+        switchToVideo.enabled = false
     }
 
     func updateCountdown() {
@@ -550,6 +567,13 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     func takePhoto() {
         countdown.text = ""
+        if !useFront {
+            torchTimer.invalidate()
+            if AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo).torchMode == .On {
+                toggleFlash()
+            }
+        }
+        switchToVideo.enabled = true
         let connection = self.imageOutput.connectionWithMediaType(AVMediaTypeVideo)
         connection.videoOrientation = AVCaptureVideoOrientation(rawValue: UIDevice.currentDevice().orientation.rawValue)!
 
@@ -638,12 +662,15 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         if metadataObjects == nil || metadataObjects.count == 0 {
             dispatch_async(dispatch_get_main_queue(),{
-                self.faceFrameView.frame = CGRectZero
-                })
+                for i in 0..<self.maxFacesNumber {
+                    self.faceFrameView[i].frame = CGRectZero
+                }
+            })
         }
 
         var facePos: Point? = nil
-
+        var i = 0
+        var frames = Array(count: self.maxFacesNumber, repeatedValue: CGRectZero)
         for candidate in metadataObjects {
             if candidate.type == AVMetadataObjectTypeFace {
                 let curPos = Point(x: Float(candidate.bounds.midX), y: Float(candidate.bounds.midY))
@@ -654,12 +681,19 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 }
                 let faceObject = previewLayer.transformedMetadataObjectForMetadataObject(candidate as! AVMetadataFaceObject) as! AVMetadataFaceObject
                 let face = faceObject.bounds
-                dispatch_async(dispatch_get_main_queue(),{
-                    self.faceFrameView.frame = CGRect(x: face.midX - face.width / 2, y: face.midY - face.height / 2, width: face.width, height: face.height)
-//                    print(self.faceFrameView.frame)
-                })
+                if i < self.maxFacesNumber {
+                    frames[i] = CGRect(x: face.midX - face.width / 2, y: face.midY - face.height / 2, width: face.width, height: face.height)
+                }
+                i += 1
             }
         }
+
+        dispatch_async(dispatch_get_main_queue(),{
+            for j in 0..<self.maxFacesNumber {
+                self.faceFrameView[j].frame = frames[j]
+            }
+        })
+
 
         if let facePos = facePos {
             let unitPos = toUnitSpace.convert(toCorrectOrientation.convert(facePos))
@@ -680,7 +714,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
             if(abs(steps.x) > Float(xThresh) || abs(steps.y) > Float(yThresh)) {
                 if (isTracking) {
-                    self.service.moveXandY(Int32(steps.x), speedX: Int32(speed.x), stepsY: Int32(steps.y), speedY: Int32(speed.y))
+                    if !isInDemoMode{
+                        self.service.moveXandY(Int32(steps.x), speedX: Int32(speed.x), stepsY: Int32(steps.y), speedY: Int32(speed.y))
+                    }
                 }
             }
         }
@@ -720,6 +756,27 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         print("Background task ended.")
         UIApplication.sharedApplication().endBackgroundTask(backgroundTask)
         backgroundTask = UIBackgroundTaskInvalid
+    }
+
+    func toggleFlash() {
+        let device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        if (device.hasTorch) {
+            do {
+                try device.lockForConfiguration()
+                if (device.torchMode == AVCaptureTorchMode.On) {
+                    device.torchMode = AVCaptureTorchMode.Off
+                } else {
+                    do {
+                        try device.setTorchModeOnWithLevel(0.01)
+                    } catch {
+                        print(error)
+                    }
+                }
+                device.unlockForConfiguration()
+            } catch {
+                print(error)
+            }
+        }
     }
 
 }

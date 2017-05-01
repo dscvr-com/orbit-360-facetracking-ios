@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
-        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -52,26 +51,26 @@
                                             <constraint firstAttribute="width" constant="50" id="MMW-qP-kez"/>
                                             <constraint firstAttribute="height" constant="50" id="xE3-Q0-JhA"/>
                                         </constraints>
-                                        <state key="normal" backgroundImage="start.png"/>
+                                        <state key="normal" backgroundImage="startPhoto.png"/>
                                         <connections>
                                             <action selector="startButtonclicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cb9-qj-yA0"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PHOTO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XBQ-bz-x0h">
-                                        <rect key="frame" x="221" y="11" width="58" height="21"/>
+                                        <rect key="frame" x="159" y="8" width="58" height="21"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="58" id="K3K-GV-KVd"/>
-                                            <constraint firstAttribute="height" constant="21" id="ZCy-Sm-g28"/>
+                                            <constraint firstAttribute="height" constant="21" id="hW5-bd-hjH"/>
+                                            <constraint firstAttribute="width" constant="58" id="wPH-r1-Gp0"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VIDEO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UCh-uQ-Mad">
-                                        <rect key="frame" x="163" y="11" width="50" height="21"/>
+                                        <rect key="frame" x="101" y="8" width="50" height="21"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="QkJ-ay-HR5"/>
-                                            <constraint firstAttribute="height" constant="21" id="R3s-jo-T3a"/>
+                                            <constraint firstAttribute="width" constant="50" id="E2g-eK-Yqa"/>
+                                            <constraint firstAttribute="height" constant="21" id="f0P-Le-ThB"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -81,17 +80,15 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="vvK-uz-RHD" firstAttribute="top" secondItem="72o-5b-zWh" secondAttribute="top" constant="49" id="4V9-TC-0rI"/>
-                                    <constraint firstItem="XBQ-bz-x0h" firstAttribute="baseline" secondItem="UCh-uQ-Mad" secondAttribute="baseline" id="CH4-Te-aav"/>
-                                    <constraint firstItem="UCh-uQ-Mad" firstAttribute="centerX" secondItem="72o-5b-zWh" secondAttribute="centerX" id="F3X-0W-d7y"/>
+                                    <constraint firstItem="XBQ-bz-x0h" firstAttribute="leading" secondItem="UCh-uQ-Mad" secondAttribute="trailing" constant="8" id="A2k-Qc-nPP"/>
                                     <constraint firstAttribute="height" constant="100" id="Hd9-SW-5C5"/>
-                                    <constraint firstItem="XBQ-bz-x0h" firstAttribute="leading" secondItem="UCh-uQ-Mad" secondAttribute="trailing" constant="8" id="bqK-zU-8zA"/>
+                                    <constraint firstItem="UCh-uQ-Mad" firstAttribute="top" secondItem="72o-5b-zWh" secondAttribute="top" constant="8" id="V1y-hS-fz3"/>
                                     <constraint firstAttribute="bottom" secondItem="vvK-uz-RHD" secondAttribute="bottom" constant="18" id="ejK-DN-UIZ"/>
-                                    <constraint firstItem="XBQ-bz-x0h" firstAttribute="top" secondItem="72o-5b-zWh" secondAttribute="top" constant="11" id="kQm-Hz-DMJ"/>
+                                    <constraint firstItem="XBQ-bz-x0h" firstAttribute="top" secondItem="72o-5b-zWh" secondAttribute="top" constant="8" id="gzF-bb-ASP"/>
                                     <constraint firstItem="Nd7-fb-nb2" firstAttribute="centerX" secondItem="72o-5b-zWh" secondAttribute="centerX" id="lvG-j6-IFg"/>
+                                    <constraint firstItem="XBQ-bz-x0h" firstAttribute="centerX" secondItem="72o-5b-zWh" secondAttribute="centerX" id="p31-m4-NEu"/>
                                     <constraint firstAttribute="trailing" secondItem="vvK-uz-RHD" secondAttribute="trailing" constant="15" id="q0t-2w-a2l"/>
                                     <constraint firstAttribute="bottom" secondItem="Nd7-fb-nb2" secondAttribute="bottom" constant="10" id="wCs-vm-aCe"/>
-                                    <constraint firstItem="UCh-uQ-Mad" firstAttribute="top" secondItem="72o-5b-zWh" secondAttribute="top" constant="11" id="xDB-gI-nOG"/>
-                                    <constraint firstItem="XBQ-bz-x0h" firstAttribute="firstBaseline" secondItem="UCh-uQ-Mad" secondAttribute="firstBaseline" id="yXH-Mo-BUj"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HVm-uA-EGL" userLabel="Nav Bar">
@@ -185,12 +182,12 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer enabled="NO" direction="right" id="Sc4-5b-D2v" userLabel="switchToVideo">
+                <swipeGestureRecognizer direction="right" id="Sc4-5b-D2v" userLabel="switchToVideo">
                     <connections>
                         <action selector="switchToVideoMode:" destination="BYZ-38-t0r" id="z6F-Sn-Ib5"/>
                     </connections>
                 </swipeGestureRecognizer>
-                <swipeGestureRecognizer direction="left" id="YEw-ME-DKh" userLabel="switchToPhoto">
+                <swipeGestureRecognizer enabled="NO" direction="left" id="YEw-ME-DKh" userLabel="switchToPhoto">
                     <connections>
                         <action selector="switchToPhotoMode:" destination="BYZ-38-t0r" id="yiK-aE-Qq7"/>
                     </connections>
@@ -321,15 +318,15 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="Ve8-42-K8G" style="IBUITableViewCellStyleDefault" id="EQO-sk-scH">
+                                    <tableViewCell hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="Ve8-42-K8G" style="IBUITableViewCellStyleDefault" id="EQO-sk-scH">
                                         <rect key="frame" x="0.0" y="95" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EQO-sk-scH" id="kDE-D7-0Xr">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="ABOUT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ve8-42-K8G">
-                                                    <rect key="frame" x="15" y="0.0" width="345" height="59.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="59"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
                                                     <color key="textColor" red="0.96470588235294119" green="0.65098039215686276" blue="0.13725490196078433" alpha="1" colorSpace="calibratedRGB"/>
@@ -338,15 +335,15 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="ndB-Mn-yBO" style="IBUITableViewCellStyleDefault" id="PVs-jm-8kt">
+                                    <tableViewCell hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="ndB-Mn-yBO" style="IBUITableViewCellStyleDefault" id="PVs-jm-8kt">
                                         <rect key="frame" x="0.0" y="155" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PVs-jm-8kt" id="Z6f-ZA-8UN">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="SUPPORT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ndB-Mn-yBO">
-                                                    <rect key="frame" x="15" y="0.0" width="345" height="59.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="59"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
                                                     <color key="textColor" red="0.96470588235294119" green="0.65098039215686276" blue="0.13725490196078433" alpha="1" colorSpace="calibratedRGB"/>
@@ -422,6 +419,7 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ORBIT 360" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yf6-Dt-WTY">
                                 <rect key="frame" x="125" y="184" width="125" height="34"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="4D3-Wv-9bF"/>
                                 </constraints>
@@ -431,6 +429,7 @@
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IAC.png" translatesAutoresizingMaskIntoConstraints="NO" id="gd2-NK-32O">
                                 <rect key="frame" x="16" y="45" width="343" height="50"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="81r-cb-95m"/>
                                 </constraints>
@@ -449,6 +448,7 @@
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="s1i-OR-gpy" firstAttribute="leading" secondItem="hLG-te-kbU" secondAttribute="leadingMargin" constant="31" id="H4g-HS-4Ev"/>
                             <constraint firstItem="GcH-xW-Lau" firstAttribute="leading" secondItem="hLG-te-kbU" secondAttribute="leading" id="aj4-pq-CdP"/>
@@ -462,6 +462,9 @@
                             <constraint firstItem="GcH-xW-Lau" firstAttribute="centerX" secondItem="s1i-OR-gpy" secondAttribute="centerX" id="zeo-EN-hpz"/>
                             <constraint firstItem="GcH-xW-Lau" firstAttribute="top" secondItem="Yf6-Dt-WTY" secondAttribute="bottom" constant="44" id="zqw-GL-pNB"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="7uF-rS-JeA" appends="YES" id="ltT-Zo-txC"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="signal" destination="GcH-xW-Lau" id="4DP-O8-Ghq"/>
@@ -470,6 +473,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cMS-Ns-0UR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="2.5" id="7uF-rS-JeA" userLabel="Demo Mode">
+                    <connections>
+                        <action selector="startInDemoMode:" destination="W8B-Wd-hSk" id="kbm-px-67W"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="4" y="456.52173913043481"/>
         </scene>
@@ -719,7 +727,7 @@
         <image name="orbitButton.png" width="176" height="180"/>
         <image name="points_off.png" width="128" height="104"/>
         <image name="settings.png" width="100" height="100"/>
-        <image name="start.png" width="220" height="220"/>
+        <image name="startPhoto.png" width="1050" height="1050"/>
         <image name="tracking_on.png" width="108" height="108"/>
     </resources>
     <inferredMetricsTieBreakers>

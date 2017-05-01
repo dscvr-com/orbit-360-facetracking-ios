@@ -18,6 +18,7 @@ class ConnectViewController: UIViewController {
     var btDevices = [CBPeripheral]()
     @IBOutlet weak var signal: UIImageView!
     @IBOutlet weak var status: UIImageView!
+    var isInDemoMode = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,6 +70,16 @@ class ConnectViewController: UIViewController {
         status.image = UIImage(named:"bluetooth_alert")!
     }
 
+    @IBAction func startInDemoMode(sender: AnyObject) {
+        let alert = UIAlertController(title: "Demo Mode", message: "You are in Demo Mode now. Motor connection won't work. Restart to quit Demo Mode.", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: {_ in
+            self.isInDemoMode = true
+            self.performSegue()
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+
     func performSegue() {
         self.performSegueWithIdentifier("simpleSegue", sender: self)
     }
@@ -77,6 +88,9 @@ class ConnectViewController: UIViewController {
         if (segue.identifier == "simpleSegue") {
             let secondViewController = segue.destinationViewController as! CameraViewController
             secondViewController.service = btMotorControl
+            if isInDemoMode {
+                secondViewController.isInDemoMode = true
+            }
         }
     }
 

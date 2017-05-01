@@ -33,9 +33,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
         let steps = Double(motorStepsY) * (135 / 360)
-        cameraViewController.service.moveY(Int32(steps), speed: 1000)
-        cameraViewController.callMoveToVertical(steps)
-
+        if !cameraViewController.isInDemoMode {
+            cameraViewController.service.moveY(Int32(steps), speed: 1000)
+            cameraViewController.callMoveToVertical(steps)
+        }
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
@@ -54,7 +55,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let cameraViewController = self.window?.visibleViewController as? CameraViewController else {
             return
         }
-        cameraViewController.trackPoint = CGPoint(x: 0.5, y: 0.5)
+        switch UIDevice.currentDevice().orientation {
+        case .LandscapeLeft:
+            cameraViewController.trackPoint = CGPoint(x: 0.66, y: 0.5)
+        case .LandscapeRight:
+            cameraViewController.trackPoint = CGPoint(x: 0.33, y: 0.5)
+        default:
+            cameraViewController.trackPoint = CGPoint(x: 0.5, y: 0.33)
+
+        }
         cameraViewController.initializeProcessing()
     }
 
