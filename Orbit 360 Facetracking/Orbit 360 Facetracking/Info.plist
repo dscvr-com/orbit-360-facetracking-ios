@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>FacebookAppID</key>
 	<string>370305783351632</string>
 	<key>FacebookDisplayName</key>
@@ -44,12 +44,14 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Connect to the Orbit 360 bluetooth base</string>
 	<key>NSCameraUsageDescription</key>
-	<string></string>
+	<string>Allows you to take pictures and videos</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string></string>
+	<string>Allows you to record sound for your videos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>Allows you to save the videos and images you recorded</string>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>
 	<key>UIMainStoryboardFile</key>

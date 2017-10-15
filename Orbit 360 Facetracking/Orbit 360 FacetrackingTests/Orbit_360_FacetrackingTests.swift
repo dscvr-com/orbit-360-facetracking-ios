@@ -7,7 +7,6 @@
 //
 
 import XCTest
-@testable import Orbit_360_Facetracking
 
 class Orbit_360_FacetrackingTests: XCTestCase {
     

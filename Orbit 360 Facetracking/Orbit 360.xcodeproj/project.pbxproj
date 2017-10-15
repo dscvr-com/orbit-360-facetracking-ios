@@ -517,7 +517,7 @@
 				TargetAttributes = {
 					E88EF6C61DA6DE070009E99D = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 93N5JQ6UW7;
+						DevelopmentTeam = 675Y8HZ459;
 						LastSwiftMigration = 0810;
 					};
 					E88EF6DA1DA6DE080009E99D = {
@@ -926,7 +926,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 93N5JQ6UW7;
+				DEVELOPMENT_TEAM = 675Y8HZ459;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -934,7 +934,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "Orbit 360 Facetracking/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Meyer.Orbit-360-Facetracking";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iam360.dscvrtracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -950,14 +950,14 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 93N5JQ6UW7;
+				DEVELOPMENT_TEAM = 675Y8HZ459;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "Orbit 360 Facetracking/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Meyer.Orbit-360-Facetracking";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iam360.dscvrtracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 2.3;
